@@ -22,6 +22,7 @@ public class Passengers {
 	String secondName;
 	String login;
 	String password;
+	Long country;
 	Timestamp created;
 	Timestamp changed;
 	Timestamp birthDate;

@@ -21,3 +21,7 @@ h
 8src/main/java/com/aviasale/repository/PassengersDao.java,f\7\f7d51d5fc8928a1c370b9a0f0800c904fe0e64b6
 a
 1src/main/java/com/aviasale/ApplicationStarer.java,c\b\cb3722cb69337ec219c06dd3289d72888b8a4e7e
+@
+data/airport.sql,d\d\dd6563b483e593975b7434a4706b9f19517af5f0
+[
++src/main/resources/META-INF/application.yml,0\e\0ea0af1c001e16f156380639157fa2f0b231038a
