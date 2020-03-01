@@ -59,8 +59,8 @@ public class PassengersDaoImpl implements PassengersDao {
 	final String save = "INSERT INTO passengers (name, surname, login, password, id_country, created, date_birth) " +
 			                    "VALUES (:name, :surname, :login, :password, :country, :created, :birth_date)";
 
-	final String update = "UPDATE passengers set name = :name, surname = :surname, login = :login, password = :password, id_country = :country" +
-			                      "created = :created, changed = :changed,date_birth = :birth_date where id = :id";
+	final String update = "UPDATE passengers set name = :name, surname = :surname, login = :login, password = :password, id_country = :country," +
+			                      "changed = :changed,date_birth = :birth_date where id = :id";
 
 	final String search = "select * from passengers where login = :login";
 
@@ -111,7 +111,9 @@ public class PassengersDaoImpl implements PassengersDao {
 		params.addValue("login", entity.getLogin());
 		params.addValue("password", entity.getPassword());
 		params.addValue("country", entity.getCountry ());
-		params.addValue("created", entity.getCreated ());
+		params.addValue("changed", entity.getChanged());
+		params.addValue("birth_date", entity.getBirthDate ());
+		params.addValue("id", entity.getId ());
 		 namedParameterJdbcTemplate.update(update,params);
 		return findById(entity.getId ());
 	}
