@@ -56,8 +56,8 @@ public class PassengersDaoImpl implements PassengersDao {
 
 	final String delete = "delete from passengers where id = :passengersid";
 
-	final String save = "INSERT INTO passengers (id, name, surname, login, password, id_country, created, date_birth) " +
-			                    "VALUES (:id, :name, :surname, :login, :password, :country, :created, :birth_date)";
+	final String save = "INSERT INTO passengers (name, surname, login, password, id_country, created, date_birth) " +
+			                    "VALUES (:name, :surname, :login, :password, :country, :created, :birth_date)";
 
 	final String update = "UPDATE passengers set name = :name, surname = :surname, login = :login, password = :password, id_country = :country" +
 			                      "created = :created, changed = :changed,date_birth = :birth_date where id = :id";
@@ -89,6 +89,7 @@ public class PassengersDaoImpl implements PassengersDao {
 	@Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.DEFAULT)
 	public Passengers save (Passengers entity) {
 		KeyHolder keyHolder = new GeneratedKeyHolder ();
+
 		MapSqlParameterSource params = new MapSqlParameterSource();
 		params.addValue("name", entity.getName ());
 		params.addValue("surname", entity.getSecondName ());
@@ -96,6 +97,7 @@ public class PassengersDaoImpl implements PassengersDao {
 		params.addValue("password", entity.getPassword());
 		params.addValue("country", entity.getCountry ());
 		params.addValue("created", entity.getCreated ());
+		params.addValue("birth_date", entity.getBirthDate ());
 		namedParameterJdbcTemplate.update(save, params, keyHolder, new String[]{"id"});
 		long createdUserId = Objects.requireNonNull(keyHolder.getKey()).longValue();
 		return findById(createdUserId);
