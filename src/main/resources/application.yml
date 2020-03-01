@@ -1,0 +1,8 @@
+datasource:
+  driverName: org.postgresql.Driver
+  url: jdbc:postgresql://localhost:5432/airport
+  login: postgres
+  password: good
+  initialSize: 10
+  maxActive: 7
+

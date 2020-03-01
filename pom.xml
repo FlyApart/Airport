@@ -81,17 +81,17 @@
         </dependency>
 
         
-        <!--ADD SPRING JPA-->
+       <!-- ADD SPRING JPA
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
-        <!--FIX Spring Boot Configuration Annotation Processor not found in classpath-->
+        &lt;!&ndash;FIX Spring Boot Configuration Annotation Processor not found in classpath&ndash;&gt;
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
@@ -137,12 +137,12 @@
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
         </dependency>
-        <dependency>
+        <!--<dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.13</version>
             <scope>test</scope>
-        </dependency>
+        </dependency>-->
     </dependencies>
 
 
