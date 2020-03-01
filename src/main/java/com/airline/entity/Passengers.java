@@ -1,6 +1,7 @@
 package com.airline.entity;
 
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 
 import java.sql.Timestamp;
@@ -18,6 +19,7 @@ import java.sql.Timestamp;
 @Builder
 @EqualsAndHashCode
 @ToString
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Passengers {
 	Long id;
 	String name;

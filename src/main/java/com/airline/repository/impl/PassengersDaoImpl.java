@@ -52,9 +52,9 @@ public class PassengersDaoImpl implements PassengersDao {
 
 	final String findAll = "select * from passengers";
 
-	final String findById = "select * from passengers where id = :passengersid";
+	final String findById = "select * from passengers where id = :id";
 
-	final String delete = "delete from passengers where id = :passengersid";
+	final String delete = "delete from passengers where id = :id";
 
 	final String save = "INSERT INTO passengers (name, surname, login, password, id_country, created, date_birth) " +
 			                    "VALUES (:name, :surname, :login, :password, :country, :created, :birth_date)";
@@ -74,7 +74,7 @@ public class PassengersDaoImpl implements PassengersDao {
 	@Override
 	public Passengers findById (Long id) {
 		MapSqlParameterSource param = new MapSqlParameterSource ();
-		param.addValue ("passengersid",id);
+		param.addValue ("id",id);
 		return namedParameterJdbcTemplate.queryForObject(findById,param,this::getPassengersRowMapper);
 	}
 

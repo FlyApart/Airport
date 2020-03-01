@@ -63,7 +63,7 @@ public class PassengersController {
 	}
 
 	@PutMapping(value = "/{id}")
-	//@Transactional
+	@Transactional
 	@ResponseStatus(HttpStatus.OK)
 	public ResponseEntity<Passengers> updatePassenger(@PathVariable("id") Long id, @RequestBody @Valid PassengerRequest request) {
 
@@ -81,6 +81,14 @@ public class PassengersController {
 		//        roleDao.save(new Role(savedUser.getUserId(), "ROLE_USER"));
 		return new ResponseEntity<>(update, HttpStatus.OK);
 	}
+
+	@DeleteMapping (value = "/{id}")
+	@ResponseStatus(HttpStatus.OK)
+	public ResponseEntity<Long> deletePassenger(@PathVariable("id") Long id) {
+		passengersDao.delete (id);
+		return new ResponseEntity<>(id, HttpStatus.OK);
+	}
+
 
 
 }
