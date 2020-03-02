@@ -30,18 +30,19 @@ public class PassportDaoImpl implements PassportDao {
 
 	private Passports getPassportsRowMapper (ResultSet resultSet, int i) throws SQLException {
 	Passports passports = new Passports ();
-	passports.setId (resultSet.getLong ("id"));
-	passports.setSeries (resultSet.getLong ("series"));
-	passports.setNumber (resultSet.getLong ("number"));
-	passports.setPassengersId (resultSet.getLong ("id_passengers"));
+	passports.setId (resultSet.getLong (ID));
+	passports.setSeries (resultSet.getLong (SERIES));
+	passports.setNumber (resultSet.getLong (NUMBERS));
+	passports.setPassengersId (resultSet.getLong (PASSENGERS_ID ));
 	return  passports;
 	}
+
 
 	final String findAll = "select * from passport";
 
 	final String findById = "select * from passport where id = :id";
 
-	final String findByPassengersId = "select * from passport where id_passengers = :id_passengers";
+	final String findByPassengersId = "select *  from passport where id_passengers = :id_passengers";
 
 	final String delete = "delete from passport where id = :id";
 
