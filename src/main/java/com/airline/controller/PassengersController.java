@@ -2,7 +2,9 @@ package com.airline.controller;
 
 import com.airline.controller.request.PassengerRequest;
 import com.airline.entity.Passengers;
+import com.airline.entity.vo.PassengersPassports;
 import com.airline.repository.PassengersDao;
+import com.airline.service.PassengersDetailService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
@@ -87,6 +89,15 @@ public class PassengersController {
 	public ResponseEntity<Long> deletePassenger(@PathVariable("id") Long id) {
 		passengersDao.delete (id);
 		return new ResponseEntity<>(id, HttpStatus.OK);
+	}
+
+	@Autowired
+	private PassengersDetailService passengersDetailService;
+
+	@GetMapping (value = "/info/{idPassengers}")
+	public ResponseEntity <PassengersPassports> findPassengerInfo(@PathVariable ("idPassengers") Long id){
+
+		return new ResponseEntity <>(passengersDetailService.findPassengerById (id), HttpStatus.OK);
 	}
 
 
