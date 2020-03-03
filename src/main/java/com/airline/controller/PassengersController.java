@@ -5,6 +5,7 @@ import com.airline.controller.request.PassengerRequestExample;
 import com.airline.entity.Passengers;
 import com.airline.entity.Passports;
 import com.airline.entity.vo.PassengersInfo;
+import com.airline.repository.GenericDao;
 import com.airline.service.PassengersDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,8 @@ import java.util.List;
 @RestController
 @RequestMapping ("/rest/passengers")
 public class PassengersController {
+	@Autowired
+	private DefaultExceptionHandler defaultExceptionHandler;
 
 	@Autowired
 	private PassengersDetailService passengersDetailService;
@@ -60,5 +63,19 @@ public class PassengersController {
 
 		PassengersInfo info = passengersDetailService.save (passengersInfo);
 		return new ResponseEntity <>(info, HttpStatus.OK);
+	}
+
+	@DeleteMapping(value = "/{id}")
+	@ResponseStatus(HttpStatus.OK)
+	public ResponseEntity<String> deletePassenger (@PathVariable Long id) {
+		try{
+			passengersDetailService.findById (id);
+		}catch (Exception e){
+			defaultExceptionHandler.handleOthersException(e);
+			return new ResponseEntity<>("Passenger with id = "+id+" not found",HttpStatus.BAD_REQUEST);
+		}
+
+		 passengersDetailService.delete (id);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }

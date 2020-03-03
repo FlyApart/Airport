@@ -42,4 +42,5 @@ public class DefaultExceptionHandler {
         return new ResponseEntity<>(new ErrorMessage(e.getMessage()),
                 HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
 }

@@ -8,10 +8,15 @@ import com.airline.repository.PassengersDao;
 import com.airline.repository.PassportDao;
 import com.airline.service.PassengersDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,12 +55,13 @@ public class PassengersDetailsImpl  implements PassengersDetailService {
 
 	@Override
 	public void delete (Long id) {
-
+		passengersDao.delete (id);
 	}
+
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.DEFAULT)
-	public PassengersInfo save (PassengersInfo entity) {
+	public PassengersInfo save (PassengersInfo entity)  {
 		Passengers passengers = passengersDao.save (entity.getPassengers ());
 		Passports passports = entity.getPassports ().get (0);
 		passports.setPassengersId (passengers.getId ());
@@ -67,4 +73,8 @@ public class PassengersDetailsImpl  implements PassengersDetailService {
 	public PassengersInfo update (PassengersInfo entity) {
 		return null;
 	}
+
+
+
+
 }
