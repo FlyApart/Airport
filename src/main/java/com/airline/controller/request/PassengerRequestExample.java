@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode
 @ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class PassengerRequest {
+public class PassengerRequestExample {
 		@NonNull
 		@Size(min = 4, max = 50)
 		String name;
@@ -32,5 +32,7 @@ public class PassengerRequest {
 		String password;
 		Long country;
 		Timestamp birthDate;
+
+
 
 }

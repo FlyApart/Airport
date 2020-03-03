@@ -1,5 +1,6 @@
 package com.airline.entity.vo;
 
+import com.airline.entity.Country;
 import com.airline.entity.Passengers;
 import com.airline.entity.Passports;
 import lombok.*;
@@ -14,7 +15,8 @@ import java.util.List;
 @Builder
 @EqualsAndHashCode
 @ToString
-public class PassengersPassports {
+public class PassengersInfo {
 	private Passengers passengers;
 	private List <Passports> passports;
+	private Country country;
 }

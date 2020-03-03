@@ -2,7 +2,8 @@ package com.airline.service.impl;
 
 import com.airline.entity.Passengers;
 import com.airline.entity.Passports;
-import com.airline.entity.vo.PassengersPassports;
+import com.airline.entity.vo.PassengersInfo;
+import com.airline.repository.CountryDao;
 import com.airline.repository.PassengersDao;
 import com.airline.repository.PassportDao;
 import com.airline.service.PassengersDetailService;
@@ -18,25 +19,47 @@ public class PassengersDetailsImpl  implements PassengersDetailService {
 	PassportDao passportDao;
 	@Autowired
 	PassengersDao passengersDao;
-
+	@Autowired
+	CountryDao countryDao;
 
 	@Override
-	public List<PassengersPassports> getPassengersInfo () {
-		List<PassengersPassports> list = new ArrayList<> ();
-            for (Passengers passengers : passengersDao.findAll()) {
-            	PassengersPassports info = new PassengersPassports ();
-                info.setPassengers(passengers);
-                info.setPassports (passportDao.findByPassengersId (passengers.getId ()));
-                list.add (info) ;
-            }
+	public List<PassengersInfo> findAll () {
+		List<PassengersInfo> list = new ArrayList<> ();
+		for (Passengers passengers : passengersDao.findAll()) {
+			PassengersInfo info = new PassengersInfo ();
+			info.setPassengers(passengers);
+			info.setPassports (passportDao.findByPassengersId (passengers.getId ()));
+			info.setCountry (countryDao.findById (passengers.getCountry ()));
+			list.add (info) ;
+		}
 		return list;
 	}
 
 	@Override
-	public PassengersPassports findPassengerById (Long id) {
-		PassengersPassports info = new PassengersPassports ();
+	public PassengersInfo findById (Long id) {
+		PassengersInfo info = new PassengersInfo ();
 		info.setPassengers (passengersDao.findById (id));
 		info.setPassports (passportDao.findByPassengersId (id));
+		info.setCountry (countryDao.findById (info.getPassengers ().getCountry ()));
 		return info;
+	}
+
+	@Override
+	public void delete (Long id) {
+
+	}
+
+	@Override
+	public PassengersInfo save (PassengersInfo entity) {
+		Passengers passengers = passengersDao.save (entity.getPassengers ());
+		Passports passports = entity.getPassports ().get (0);
+		passports.setPassengersId (passengers.getId ());
+		passportDao.save (passports);
+		return findById (passengers.getId());
+	}
+
+	@Override
+	public PassengersInfo update (PassengersInfo entity) {
+		return null;
 	}
 }
