@@ -9,11 +9,15 @@ import com.airline.repository.PassportDao;
 import com.airline.service.PassengersDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional
 public class PassengersDetailsImpl  implements PassengersDetailService {
 	@Autowired
 	PassportDao passportDao;
@@ -50,6 +54,7 @@ public class PassengersDetailsImpl  implements PassengersDetailService {
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.DEFAULT)
 	public PassengersInfo save (PassengersInfo entity) {
 		Passengers passengers = passengersDao.save (entity.getPassengers ());
 		Passports passports = entity.getPassports ().get (0);

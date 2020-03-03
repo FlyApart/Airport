@@ -20,7 +20,7 @@ import java.util.Objects;
 
 @Repository
 @RequiredArgsConstructor
-@Transactional
+//@Transactional
 public class PassportDaoImpl implements PassportDao {
 	@Autowired
 	private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
@@ -74,7 +74,7 @@ public class PassportDaoImpl implements PassportDao {
 	}
 
 	@Override
-	@Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.DEFAULT)
+	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
 	public Passports save (Passports entity) {
 		MapSqlParameterSource param = new MapSqlParameterSource ();
 		param.addValue ("series",entity.getSeries ());

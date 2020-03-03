@@ -20,7 +20,7 @@ import java.util.Objects;
 
 @Repository
 @RequiredArgsConstructor
-@Transactional
+//@Transactional
 public class PassengersDaoImpl implements PassengersDao {
 
 	public static final String ID = "id";
@@ -86,7 +86,7 @@ public class PassengersDaoImpl implements PassengersDao {
 	}
 
 	@Override
-	@Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.DEFAULT)
+	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
 	public Passengers save (Passengers entity) {
 		KeyHolder keyHolder = new GeneratedKeyHolder ();
 
