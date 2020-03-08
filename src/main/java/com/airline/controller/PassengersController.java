@@ -1,12 +1,10 @@
 package com.airline.controller;
 
 import com.airline.controller.request.PassengerInfoRequest;
-import com.airline.controller.request.PassengerRequestExample;
 import com.airline.entity.Passengers;
 import com.airline.entity.Passports;
 import com.airline.entity.vo.PassengersInfo;
-import com.airline.repository.GenericDao;
-import com.airline.service.PassengersDetailService;
+import com.airline.service.PassengersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,21 +20,21 @@ import java.util.List;
 @RestController
 @RequestMapping ("/rest/passengers")
 public class PassengersController {
-	@Autowired
+	/*@Autowired
 	private DefaultExceptionHandler defaultExceptionHandler;
-
+*/
 	@Autowired
-	private PassengersDetailService passengersDetailService;
+	private PassengersService passengersService;
 
 	@GetMapping
 	public ResponseEntity <List<PassengersInfo>> findAll (){
-		return new ResponseEntity <>(passengersDetailService.findAll (), HttpStatus.OK);
+		return new ResponseEntity <>(passengersService.findAll (), HttpStatus.OK);
 	}
 
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<PassengersInfo> findPassengerById (@PathVariable Long id){
 
-		return new ResponseEntity <>(passengersDetailService.findById (id), HttpStatus.OK);
+		return new ResponseEntity <>(passengersService.findById (id), HttpStatus.OK);
 	}
 	@PostMapping
 	@Transactional
@@ -61,21 +59,22 @@ public class PassengersController {
 		list.add (passports);
 		passengersInfo.setPassports (list);
 
-		PassengersInfo info = passengersDetailService.save (passengersInfo);
+		PassengersInfo info = passengersService.save (passengersInfo);
 		return new ResponseEntity <>(info, HttpStatus.OK);
 	}
 
-	@DeleteMapping(value = "/{id}")
+	/*@DeleteMapping(value = "/{id}")
 	@ResponseStatus(HttpStatus.OK)
+	//@Secured ("ROlE_ADMIN")
 	public ResponseEntity<String> deletePassenger (@PathVariable Long id) {
 		try{
-			passengersDetailService.findById (id);
+			passengersService.findById (id);
 		}catch (Exception e){
 			defaultExceptionHandler.handleOthersException(e);
 			return new ResponseEntity<>("Passenger with id = "+id+" not found",HttpStatus.BAD_REQUEST);
 		}
 
-		 passengersDetailService.delete (id);
+		 passengersService.delete (id);
 		return new ResponseEntity<>(HttpStatus.OK);
-	}
+	}*/
 }

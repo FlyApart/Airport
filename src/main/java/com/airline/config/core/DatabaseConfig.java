@@ -16,7 +16,7 @@ import java.util.Objects;
 @Getter
 @NoArgsConstructor
 @Configuration
-@ConfigurationProperties("datasource")
+@ConfigurationProperties("spring.datasource")
 public class DatabaseConfig {
 
     private String driverName;

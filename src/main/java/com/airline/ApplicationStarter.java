@@ -3,6 +3,8 @@ package com.airline;
 import com.airline.config.core.DatabaseConfig;
 import com.airline.config.core.JdbcTemplateConfig;
 import com.airline.config.swagger.SwaggerConfig;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;

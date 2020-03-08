@@ -19,7 +19,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
- /*   @Autowired
+    @Autowired
     private UserDetailsService userDetailsService;
 
     @Autowired
@@ -33,7 +33,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
-*/
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
@@ -44,8 +43,10 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
+
                 .authorizeRequests()
-                .antMatchers("/v2/api-docs", "/configuration/ui/**", "/swagger-resources/**", "/configuration/security/**", "/swagger-ui.html", "/webjars/**").permitAll()
+                .antMatchers("/v2/api-docs", "/configuration/ui/**", "/swagger-resources/**",
+                             "/configuration/security/**", "/swagger-ui.html", "/webjars/**").permitAll()
                 .antMatchers("/actuator/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/swagger-ui.html#").permitAll()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
@@ -57,6 +58,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring()
-                .antMatchers("/v2/api-docs", "/configuration/ui/**", "/swagger-resources/**", "/configuration/security/**", "/swagger-ui.html", "/webjars/**");
+                .antMatchers("/v2/api-docs", "/configuration/ui/**", "/swagger-resources/**",
+                            "/configuration/security/**", "/swagger-ui.html", "/webjars/**");
     }
 }

@@ -24,6 +24,7 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.2.4.RELEASE</version>
+
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -38,10 +39,20 @@
 
     <dependencies>
 
-        <dependency>
+       <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>${log4j}</version>
+        </dependency>
+
+
+
+
+
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -80,18 +91,19 @@
             <scope>test</scope>
         </dependency>
 
-        
-       <!-- ADD SPRING JPA
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
-        &lt;!&ndash;FIX Spring Boot Configuration Annotation Processor not found in classpath&ndash;&gt;
-        <dependency>
+
+        <!--FIX Spring Boot Configuration Annotation Processor not found in classpath-->
+       <!-- <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
         </dependency>-->
+
+
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
@@ -105,11 +117,7 @@
             <version>${dbcp-version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>${log4j}</version>
-        </dependency>
+
 
         <dependency>
             <groupId>mysql</groupId>
