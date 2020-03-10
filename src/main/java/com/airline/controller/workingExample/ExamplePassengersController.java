@@ -1,5 +1,5 @@
-package com.airline.controller;
-
+package com.airline.controller.workingExample;
+/*
 import com.airline.controller.request.PassengerRequestExample;
 import com.airline.entity.Passengers;
 import com.airline.repository.PassengersDao;
@@ -89,4 +89,4 @@ public class ExamplePassengersController {
 		passengersDao.delete (id);
 		return new ResponseEntity<>(id, HttpStatus.OK);
 	}
-	}
+	}*/

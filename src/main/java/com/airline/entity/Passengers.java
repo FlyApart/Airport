@@ -1,17 +1,19 @@
 package com.airline.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
+
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.stereotype.Component;
 
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-/*@Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE)*/
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -19,16 +21,16 @@ import java.sql.Timestamp;
 @Setter
 @Getter
 @Builder
-@EqualsAndHashCode(of = "id")//!!!!!!!!!!!!
+@EqualsAndHashCode(of = "id")
 @ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Component
 //@DynamicUpdate
 @Entity
 @Table (name = "passengers")
 public class Passengers {
 	@Id
-	@GeneratedValue (strategy = GenerationType.AUTO)
+	@SequenceGenerator(name = "passengersSeq", sequenceName = "passengers_id_seq", allocationSize = 0)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "passengersSeq")
 	Long id;
 	@Column (name = "name")
 	String name;
@@ -38,13 +40,20 @@ public class Passengers {
 	String login;
 	@Column
 	String password;
-	@Column (name = "id_country")
-	Long country;
 	@Column
 	Timestamp created;
 	@Column
 	Timestamp changed;
 	@Column (name = "date_birth")
 	Timestamp birthDate;
- // void test() {Passengers passengers = Passengers.builder ().id(1L).name("sad").build (); }
+
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn
+	Country country;
+
+	@JsonManagedReference
+	@OneToMany(fetch = FetchType.EAGER, targetEntity = Passports.class, mappedBy = "passengersId",cascade = CascadeType.ALL)
+	Set<Passports> passports;
+
+	// void test() {Passengers passengers = Passengers.builder ().id(1L).name("sad").build (); }
 }

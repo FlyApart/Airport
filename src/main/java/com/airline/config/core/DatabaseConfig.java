@@ -39,9 +39,9 @@ public class DatabaseConfig {
         dataSource.setDriverClassName(driverName);
         dataSource.setPassword(password);
         dataSource.setUrl(url);
-       // dataSource.setInitialSize(Integer.valueOf (Objects.requireNonNull(initialSize)));
+       dataSource.setInitialSize(Integer.valueOf (Objects.requireNonNull(initialSize)));
         dataSource.setUsername(login);
-       // dataSource.setMaxActive(Integer.valueOf(Objects.requireNonNull(maxActive))); // valueOf to parseInt
+       dataSource.setMaxActive(Integer.valueOf(Objects.requireNonNull(maxActive))); // valueOf to parseInt
         return dataSource;
     }
 }

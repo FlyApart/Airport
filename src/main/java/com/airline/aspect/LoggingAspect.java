@@ -13,7 +13,7 @@ import org.springframework.util.StopWatch;
 public class LoggingAspect {
     private static final Logger LOGGER = Logger.getLogger(LoggingAspect.class);
 
-    @Around("execution(* com.airline.*.*(..))")
+    @Around("execution(* com.airline.repository.*.*(..))")
     public Object profile(ProceedingJoinPoint pjp) throws Throwable {
         StopWatch sw = new StopWatch();
         sw.start();

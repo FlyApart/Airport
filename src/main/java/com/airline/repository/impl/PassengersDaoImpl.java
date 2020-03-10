@@ -2,126 +2,91 @@ package com.airline.repository.impl;
 
 import com.airline.entity.Passengers;
 import com.airline.repository.PassengersDao;
-import lombok.RequiredArgsConstructor;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import javax.persistence.TypedQuery;
 import java.util.List;
-import java.util.Objects;
 
 @Repository
-@RequiredArgsConstructor
-//@Transactional
+@Qualifier("passengersDaoImpl")
 public class PassengersDaoImpl implements PassengersDao {
-
-	public static final String ID = "id";
-	public static final String NAME = "name";
-	public static final String SURNAME = "surname";
-	public static final String LOGIN = "login";
-	public static final String PASSWORD = "password";
-	public static final String COUNTRY = "id_country";
-	public static final String CREATED = "created";
-	public static final String CHANGED = "changed";
-	public static final String BIRTH_DATE = "date_birth";
-
 	@Autowired
-	private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
-
-	private Passengers getPassengersRowMapper (ResultSet resultSet, int i) throws SQLException {
-		Passengers passengers = new Passengers ();
-		passengers.setId (resultSet.getLong (ID));
-		passengers.setName (resultSet.getString (NAME));
-		passengers.setSecondName (resultSet.getString (SURNAME));
-		passengers.setLogin (resultSet.getString (LOGIN));
-		passengers.setPassword (resultSet.getString (PASSWORD));
-		passengers.setCountry (resultSet.getLong (COUNTRY));
-		passengers.setCreated (resultSet.getTimestamp (CREATED));
-		passengers.setChanged (resultSet.getTimestamp (CHANGED));
-		passengers.setBirthDate (resultSet.getTimestamp (BIRTH_DATE));
-		return passengers;
-	}
-
-	final String findAll = "select * from passengers";
-
-	final String findById = "select * from passengers where id = :id";
-
-	final String delete = "delete from passengers where id = :id";
-
-	final String save = "INSERT INTO passengers (name, surname, login, password, id_country, created, date_birth) " +
-			                    "VALUES (:name, :surname, :login, :password, :country, :created, :birth_date)";
-
-	final String update = "UPDATE passengers set name = :name, surname = :surname, login = :login, password = :password, id_country = :country," +
-			                      "changed = :changed,date_birth = :birth_date where id = :id";
-
-	final String search = "select * from passengers where login = :login";
+	private SessionFactory sessionFactory;
 
 
 
 	@Override
 	public List<Passengers> findAll () {
-		return namedParameterJdbcTemplate.query(findAll,this::getPassengersRowMapper);
+		try (Session session = sessionFactory.openSession ()) {
+			return session.createQuery ("select p from Passengers p", Passengers.class)
+			              .getResultList ();
+		}
 	}
 
 	@Override
 	public Passengers findById (Long id) {
-		MapSqlParameterSource param = new MapSqlParameterSource ();
-		param.addValue ("id",id);
-		return namedParameterJdbcTemplate.queryForObject(findById,param,this::getPassengersRowMapper);
+		try (Session session = sessionFactory.openSession ()) {
+			Passengers p = session.find (Passengers.class, id);
+			return session.find (Passengers.class, id);
+		}
 	}
 
+
+
 	@Override
+	@Transactional
 	public void delete (Long id) {
-		MapSqlParameterSource param = new MapSqlParameterSource ();
-		param.addValue ("id", id);
-		namedParameterJdbcTemplate.update(delete,param);
+		try (Session session = sessionFactory.openSession ()) {
+			//session.delete ("Passengers",findById(id));
+//			TypedQuery<Passengers> query = session.createQuery("delete from Passengers p where p.id = :id", Passengers.class);
+//			query.setParameter("id", findById (id));
+			Passengers passengers = session.load (Passengers.class,id);
+			session.delete(passengers);
+			session.flush ();
+		}
 	}
 
 	@Override
-	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
 	public Passengers save (Passengers entity) {
-		KeyHolder keyHolder = new GeneratedKeyHolder ();
-
-		MapSqlParameterSource params = new MapSqlParameterSource();
-		params.addValue("name", entity.getName ());
-		params.addValue("surname", entity.getSecondName ());
-		params.addValue("login", entity.getLogin());
-		params.addValue("password", entity.getPassword());
-		params.addValue("country", entity.getCountry ());
-		params.addValue("created", entity.getCreated ());
-		params.addValue("birth_date", entity.getBirthDate ());
-		namedParameterJdbcTemplate.update(save, params, keyHolder, new String[]{"id"});
-		long createdUserId = Objects.requireNonNull(keyHolder.getKey()).longValue();
-		return findById(createdUserId);
+		try (Session session = sessionFactory.openSession ()) {
+			Transaction transaction = session.getTransaction ();
+			transaction.begin ();
+			Long newUserID = (Long) session.save (entity);
+			transaction.commit ();
+			return session.find (Passengers.class, newUserID);
+		}
 	}
 
 	@Override
 	public Passengers update (Passengers entity) {
-		MapSqlParameterSource params = new MapSqlParameterSource ();
-		params.addValue("name", entity.getName ());
-		params.addValue("surname", entity.getSecondName ());
-		params.addValue("login", entity.getLogin());
-		params.addValue("password", entity.getPassword());
-		params.addValue("country", entity.getCountry ());
-		params.addValue("changed", entity.getChanged());
-		params.addValue("birth_date", entity.getBirthDate ());
-		params.addValue("id", entity.getId ());
-		 namedParameterJdbcTemplate.update(update,params);
-		return findById(entity.getId ());
+		try (Session session = sessionFactory.openSession ()) {
+			Transaction transaction = session.getTransaction ();
+			transaction.begin ();
+			session.saveOrUpdate (entity);
+			transaction.commit ();
+			return session.find (Passengers.class, entity.getId ());
+		}
 	}
-
 	@Override
-	public Passengers findByLogin (String login) {
-		MapSqlParameterSource param = new MapSqlParameterSource ();
-		param.addValue ("login", login);
-		return namedParameterJdbcTemplate.queryForObject (search,param,this::getPassengersRowMapper);
+	public Passengers findByLogin(String login) {
+		try (Session session = sessionFactory.openSession()) {
+			//SQLQuery
+			//            NativeQuery<TestUser> nativeQuery = session.createNativeQuery("select * from test_user", TestUser.class);
+			//            nativeQuery.getSingleResult();
+			//            Query query = session.createQuery("" +
+			//                    "select tu from TestUser tu where tu.userName = :login", TestUser.class);
+			//            query.setParameter("login", login);
+			//            return (TestUser)query.getSingleResult();
+			TypedQuery<Passengers> query = session.createQuery("select tu from Passengers tu where tu.login = :login", Passengers.class);
+			query.setParameter("login", login);
+			return query.getSingleResult();
+		}
 	}
 }

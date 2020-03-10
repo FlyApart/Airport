@@ -2,14 +2,30 @@ package com.airline.entity;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.DynamicUpdate;
 
-@FieldDefaults(level = AccessLevel.PRIVATE)
+import javax.persistence.*;
+
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Setter
+@Getter
+@Builder
+@EqualsAndHashCode(of = "id")
+@ToString
+@FieldDefaults(level = AccessLevel.PRIVATE)
+@DynamicUpdate
+@Entity
+@Table(name = "role")
 public class Role {
+	@Id
+	@GeneratedValue( strategy = GenerationType.AUTO)
 	Long id;
-	Long passengerId;
+
+	@ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+	@JoinColumn (name = "passengers_id")
+	Passengers passengerId;
+	@Column
 	String role;
 }

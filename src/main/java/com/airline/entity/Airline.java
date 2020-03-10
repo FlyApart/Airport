@@ -2,6 +2,11 @@ package com.airline.entity;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.DynamicUpdate;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Data
 @NoArgsConstructor
@@ -9,10 +14,14 @@ import lombok.experimental.FieldDefaults;
 @Setter
 @Getter
 @Builder
-@EqualsAndHashCode
+@EqualsAndHashCode(of = "id")
 @ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@DynamicUpdate
+@Entity
+@Table (name = "airline")
 public class Airline {
+	@Id
 	Long id;
 	String name;
 	String website;

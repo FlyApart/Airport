@@ -17,6 +17,6 @@ import java.util.List;
 @ToString
 public class PassengersInfo {
 	private Passengers passengers;
-	private List <Passports> passports;
+	private Passports passports;
 	private Country country;
 }

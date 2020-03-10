@@ -28,7 +28,37 @@ public class RoleDaoImpl implements RoleDao {
 	private static String PASSENGERS_ID = "passengers_id";
 	private static String ROLE = "roles";
 
-	private Role getRoleRowMapper (ResultSet resultSet,int i) throws SQLException {
+	@Override
+	public List<Role> getRolesByPassengersId (Long passengersId) {
+		return null;
+	}
+
+	@Override
+	public List<Role> findAll () {
+		return null;
+	}
+
+	@Override
+	public Role findById (Long id) {
+		return null;
+	}
+
+	@Override
+	public void delete (Long id) {
+
+	}
+
+	@Override
+	public Role save (Role entity) {
+		return null;
+	}
+
+	@Override
+	public Role update (Role entity) {
+		return null;
+	}
+
+	/*private Role getRoleRowMapper (ResultSet resultSet,int i) throws SQLException {
 		Role role = new Role ();
 		role.setId (resultSet.getLong (ID));
 		role.setPassengerId (resultSet.getLong (PASSENGERS_ID));
@@ -95,5 +125,5 @@ public class RoleDaoImpl implements RoleDao {
 		MapSqlParameterSource param = new MapSqlParameterSource ();
 		param.addValue ("passengers_id", passengersId);
 		return namedParameterJdbcTemplate.query(search,param,this::getRoleRowMapper);
-	}
+	}*/
 }
