@@ -22,6 +22,7 @@ public class PassengersDaoImpl implements PassengersDao {
 
 
 
+
 	@Override
 	public List<Passengers> findAll () {
 		try (Session session = sessionFactory.openSession ()) {
@@ -44,12 +45,10 @@ public class PassengersDaoImpl implements PassengersDao {
 	@Transactional
 	public void delete (Long id) {
 		try (Session session = sessionFactory.openSession ()) {
-			//session.delete ("Passengers",findById(id));
-//			TypedQuery<Passengers> query = session.createQuery("delete from Passengers p where p.id = :id", Passengers.class);
-//			query.setParameter("id", findById (id));
-			Passengers passengers = session.load (Passengers.class,id);
-			session.delete(passengers);
-			session.flush ();
+			Transaction transaction = session.getTransaction ();
+			transaction.begin ();
+			session.delete (findById (id));
+			transaction.commit ();
 		}
 	}
 

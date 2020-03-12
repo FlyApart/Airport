@@ -7,7 +7,8 @@ import com.airline.repository.GenericDao;
 
 import java.util.List;
 
-public interface PassengersService extends GenericDao <PassengersInfo, Long>  {
+public interface PassengersService {
 
 	Passengers save (PassengerRequest request);
+	Passengers update (PassengerRequest request, Long id);
 }

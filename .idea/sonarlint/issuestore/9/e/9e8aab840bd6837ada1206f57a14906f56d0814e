@@ -1,15 +1,17 @@
 
-<
-java:S11701"!Make this final field static too.(Ú‡âªþÿÿÿÿ
-k
-java:S1192J"PUse already-defined constant 'POPULATION' instead of duplicating its value here.(ÌØ‘ãýÿÿÿÿ
-7
-java:S1170("!Make this final field static too.(œšñú
+W
+java:S1128":Remove this unused import 'com.airline.entity.Passengers'.(†ÈÍ…8ù‚ÙŒ.
+‚
+java:S1128"`Remove this unused import 'org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate'.(þ¯ñ·þÿÿÿÿ8ÜëºŒ.
+x
+java:S1128"[Remove this unused import 'org.springframework.jdbc.core.namedparam.MapSqlParameterSource'.(Ž²Ñ8ÜëºŒ.
 i
-java:S1192K"NUse already-defined constant 'LOCATION' instead of duplicating its value here.(’÷’½üÿÿÿÿ
-<
-java:S1170*"!Make this final field static too.(Æ ÔÒúÿÿÿÿ
-<
-java:S1170."!Make this final field static too.(ù¶‹Òüÿÿÿÿ
-6
-java:S1170,"!Make this final field static too.(Òó˜v
+java:S1128"GRemove this unused import 'org.springframework.jdbc.support.KeyHolder'.(ÒéÎ´ÿÿÿÿÿ8ÜëºŒ.
+l
+java:S1128"PRemove this unused import 'org.springframework.jdbc.support.GeneratedKeyHolder'.(’Å“(8ÜëºŒ.
+O
+java:S1128"2Remove this unused import 'java.sql.SQLException'.(ÛïÆŸ8ÜëºŒ.
+K
+java:S1128"/Remove this unused import 'java.sql.ResultSet'.(ˆóÚw8ÜëºŒ.
+w
+java:S1128"URemove this unused import 'org.springframework.transaction.annotation.Transactional'.(ðùçøùÿÿÿÿ8ÜëºŒ.

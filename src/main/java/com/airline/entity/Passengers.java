@@ -20,11 +20,10 @@ import java.util.Set;
 @AllArgsConstructor
 @Setter
 @Getter
-@Builder
 @EqualsAndHashCode(of = "id")
 @ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
-//@DynamicUpdate
+@DynamicUpdate
 @Entity
 @Table (name = "passengers")
 public class Passengers {

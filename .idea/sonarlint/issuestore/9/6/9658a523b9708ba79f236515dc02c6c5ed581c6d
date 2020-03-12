@@ -1,19 +1,27 @@
 
+K
+java:S1128".Remove this unused import 'java.util.Objects'.(¼¸õ›8ä§´²Œ.
+c
+java:S1128"ARemove this unused import 'com.airline.repository.PassengersDao'.(ÛèÌÈúÿÿÿÿ8ä§´²Œ.
+‚
+java:S1128"`Remove this unused import 'org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate'.(ş¯ñ·şÿÿÿÿ8ä§´²Œ.
+W
+java:S1128":Remove this unused import 'com.airline.entity.Passengers'.(†ÈÍ…8ä§´²Œ.
+O
+java:S1128"2Remove this unused import 'java.sql.SQLException'.(ÛïÆŸ8ä§´²Œ.
 u
-java:S1192S"SUse already-defined constant 'PASSENGERS_ID' instead of duplicating its value here.(ñıÌ¥ùÿÿÿÿ8Á¾ÅÆ‰.
-C
-java:S11704"!Make this final field static too.(ä¢…ùùÿÿÿÿ8¨ÊÕñ‰.
-=
-java:S11707"!Make this final field static too.(õá¼m8¨ÊÕñ‰.
-C
-java:S1170,"!Make this final field static too.(ššù·ùÿÿÿÿ8¨ÊÕñ‰.
-C
-java:S11702"!Make this final field static too.(ÀîÊÆøÿÿÿÿ8¨ÊÕñ‰.
-j
-java:S1192R"MUse already-defined constant 'NUMBERS' instead of duplicating its value here.(ìã©±8Á¾ÅÆ‰.
-C
-java:S1170."!Make this final field static too.(´À‰ğúÿÿÿÿ8¨ÊÕñ‰.
+java:S1128"SRemove this unused import 'org.springframework.transaction.annotation.Propagation'.(èª¡Çûÿÿÿÿ8ä§´²Œ.
+x
+java:S1128"[Remove this unused import 'org.springframework.jdbc.core.namedparam.MapSqlParameterSource'.(²Ñ8ä§´²Œ.
+n
+java:S1128"QRemove this unused import 'org.springframework.transaction.annotation.Isolation'.(±§ÂÔ8ä§´²Œ.
+u
+java:S1128"SRemove this unused import 'org.springframework.beans.factory.annotation.Qualifier'.(íàÄ®ıÿÿÿÿ8ä§´²Œ.
 i
-java:S1192Q"LUse already-defined constant 'SERIES' instead of duplicating its value here.(¤í±8×¨ÅÆ‰.
-C
-java:S11700"!Make this final field static too.(üö½ıÿÿÿÿ8¨ÊÕñ‰.
+java:S1128"GRemove this unused import 'org.springframework.jdbc.support.KeyHolder'.(ÒéÎ´ÿÿÿÿÿ8ä§´²Œ.
+l
+java:S1128"PRemove this unused import 'org.springframework.jdbc.support.GeneratedKeyHolder'.(’Å“(8ä§´²Œ.
+~
+java:S1488/"aImmediately return this expression instead of assigning it to the temporary variable "passports".(ù˜ç‚8šÀñ¹Œ.
+K
+java:S1128"/Remove this unused import 'java.sql.ResultSet'.(ˆóÚw8ä§´²Œ.

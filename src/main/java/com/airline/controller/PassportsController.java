@@ -29,6 +29,11 @@ public class PassportsController {
 
 		return new ResponseEntity<>(passportDao.findByPassengersId (passengerId), HttpStatus.OK);
 	}
+	@DeleteMapping(value = "/{passengerId}")
+	public Long DeletePassportsByPassengersId (@PathVariable ("passengerId") Long passengerId){
+		passportDao.delete (passengerId);
+		return passengerId;
+	}
 
 
 }

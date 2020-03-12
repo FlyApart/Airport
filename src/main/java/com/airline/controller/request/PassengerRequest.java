@@ -1,14 +1,11 @@
 package com.airline.controller.request;
 
-import com.airline.entity.Country;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
-import java.sql.Date;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor

@@ -1,0 +1,8 @@
+
+\
+java:S1128"ARemove this unused import 'com.airline.entity.vo.PassengersInfo'.(ÈÁ¢–8êÄ’»Œ.
+K
+java:S1128"0Remove this unused import 'java.util.ArrayList'.(÷‰îƒ8ÐŠñºŒ.
+K
+java:S1128"+Remove this unused import 'java.util.List'.(Õë±Äøÿÿÿÿ8ÐŠñºŒ.
+p	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(±Ê¬úøÿÿÿÿ8Ò€¢¼Œ.

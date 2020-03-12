@@ -27,7 +27,6 @@ import java.util.List;
 import java.util.Objects;
 
 @Repository
-
 public class PassportDaoImpl implements PassportDao {
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -45,14 +44,22 @@ public class PassportDaoImpl implements PassportDao {
 	@Override
 	public Passports findById (Long id) {
 		try (Session session = sessionFactory.openSession ()) {
-			return session.find (Passports.class, id);
+			Passports passports = session.find (Passports.class, id);
+			return passports;
 		}
 	}
 
 	@Override
+	@Transactional
 	public void delete (Long id) {
 		try (Session session = sessionFactory.openSession ()) {
-			session.remove (findById (id));
+			Transaction transaction = session.getTransaction ();
+			transaction.begin ();
+			List<Passports> byPassengersId = findByPassengersId (id);
+			for (Passports passports : byPassengersId) {
+				session.delete (passports);
+			}
+			transaction.commit ();
 		}
 	}
 
@@ -74,7 +81,7 @@ public class PassportDaoImpl implements PassportDao {
 			transaction.begin ();
 			session.saveOrUpdate (entity);
 			transaction.commit ();
-			return session.find (Passports.class, entity.getId ());
+			return session.find(Passports.class, entity.getId ());
 		}
 	}
 
@@ -82,7 +89,7 @@ public class PassportDaoImpl implements PassportDao {
 	@Override
 	public List<Passports> findByPassengersId (Long passengersId) {
 		try (Session session = sessionFactory.openSession ()) {
-			TypedQuery<Passports> query = session.createQuery ("select p from Passports p where p.passengersId =:passengersId", Passports.class);
+			TypedQuery<Passports> query = session.createQuery ("select p from Passports p where p.passengersId.id =:passengersId", Passports.class);
 			query.setParameter("passengersId", passengersId);
 			return query.getResultList ();
 		}
