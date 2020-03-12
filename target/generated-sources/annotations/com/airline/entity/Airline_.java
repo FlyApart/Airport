@@ -9,7 +9,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 public abstract class Airline_ {
 
 	public static volatile SingularAttribute<Airline, Long> fleet;
-	public static volatile SingularAttribute<Airline, Long> country;
+	public static volatile SingularAttribute<Airline, Country> country;
 	public static volatile SingularAttribute<Airline, String> website;
 	public static volatile SingularAttribute<Airline, String> name;
 	public static volatile SingularAttribute<Airline, Long> id;

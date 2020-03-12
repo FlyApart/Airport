@@ -10,17 +10,13 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Setter
-@Getter
-@Builder
-@EqualsAndHashCode
-@ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
 @Table (name = "country")
 public class Country {
 	@Id
-	@GeneratedValue (strategy = GenerationType.AUTO)
+	@SequenceGenerator(name = "countrySeq", sequenceName = "country_id_seq", allocationSize = 0)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "countrySeq")
 	Long id;
 	@Column (name = "name")
 	String name;

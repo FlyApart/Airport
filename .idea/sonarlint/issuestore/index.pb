@@ -77,7 +77,5 @@ g
 7src/main/java/com/airline/entity/vo/PassengersInfo.java,9\0\9056574d1f00e8dd886cfdf0ed71d30100b09208
 d
 4src/main/java/com/airline/repository/CountryDao.java,1\4\144a012498f2794debfd540105dd60a31fa4be5f
-S
-#src/main/resources/application.yaml,8\b\8bf9a0c76cee89021a19081a2d70237db7e2fd8a
 r
 Bsrc/main/java/com/airline/controller/request/PassengerRequest.java,f\6\f6eda8a72200591d959ee1f3d4ebc80c2d40e803

@@ -12,6 +12,7 @@ public abstract class Passengers_ {
 
 	public static volatile SingularAttribute<Passengers, Country> country;
 	public static volatile SingularAttribute<Passengers, String> password;
+	public static volatile SetAttribute<Passengers, Tickets> tickets;
 	public static volatile SingularAttribute<Passengers, Timestamp> created;
 	public static volatile SingularAttribute<Passengers, String> name;
 	public static volatile SingularAttribute<Passengers, Long> id;
@@ -23,6 +24,7 @@ public abstract class Passengers_ {
 
 	public static final String COUNTRY = "country";
 	public static final String PASSWORD = "password";
+	public static final String TICKETS = "tickets";
 	public static final String CREATED = "created";
 	public static final String NAME = "name";
 	public static final String ID = "id";

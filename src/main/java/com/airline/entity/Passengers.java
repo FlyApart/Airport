@@ -18,10 +18,6 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Setter
-@Getter
-@EqualsAndHashCode(of = "id")
-@ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @DynamicUpdate
 @Entity
@@ -31,11 +27,12 @@ public class Passengers {
 	@SequenceGenerator(name = "passengersSeq", sequenceName = "passengers_id_seq", allocationSize = 0)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "passengersSeq")
 	Long id;
-	@Column (name = "name")
+
+	@Column
 	String name;
 	@Column (name = "surname")
 	String secondName;
-	@Column
+	@Column(name = "login", unique = true)
 	String login;
 	@Column
 	String password;
@@ -53,6 +50,12 @@ public class Passengers {
 	@JsonManagedReference
 	@OneToMany(fetch = FetchType.EAGER, targetEntity = Passports.class, mappedBy = "passengersId",cascade = CascadeType.ALL)
 	Set<Passports> passports;
+
+	@ManyToMany
+	@JoinTable(name = "passengers_ticket",
+			joinColumns = @JoinColumn(name = "passenger_id"),
+			inverseJoinColumns = @JoinColumn(name = "ticket_id"))
+	Set<Tickets> tickets = Collections.emptySet ();
 
 	// void test() {Passengers passengers = Passengers.builder ().id(1L).name("sad").build (); }
 }

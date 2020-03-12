@@ -4,28 +4,30 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.DynamicUpdate;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Setter
-@Getter
-@Builder
-@EqualsAndHashCode(of = "id")
-@ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @DynamicUpdate
 @Entity
 @Table (name = "airline")
 public class Airline {
 	@Id
+	@SequenceGenerator(name = "airlineSeq", sequenceName = "airline_id_seq", allocationSize = 0)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "airlineSeq")
 	Long id;
+	@Column(unique = true)
 	String name;
+	@Column(unique = true)
 	String website;
+	@Column
 	Long fleet;
-	Long country;
+	@Column(name = "flights_per_year")
 	Long flightsCounts;
+
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn (name = "id_country")
+	Country country;
 }

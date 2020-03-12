@@ -11,11 +11,6 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Setter
-@Getter
-@Builder
-@EqualsAndHashCode(of = "id")//!!!!!!!!!!!!
-@ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @DynamicUpdate
 @Entity

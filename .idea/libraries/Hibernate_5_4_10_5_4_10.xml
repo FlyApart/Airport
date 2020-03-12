@@ -24,6 +24,7 @@
     <JAVADOC />
     <SOURCES>
       <root url="jar://$USER_HOME$/.ideaLibSources/hibernate-core-5.4.10.Final-sources.jar!/" />
+      <root url="jar://$USER_HOME$/.ideaLibSources/javax.persistence-api-2.2-sources.jar!/" />
     </SOURCES>
   </library>
 </component>
