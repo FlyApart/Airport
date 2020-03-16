@@ -55,8 +55,8 @@ public class PassengersDaoImpl implements PassengersDao {
 	@Override
 	public Passengers save (Passengers entity) {
 		try (Session session = sessionFactory.openSession ()) {
-			Transaction transaction = session.getTransaction ();
-			transaction.begin ();
+			Transaction transaction = session.beginTransaction ();
+			//transaction.begin ();
 			Long newUserID = (Long) session.save (entity);
 			transaction.commit ();
 			return session.find (Passengers.class, newUserID);

@@ -16,6 +16,7 @@ import javax.persistence.*;
 @Entity
 @Table (name = "passport")
 public class Passports {
+
 	@Id
 	@SequenceGenerator(name = "passportsSeq", sequenceName = "passport_id_seq", allocationSize = 0)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "passportsSeq")
@@ -24,6 +25,9 @@ public class Passports {
 	Long series;
 	@Column (name = "number")
 	Long number;
+	@Column(name = "title")
+	String title;
+
 	@JsonBackReference
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_passengers")

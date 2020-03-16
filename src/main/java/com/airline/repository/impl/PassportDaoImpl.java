@@ -64,10 +64,11 @@ public class PassportDaoImpl implements PassportDao {
 	}
 
 	@Override
+	@Transactional
 	public Passports save (Passports entity) {
 		try (Session session = sessionFactory.openSession ()) {
-			Transaction transaction = session.getTransaction ();
-			transaction.begin ();
+			Transaction transaction = session.beginTransaction ();
+			//transaction.begin ();
 			Long newUserID = (Long) session.save (entity);
 			transaction.commit ();
 			return session.find (Passports.class, newUserID);
@@ -95,4 +96,14 @@ public class PassportDaoImpl implements PassportDao {
 		}
 
 		}
+
+	@Override
+	public Passports findByTitle (String title) {
+		try(Session session = sessionFactory.openSession ()){
+			TypedQuery<Passports> query = session.createQuery ("select p from Passports p where p.title =:title", Passports.class);
+			query.setParameter("title", title);
+			return query.getSingleResult ();
+		}
+
+	}
 }

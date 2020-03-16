@@ -1,8 +1,0 @@
-
-[
-java:S1128">Remove this unused import 'com.airline.repository.GenericDao'.(‘Ì¦ö8­…ýºŒ.
-r	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ŸÙõ¾úÿÿÿÿ8Ó²¡¼Œ.
-^
-java:S1128"ARemove this unused import 'com.airline.entity.vo.PassengersInfo'.(ÈÁ¢–8­…ýºŒ.
-M
-java:S1128"+Remove this unused import 'java.util.List'.(Õë±Äøÿÿÿÿ8ò­üºŒ.

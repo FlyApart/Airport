@@ -1,28 +1,17 @@
 package com.airline.controller;
 
-import com.airline.controller.request.PassengerRequest;
+import com.airline.controller.request.PassengerSaveRequest;
+import com.airline.controller.request.PassengerUpdateRequest;
 import com.airline.entity.Passengers;
-import com.airline.repository.CountryDao;
 import com.airline.repository.PassengersDao;
-import com.airline.repository.PassportDao;
-import com.airline.repository.impl.PassportDaoImpl;
 import com.airline.service.PassengersService;
 import io.swagger.annotations.ApiParam;
-import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.Range;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.lang.Nullable;
-import org.springframework.security.core.parameters.P;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.Size;
-import java.sql.Timestamp;
 import java.util.List;
 
 @CrossOrigin
@@ -49,7 +38,7 @@ public class PassengersController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Passengers> createPassenger(@RequestBody @Valid PassengerRequest passengerInfo) {
+	public ResponseEntity<Passengers> createPassenger(@RequestBody @Valid PassengerSaveRequest passengerInfo) {
 		//        roleDao.save(new Role(savedUser.getUserId(), "ROLE_USER"));
 		return new ResponseEntity<>(passengersService.save (passengerInfo), HttpStatus.OK);
 	}
@@ -77,7 +66,7 @@ public class PassengersController {
 
 	@PutMapping (value = "/{id}")
 		public ResponseEntity<Passengers> updatePassenger(@ApiParam(value = "User ID", required = true) @PathVariable("id")  Long id,
-	                                                      @RequestBody @Valid PassengerRequest passengerInfo) {
+	                                                      @RequestBody @Valid PassengerUpdateRequest passengerInfo) {
 			return new ResponseEntity<>(passengersService.update (passengerInfo, id), HttpStatus.OK);
 		}
 

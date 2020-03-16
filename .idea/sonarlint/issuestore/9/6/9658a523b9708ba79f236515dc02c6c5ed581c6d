@@ -1,27 +1,27 @@
 
 K
-java:S1128".Remove this unused import 'java.util.Objects'.(¼¸õ›8ä§´²Œ.
-c
-java:S1128"ARemove this unused import 'com.airline.repository.PassengersDao'.(ÛèÌÈúÿÿÿÿ8ä§´²Œ.
-‚
-java:S1128"`Remove this unused import 'org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate'.(ş¯ñ·şÿÿÿÿ8ä§´²Œ.
+java:S1128"/Remove this unused import 'java.sql.ResultSet'.(ˆóÚw8ÙËˆâŒ.
 W
-java:S1128":Remove this unused import 'com.airline.entity.Passengers'.(†ÈÍ…8ä§´²Œ.
-O
-java:S1128"2Remove this unused import 'java.sql.SQLException'.(ÛïÆŸ8ä§´²Œ.
-u
-java:S1128"SRemove this unused import 'org.springframework.transaction.annotation.Propagation'.(èª¡Çûÿÿÿÿ8ä§´²Œ.
-x
-java:S1128"[Remove this unused import 'org.springframework.jdbc.core.namedparam.MapSqlParameterSource'.(²Ñ8ä§´²Œ.
-n
-java:S1128"QRemove this unused import 'org.springframework.transaction.annotation.Isolation'.(±§ÂÔ8ä§´²Œ.
-u
-java:S1128"SRemove this unused import 'org.springframework.beans.factory.annotation.Qualifier'.(íàÄ®ıÿÿÿÿ8ä§´²Œ.
-i
-java:S1128"GRemove this unused import 'org.springframework.jdbc.support.KeyHolder'.(ÒéÎ´ÿÿÿÿÿ8ä§´²Œ.
-l
-java:S1128"PRemove this unused import 'org.springframework.jdbc.support.GeneratedKeyHolder'.(’Å“(8ä§´²Œ.
+java:S1128":Remove this unused import 'com.airline.entity.Passengers'.(†ÈÍ…8ÙËˆâŒ.
 ~
-java:S1488/"aImmediately return this expression instead of assigning it to the temporary variable "passports".(ù˜ç‚8šÀñ¹Œ.
+java:S1488/"aImmediately return this expression instead of assigning it to the temporary variable "passports".(ù˜ç‚8ÙËˆâŒ.
+u
+java:S1128"SRemove this unused import 'org.springframework.beans.factory.annotation.Qualifier'.(íàÄ®ıÿÿÿÿ8ÙËˆâŒ.
+l
+java:S1128"PRemove this unused import 'org.springframework.jdbc.support.GeneratedKeyHolder'.(’Å“(8ÙËˆâŒ.
+i
+java:S1128"GRemove this unused import 'org.springframework.jdbc.support.KeyHolder'.(ÒéÎ´ÿÿÿÿÿ8ÙËˆâŒ.
 K
-java:S1128"/Remove this unused import 'java.sql.ResultSet'.(ˆóÚw8ä§´²Œ.
+java:S1128".Remove this unused import 'java.util.Objects'.(¼¸õ›8ÙËˆâŒ.
+O
+java:S1128"2Remove this unused import 'java.sql.SQLException'.(ÛïÆŸ8ÙËˆâŒ.
+x
+java:S1128"[Remove this unused import 'org.springframework.jdbc.core.namedparam.MapSqlParameterSource'.(²Ñ8ÙËˆâŒ.
+n
+java:S1128"QRemove this unused import 'org.springframework.transaction.annotation.Isolation'.(±§ÂÔ8ÙËˆâŒ.
+c
+java:S1128"ARemove this unused import 'com.airline.repository.PassengersDao'.(ÛèÌÈúÿÿÿÿ8ÙËˆâŒ.
+u
+java:S1128"SRemove this unused import 'org.springframework.transaction.annotation.Propagation'.(èª¡Çûÿÿÿÿ8ÙËˆâŒ.
+‚
+java:S1128"`Remove this unused import 'org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate'.(ş¯ñ·şÿÿÿÿ8ÙËˆâŒ.
