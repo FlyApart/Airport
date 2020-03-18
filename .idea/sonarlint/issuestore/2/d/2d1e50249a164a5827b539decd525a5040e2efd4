@@ -1,5 +1,5 @@
 
-u
-java:S1128"SRemove this unused import 'org.springframework.transaction.annotation.Propagation'.(èª¡Çûÿÿÿÿ8êÏí²Œ.
-H
-java:S1481%"&Remove this unused "p" local variable.(š®¤øÿÿÿÿ8êÏí²Œ.
+T
+java:S1128"2Remove this unused import 'org.hibernate.Session'.(È¹›§ùÿÿÿÿ8Í“‡³.
+q
+java:S41444"TUpdate this method so that its implementation is not identical to "save" on line 43.(ÂÕ¥8¡Ÿ…³.

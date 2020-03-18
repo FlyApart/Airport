@@ -1,109 +1,71 @@
 package com.airline.repository.impl;
 
-import com.airline.entity.Passengers;
 import com.airline.entity.Passports;
-import com.airline.repository.PassengersDao;
 import com.airline.repository.PassportDao;
-import lombok.RequiredArgsConstructor;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
-import java.sql.ResultSet;
-
-import java.sql.SQLException;
 import java.util.List;
-import java.util.Objects;
 
 @Repository
 public class PassportDaoImpl implements PassportDao {
+
 	@Autowired
-	private SessionFactory sessionFactory;
+	private EntityManager entityManager;
 
 
 
 	@Override
 	public List<Passports> findAll () {
-		try (Session session = sessionFactory.openSession ()) {
-			return session.createQuery ("select p from Passports p", Passports.class)
-			              .getResultList ();
-		}
+		return entityManager.createQuery("select tu from Passports tu", Passports.class).getResultList();
 	}
 
 	@Override
 	public Passports findById (Long id) {
-		try (Session session = sessionFactory.openSession ()) {
-			Passports passports = session.find (Passports.class, id);
-			return passports;
-		}
+		return entityManager.find(Passports.class,id);
 	}
 
 	@Override
 	@Transactional
 	public void delete (Long id) {
-		try (Session session = sessionFactory.openSession ()) {
-			Transaction transaction = session.getTransaction ();
-			transaction.begin ();
-			List<Passports> byPassengersId = findByPassengersId (id);
-			for (Passports passports : byPassengersId) {
-				session.delete (passports);
-			}
-			transaction.commit ();
-		}
+		entityManager.remove (findById (id));
 	}
 
 	@Override
 	@Transactional
 	public Passports save (Passports entity) {
-		try (Session session = sessionFactory.openSession ()) {
-			Transaction transaction = session.beginTransaction ();
-			//transaction.begin ();
-			Long newUserID = (Long) session.save (entity);
-			transaction.commit ();
-			return session.find (Passports.class, newUserID);
-		}
+		EntityTransaction transaction = entityManager.getTransaction();
+		transaction.begin();
+		entityManager.persist(entity);
+		transaction.commit();
+		return entityManager.find(Passports.class, entity.getId ());
 	}
 
 	@Override
 	public Passports update (Passports entity) {
-		try (Session session = sessionFactory.openSession ()) {
-			Transaction transaction = session.getTransaction ();
-			transaction.begin ();
-			session.saveOrUpdate (entity);
-			transaction.commit ();
-			return session.find(Passports.class, entity.getId ());
-		}
+		EntityTransaction transaction = entityManager.getTransaction();
+		transaction.begin();
+		entityManager.persist(entity);
+		transaction.commit();
+		return entityManager.find(Passports.class, entity.getId ());
 	}
 
 
 	@Override
 	public List<Passports> findByPassengersId (Long passengersId) {
-		try (Session session = sessionFactory.openSession ()) {
-			TypedQuery<Passports> query = session.createQuery ("select p from Passports p where p.passengersId.id =:passengersId", Passports.class);
-			query.setParameter("passengersId", passengersId);
-			return query.getResultList ();
-		}
-
-		}
+		TypedQuery<Passports> query = entityManager.createQuery ("select p from Passports p where p.passengersId.id =:passengersId", Passports.class);
+		query.setParameter("passengersId", passengersId);
+		return query.getResultList ();
+	}
 
 	@Override
 	public Passports findByTitle (String title) {
-		try(Session session = sessionFactory.openSession ()){
-			TypedQuery<Passports> query = session.createQuery ("select p from Passports p where p.title =:title", Passports.class);
+			TypedQuery<Passports> query = entityManager.createQuery ("select p from Passports p where p.title =:title", Passports.class);
 			query.setParameter("title", title);
 			return query.getSingleResult ();
-		}
-
 	}
 }

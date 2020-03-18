@@ -10,15 +10,14 @@ import com.airline.repository.PassengersDao;
 import com.airline.repository.PassportDao;
 import com.airline.service.PassengersService;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
 import java.sql.Timestamp;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Service
@@ -31,16 +30,11 @@ public class PassengersServiceImpl implements PassengersService{
 	@Autowired
 	CountryDao countryDao;
 	@Autowired
-	SessionFactory sessionFactory;
+	EntityManager entityManager;
 
 	@Override// fix transactional
 
 	public Passengers save (PassengerSaveRequest entity)  {
-
-		try (Session session = sessionFactory.openSession ()){
-
-			Transaction transaction = session.getTransaction ();
-			transaction.begin ();
 
 			Passengers passengers = new Passengers();
 			passengers.setName (entity.getName ());
@@ -64,11 +58,8 @@ public class PassengersServiceImpl implements PassengersService{
 				set.add (pass);
 			}
 			save.setPassports (set);
-			transaction.commit ();
 
 			return save;
-		}
-
 	}
 
 	@Override

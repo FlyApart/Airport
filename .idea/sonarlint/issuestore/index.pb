@@ -97,3 +97,5 @@ v
 Fsrc/main/java/com/airline/controller/request/PassengerSaveRequest.java,c\8\c861e3e52ac59e6829f326553bc6350597242eac
 q
 Asrc/main/java/com/airline/controller/request/PassportRequest.java,f\1\f19de0f4604575abd43241881810412e006b418f
+w
+Gtarget/generated-sources/annotations/com/airline/entity/Passports_.java,7\6\764d819ba3b25fe7827d169d0684889b6b8d76e9

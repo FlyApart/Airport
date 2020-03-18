@@ -11,6 +11,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@EqualsAndHashCode
 @Entity
 @Table(name = "tickets")
 public class Tickets {
@@ -27,6 +28,8 @@ public class Tickets {
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn
 	Flights flights;
+
+
 	@ManyToMany
 	@JoinTable(name = "passengers_ticket",
 			joinColumns = @JoinColumn(name = "ticket_id"),
