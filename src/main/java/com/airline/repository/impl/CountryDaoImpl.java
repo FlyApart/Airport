@@ -40,10 +40,11 @@ public class CountryDaoImpl  implements CountryDao {
 
 	@Override
 	public Country save (Country entity) {
-		EntityTransaction entityTransaction = entityManager.getTransaction ();
-			entityTransaction.begin ();
+		//EntityTransaction entityTransaction = entityManager.getTransaction ();
+			//entityTransaction.begin ();
+		entityManager.joinTransaction ();
 			entityManager.persist (entity);
-			entityTransaction.commit ();
+			//entityTransaction.commit ();
 			return  entityManager.find (Country.class, entity.getId ());
 	}
 

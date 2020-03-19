@@ -12,6 +12,7 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Repository
+@Transactional
 public class PassportDaoImpl implements PassportDao {
 
 	@Autowired
@@ -36,21 +37,16 @@ public class PassportDaoImpl implements PassportDao {
 	}
 
 	@Override
-	@Transactional
 	public Passports save (Passports entity) {
-		EntityTransaction transaction = entityManager.getTransaction();
-		transaction.begin();
+		entityManager.joinTransaction ();
 		entityManager.persist(entity);
-		transaction.commit();
 		return entityManager.find(Passports.class, entity.getId ());
 	}
 
 	@Override
 	public Passports update (Passports entity) {
-		EntityTransaction transaction = entityManager.getTransaction();
-		transaction.begin();
+		entityManager.joinTransaction ();
 		entityManager.persist(entity);
-		transaction.commit();
 		return entityManager.find(Passports.class, entity.getId ());
 	}
 
@@ -63,9 +59,10 @@ public class PassportDaoImpl implements PassportDao {
 	}
 
 	@Override
-	public Passports findByTitle (String title) {
-			TypedQuery<Passports> query = entityManager.createQuery ("select p from Passports p where p.title =:title", Passports.class);
+	public Passports findByTitleAndLongPassengersId  (String title, Long passengersId) {
+			TypedQuery<Passports> query = entityManager.createQuery ("select p from Passports p where p.title =:title and p.passengersId.id =:passengersId", Passports.class);
 			query.setParameter("title", title);
+			query.setParameter("passengersId", passengersId);
 			return query.getSingleResult ();
 	}
 }

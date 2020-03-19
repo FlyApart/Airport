@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface PassportDao extends GenericDao<Passports, Long> {
 	List<Passports> findByPassengersId(Long passengersId);
-	Passports findByTitle (String title);
+	Passports findByTitleAndLongPassengersId (String title, Long passengersId);
 }

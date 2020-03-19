@@ -41,19 +41,16 @@ public class PassengersDaoImpl implements PassengersDao {
 
 	@Override
 	public Passengers save (Passengers entity) {
-		EntityTransaction transaction = entityManager.getTransaction();// entityManager.joinTransaction ()
-		transaction.begin();
+		entityManager.joinTransaction ();// entityManager.joinTransaction ()
 		entityManager.persist(entity);
-		transaction.commit();
 		return entityManager.find (Passengers.class, entity.getId ());
 	}
 
 	@Override
+	@Transactional
 	public Passengers update (Passengers entity) {
-		EntityTransaction transaction = entityManager.getTransaction();
-		transaction.begin();
+		entityManager.joinTransaction ();
 		entityManager.persist(entity);
-		transaction.commit();
 		return entityManager.find (Passengers.class, entity.getId ());
 	}
 	@Override

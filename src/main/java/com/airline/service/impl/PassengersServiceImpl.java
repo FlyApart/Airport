@@ -33,7 +33,6 @@ public class PassengersServiceImpl implements PassengersService{
 	EntityManager entityManager;
 
 	@Override// fix transactional
-
 	public Passengers save (PassengerSaveRequest entity)  {
 
 			Passengers passengers = new Passengers();
@@ -45,7 +44,6 @@ public class PassengersServiceImpl implements PassengersService{
 			passengers.setLogin(entity.getLogin());
 			passengers.setPassword(entity.getPassword());
 			Passengers save = passengersDao.save(passengers);
-
 
 			Set<Passports> set = new HashSet<> ();
 			for (PassportRequest p : entity.getPassportRequestSet ()) {
@@ -74,9 +72,15 @@ public class PassengersServiceImpl implements PassengersService{
 		Passengers update = passengersDao.update(passengers);
 
 
-		/*Set<Passports> set = Collections.singleton (passportDao.save (passports));
-		save.setPassports (set);
-*/
+		Set<Passports> set = new HashSet<> ();
+		for (PassportRequest p : entity.getPassportRequestSet ()) {
+			Passports passports = passportDao.findByTitleAndLongPassengersId (p.getTitle (),update.getId ());
+			passports.setNumber (p.getNumber ());
+			passports.setSeries (p.getSeries ());
+			Passports pass = passportDao.save (passports);
+			set.add (pass);
+		}
+		update.setPassports (set);
 		return update;
 	}
 
