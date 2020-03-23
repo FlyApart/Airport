@@ -10,6 +10,9 @@ import javax.persistence.metamodel.StaticMetamodel;
 @StaticMetamodel(Flights.class)
 public abstract class Flights_ {
 
+	public static volatile SingularAttribute<Flights, Airports> arriveAirport;
+	public static volatile SingularAttribute<Flights, Airports> departureAirport;
+	public static volatile SingularAttribute<Flights, Double> price;
 	public static volatile SingularAttribute<Flights, Airplanes> airplane;
 	public static volatile SingularAttribute<Flights, Timestamp> arriveDate;
 	public static volatile SingularAttribute<Flights, Airline> airlines;
@@ -17,8 +20,11 @@ public abstract class Flights_ {
 	public static volatile SingularAttribute<Flights, Long> id;
 	public static volatile SingularAttribute<Flights, Timestamp> departureDate;
 	public static volatile SingularAttribute<Flights, String> fightsNumber;
-	public static volatile SingularAttribute<Flights, Airports> airport;
+	public static volatile SingularAttribute<Flights, Timestamp> changed;
 
+	public static final String ARRIVE_AIRPORT = "arriveAirport";
+	public static final String DEPARTURE_AIRPORT = "departureAirport";
+	public static final String PRICE = "price";
 	public static final String AIRPLANE = "airplane";
 	public static final String ARRIVE_DATE = "arriveDate";
 	public static final String AIRLINES = "airlines";
@@ -26,7 +32,7 @@ public abstract class Flights_ {
 	public static final String ID = "id";
 	public static final String DEPARTURE_DATE = "departureDate";
 	public static final String FIGHTS_NUMBER = "fightsNumber";
-	public static final String AIRPORT = "airport";
+	public static final String CHANGED = "changed";
 
 }
 

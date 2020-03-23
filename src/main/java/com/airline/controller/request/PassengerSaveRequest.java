@@ -2,6 +2,7 @@ package com.airline.controller.request;
 
 import com.airline.entity.Passports;
 
+import com.airline.entity.Tickets;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -10,6 +11,7 @@ import javax.validation.constraints.Size;
 import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -34,6 +36,8 @@ public class PassengerSaveRequest {
 	@NonNull Long number;*/
 
 	Set<PassportRequest> passportRequestSet;
+
+	List<Long> tickets = Collections.emptyList ();
 
 
 

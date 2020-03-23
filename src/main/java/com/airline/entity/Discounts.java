@@ -1,5 +1,7 @@
 package com.airline.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -10,6 +12,7 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode (exclude = "flights")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
 @Table(name = "discounts")
@@ -23,6 +26,7 @@ public class Discounts {
 	@Column
 	Double cost;
 
+	@JsonBackReference
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable (name = "flights_discounts",
 			joinColumns = @JoinColumn(name = "discounts_id"),

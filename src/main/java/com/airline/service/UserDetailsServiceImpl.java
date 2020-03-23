@@ -2,7 +2,7 @@ package com.airline.service;
 
 import com.airline.entity.Passengers;
 import com.airline.entity.Role;
-import com.airline.repository.PassengersDao;
+import com.airline.repository.PassengerDao;
 import com.airline.repository.RoleDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -17,7 +17,7 @@ import java.util.List;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
-    private PassengersDao passengersDao;
+    private PassengerDao passengersDao;
 
     @Autowired
     private RoleDao roleDao;

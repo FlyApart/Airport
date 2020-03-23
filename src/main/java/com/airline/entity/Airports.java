@@ -8,10 +8,13 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode (exclude = {"counry", "id"})
+@ToString(exclude = {"counry", "id"})
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
 @Table(name = "airports")
 public class Airports {
+
 	@Id
 	@SequenceGenerator(name = "airportsSeq", sequenceName = "airports_id_seq", allocationSize = 0)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "airportsSeq")

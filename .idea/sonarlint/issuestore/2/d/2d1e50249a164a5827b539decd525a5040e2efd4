@@ -1,5 +1,7 @@
 
-T
-java:S1128"2Remove this unused import 'org.hibernate.Session'.(È¹›§ùÿÿÿÿ8Í“‡³.
 q
-java:S41444"TUpdate this method so that its implementation is not identical to "save" on line 43.(ÂÕ¥8¡Ÿ…³.
+java:S41443"TUpdate this method so that its implementation is not identical to "save" on line 43.(ÂÕ¥8Ò·±.
+b
+java:S1128"@Remove this unused import 'javax.persistence.EntityTransaction'.(¶“çğüÿÿÿÿ8ôù€.
+T
+java:S1128"2Remove this unused import 'org.hibernate.Session'.(È¹›§ùÿÿÿÿ8·ÉĞ÷.

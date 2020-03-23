@@ -18,7 +18,7 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode (exclude = {"id","passports"})
+@EqualsAndHashCode (exclude = {"id","passports","tickets"})
 @ToString (exclude = {"id","passports"})
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @DynamicUpdate
@@ -54,6 +54,7 @@ public class Passengers {
 	@OneToMany(fetch = FetchType.EAGER, targetEntity = Passports.class, mappedBy = "passengersId",cascade = CascadeType.ALL)
 	Set<Passports> passports = Collections.emptySet ();
 
+	@JsonManagedReference
 	@ManyToMany
 	@JoinTable(name = "passengers_ticket",
 			joinColumns = @JoinColumn(name = "passenger_id"),

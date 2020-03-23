@@ -1,5 +1,6 @@
 package com.airline.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -29,7 +30,7 @@ public class Tickets {
 	@JoinColumn
 	Flights flights;
 
-
+	@JsonBackReference
 	@ManyToMany
 	@JoinTable(name = "passengers_ticket",
 			joinColumns = @JoinColumn(name = "ticket_id"),

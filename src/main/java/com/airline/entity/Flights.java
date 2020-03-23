@@ -1,5 +1,6 @@
 package com.airline.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -12,6 +13,8 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@EqualsAndHashCode (exclude = {"discount","id","airplane","departureAirport","arriveAirport","airlines"})
+@ToString(exclude = {"discount","id","airplane","departureAirport","arriveAirport","airlines"})
 @Entity
 @Table(name = "flights")
 public class Flights {
@@ -25,20 +28,29 @@ public class Flights {
 	Timestamp departureDate;
 	@Column(name = "arrive_date")
 	Timestamp arriveDate;
+	@Column
+	Double price;
+	@Column
+	Timestamp changed;
 
 	@OneToOne
 	@JoinColumn(name = "airplane_id")
 	Airplanes airplane;
 
 	@OneToOne
-	@JoinColumn(name = "airport_id")
-	Airports airport;
+	@JoinColumn(name = "departure_airport_id")
+	Airports departureAirport;
+
+	@OneToOne
+	@JoinColumn(name = "arrive_airport_id")
+	Airports arriveAirport;
 
 	@OneToOne
 	@JoinColumn(name = "airline_id")
 	Airline airlines;
 
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JsonManagedReference
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	@JoinTable (name = "flights_discounts",
 		joinColumns = @JoinColumn(name = "flights_id"),
 		inverseJoinColumns = @JoinColumn(name = "discounts_id"))

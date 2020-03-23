@@ -9,6 +9,7 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @DynamicUpdate
 @Entity
@@ -18,9 +19,9 @@ public class Airline {
 	@SequenceGenerator(name = "airlineSeq", sequenceName = "airline_id_seq", allocationSize = 0)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "airlineSeq")
 	Long id;
-	@Column(unique = true)
+	@Column
 	String name;
-	@Column(unique = true)
+	@Column
 	String website;
 	@Column
 	Long fleet;

@@ -1,22 +1,20 @@
 package com.airline.repository.impl;
 
 import com.airline.entity.Passengers;
-import com.airline.repository.PassengersDao;
+import com.airline.repository.PassengerDao;
+import com.airline.repository.PassportDao;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class PassengersDaoImpl implements PassengersDao {
+public class PassengersDaoImpl implements PassengerDao {
 	@Autowired
 	private EntityManager entityManager;
 

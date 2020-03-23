@@ -6,11 +6,10 @@ import com.airline.controller.request.PassportRequest;
 import com.airline.entity.Passengers;
 import com.airline.entity.Passports;
 import com.airline.repository.CountryDao;
-import com.airline.repository.PassengersDao;
+import com.airline.repository.PassengerDao;
 import com.airline.repository.PassportDao;
+import com.airline.repository.TicketsDao;
 import com.airline.service.PassengersService;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,11 +25,13 @@ public class PassengersServiceImpl implements PassengersService{
 	@Autowired
 	PassportDao passportDao;
 	@Autowired
-	PassengersDao passengersDao;
+	PassengerDao passengersDao;
 	@Autowired
 	CountryDao countryDao;
 	@Autowired
 	EntityManager entityManager;
+	@Autowired
+	TicketsDao ticketsDao;
 
 	@Override// fix transactional
 	public Passengers save (PassengerSaveRequest entity)  {
@@ -43,6 +44,9 @@ public class PassengersServiceImpl implements PassengersService{
 			passengers.setCountry (countryDao.findByName (entity.getCountry ()));
 			passengers.setLogin(entity.getLogin());
 			passengers.setPassword(entity.getPassword());
+
+		    passengers.setTickets (ticketsDao.findByIds (entity.getTickets ()));
+
 			Passengers save = passengersDao.save(passengers);
 
 			Set<Passports> set = new HashSet<> ();
@@ -69,6 +73,7 @@ public class PassengersServiceImpl implements PassengersService{
 		passengers.setChanged (new Timestamp (System.currentTimeMillis ()));
 		passengers.setCountry (countryDao.findByName (entity.getCountry ()));
 		passengers.setPassword(entity.getPassword());
+
 		Passengers update = passengersDao.update(passengers);
 
 

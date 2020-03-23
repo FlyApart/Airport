@@ -1,7 +1,5 @@
 
 T
-java:S1128"2Remove this unused import 'org.hibernate.Session'.(È¹›§ùÿÿÿÿ8µÖ«³.
-{
-java:S1488J"^Immediately return this expression instead of assigning it to the temporary variable "update".(«İ8©¸©³.
+java:S1128"2Remove this unused import 'org.hibernate.Session'.(È¹›§ùÿÿÿÿ8µÖ«³.
 S
-java:S1128"6Remove this unused import 'org.hibernate.Transaction'.(ìÌè³8ÿŒ¬³.
+java:S1128"6Remove this unused import 'org.hibernate.Transaction'.(ìÌè³8ŞÌ.

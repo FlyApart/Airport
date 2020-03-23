@@ -3,7 +3,7 @@ package com.airline.controller;
 import com.airline.controller.request.PassengerSaveRequest;
 import com.airline.controller.request.PassengerUpdateRequest;
 import com.airline.entity.Passengers;
-import com.airline.repository.PassengersDao;
+import com.airline.repository.PassengerDao;
 import com.airline.service.PassengersService;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ import java.util.List;
 public class PassengersController {
 
 	@Autowired
-	private PassengersDao passengersDao;
+	private PassengerDao passengersDao;
 	@Autowired
 	private PassengersService passengersService;
 
