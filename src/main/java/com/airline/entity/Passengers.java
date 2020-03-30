@@ -1,16 +1,11 @@
 package com.airline.entity;
 
-import com.airline.util.validation.FieldValid;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
-
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.DynamicUpdate;
 
-
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
 import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.Set;
@@ -36,7 +31,6 @@ public class Passengers {
 	String secondName;
 
 	@Column(name = "login", unique = true, nullable = false, length = 50)
-	@Email
 	String login;
 
 	@Column (nullable = false,length = 50)
@@ -53,7 +47,7 @@ public class Passengers {
 	Timestamp birthDate;
 
 
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn
 	Countries countries;
 

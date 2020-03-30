@@ -34,7 +34,7 @@ public class Airplanes {
 	Timestamp built;
 
 	@OneToOne
-	@JoinColumn (name = "country_id")
+	@JoinColumn
 	Countries countries;
 
 }

@@ -27,8 +27,6 @@ _
 -src/main/java/com/airline/entity/Flights.java,0\5\05238c818243f035d66218785b67423e8d0bc9a6
 ]
 -src/main/java/com/airline/entity/Tickets.java,d\2\d2d3a507deb68d1ea7cb3a3941e4d9e7c7fb894c
-]
--src/main/java/com/airline/entity/Country.java,b\e\befb6bf7118ebf4bdae9f1ee227724468f0b6bc5
 _
 /src/main/java/com/airline/entity/Passports.java,4\1\41ba9311f9187e35c50cd833a9c0b5b61c7bb692
 m
@@ -61,8 +59,6 @@ m
 =src/main/java/com/airline/config/core/JdbcTemplateConfig.java,f\9\f9c3787181d0f71a1f1865526e75efb260816a7a
 i
 9src/main/java/com/airline/config/core/DatabaseConfig.java,f\f\ff2985d38d08049e87a62ad04405f041f86ee9a7
-]
--src/main/java/com/airline/entity/Airline.java,8\e\8ed1882f7a9fbb07cbd194e6be6c6e4803a67d38
 n
 >src/main/java/com/airline/repository/impl/PassportDaoImpl.java,9\6\9658a523b9708ba79f236515dc02c6c5ed581c6d
 `
@@ -135,3 +131,9 @@ M
 src/main/resources/banner.txt,e\f\efc52e6af802f9b802ffaae1e093e328ff8a2c20
 u
 Esrc/main/java/com/airline/config/core/AdditionalPropertiesConfig.java,c\e\ce7e29ade8e2dcde2df37faa4cde7b8621283c8d
+S
+#src/main/resources/log4j.properties,7\5\755950bb690295904a49d36e60958901c54013b8
+^
+.src/main/java/com/airline/entity/Airlines.java,d\7\d7d3a46515c5fd5920e206525b3b3ef3b5801994
+_
+/src/main/java/com/airline/entity/Countries.java,5\a\5a125f74219eb535e4cf8ecb33a92caa666222e3

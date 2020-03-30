@@ -1,3 +1,7 @@
 
+`
+java:S1128"CRemove this unused import 'com.airline.util.validation.FieldValid'.(öÚ‘ò8»šóÆ’.
+c
+java:S1128"ARemove this unused import 'javax.validation.constraints.NotNull'.(áç¥ãüÿÿÿÿ8š§ñÆ’.
 o
-java:S1128"RRemove this unused import 'com.fasterxml.jackson.annotation.JsonManagedReference'.(Æ˜µ8¦Šª.
+java:S1128"RRemove this unused import 'com.fasterxml.jackson.annotation.JsonManagedReference'.(Æ˜µ8ÏéïÆ’.
