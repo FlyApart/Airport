@@ -1,9 +1,8 @@
 package com.airline.controller;
 
 import com.airline.controller.messages.ErrorMessage;
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
-import org.jboss.logging.Message;
+import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;

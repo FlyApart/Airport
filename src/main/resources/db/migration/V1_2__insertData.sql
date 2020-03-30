@@ -5,20 +5,20 @@ values ('55°45′N 37°37′E', 'Russia', 146745098),
        ('51°30′N 0°7′W', 'England', 55977178);
 
 insert into airlines
-    (fleet, flights_per_year, name, website, country_id)
+    (fleet, flights_per_year, name, website, countries_id)
 values (180, 18000, 'Ural Airline', 'ural.ru', 1),
        (50, 9000, 'Belavia', 'belavia.com', 2),
        (300, 19000, 'EN', 'en.com', 3);
 
 
 insert into airplanes
-(built, max_flight_duration, model, seats, country_id)
+(built, max_flight_duration, model, seats, countries_id)
 values ('2007-04-27', 15400, 'Airbus A380', 525, 3),
        ('1995-06-07', 17500, 'Boeing 777', 550, 3),
        ('2011-04-21', 4600, 'Superjet 100', 98, 1);
 
 insert into airports
-(title, country_id)
+(title, countries_id)
 values ('Kolchovo', 1),
        ('Minsk International Airport', 2),
        ('Heathrow', 3);
@@ -32,7 +32,7 @@ values (3500, 'PROMO#35'),
 
 
 insert into passengers
-(date_birth, changed, created, login, name, password, surname, country_id)
+(date_birth, changed, created, login, name, password, surname, countries_id)
 values ('13-05-1997', null, '30-03-2020', 'oglorn@mail.ru', 'Alex', '1234qwer', 'Zuev', '1'),
        ('21-12-1996', null, '20-02-2020', 'dunya@mail.ru', 'Dima', 'rewq4321', 'Dunya', '2'),
        ('06-04-1971', null, '17-01-2020', 'lelya@qmail.com', 'Olga', '1234qwer', 'Zinevich', '1');

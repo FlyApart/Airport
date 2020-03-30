@@ -33,6 +33,6 @@ public class Airlines {
 	Long flightsCounts;
 
 	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn (name = "country_id")
+	@JoinColumn
 	Countries countries;
 }

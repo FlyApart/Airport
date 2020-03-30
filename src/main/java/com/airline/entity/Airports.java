@@ -24,6 +24,6 @@ public class Airports {
 	String title;
 
 	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn (name = "country_id")
+	@JoinColumn
 	Countries countries;
 }

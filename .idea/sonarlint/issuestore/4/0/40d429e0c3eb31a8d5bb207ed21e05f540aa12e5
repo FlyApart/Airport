@@ -1,7 +1,7 @@
 
-M
-java:S1128"+Remove this unused import 'java.util.List'.(Õë±Äøÿÿÿÿ8®Öİ .
-M
-java:S1128"0Remove this unused import 'java.util.ArrayList'.(÷‰îƒ8®Öİ .
-g
-java:S1128"ERemove this unused import 'org.springframework.stereotype.Component'.(Ş÷Ñ¸ÿÿÿÿÿ8®Öİ .
+a
+java:S1128"?Remove this unused import 'javax.validation.constraints.Email'.(¸àô¹üÿÿÿÿ8ÚûİÇ’.
+d
+java:S1128"BRemove this unused import 'javax.validation.constraints.NotBlank'.(µã‡ıÿÿÿÿ8şûæÆ’.
+`
+java:S1128"CRemove this unused import 'com.airline.util.validation.FieldValid'.(öÚ‘ò8ï†ìÆ’.
