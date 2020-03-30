@@ -9,6 +9,7 @@ import com.airline.entity.Passengers;
 import com.airline.repository.FlightsDao;
 import com.airline.service.FlightService;
 import io.swagger.annotations.ApiParam;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,13 +23,13 @@ import java.util.List;
 	@CrossOrigin
 	@RestController
 	@RequestMapping("/rest/Flights")
-	@Transactional
+	@RequiredArgsConstructor
 	public class FlightsController {
 
-		@Autowired
-		private FlightsDao flightsDao;
-		@Autowired
-		private FlightService flightsService;
+
+		private final FlightsDao flightsDao;
+
+		private final FlightService flightsService;
 
 
 		@GetMapping

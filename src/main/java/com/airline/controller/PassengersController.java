@@ -6,7 +6,7 @@ import com.airline.entity.Passengers;
 import com.airline.repository.PassengerDao;
 import com.airline.service.PassengersService;
 import io.swagger.annotations.ApiParam;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,38 +17,38 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
-@RequestMapping ("/rest/passengers")
-@Transactional
+@RequestMapping("/rest/passengers")
+@RequiredArgsConstructor
 public class PassengersController {
 
-	@Autowired
-	private PassengerDao passengersDao;
-	@Autowired
-	private PassengersService passengersService;
+	private final PassengerDao passengersDao;
 
+	private final PassengersService passengersService;
 
 	@GetMapping
-	public ResponseEntity <List<Passengers>> findAll (){
-		return new ResponseEntity <>(passengersDao.findAll (), HttpStatus.OK);
+	public ResponseEntity<List<Passengers>> findAll () {
+		return new ResponseEntity<> (passengersDao.findAll (), HttpStatus.OK);
 	}
 
 
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<Passengers> findPassengerById (@PathVariable Long id){
+	public ResponseEntity<Passengers> findPassengerById (@PathVariable Long id) {
 
-		return new ResponseEntity <>(passengersDao.findById (id), HttpStatus.OK);
+		return new ResponseEntity<> (passengersDao.findById (id), HttpStatus.OK);
 	}
 
 	@PostMapping
-	public ResponseEntity<Passengers> createPassenger(@RequestBody @Valid PassengerSaveRequest passengerInfo) {
+	@Transactional                              //  TODO add (rollbackFor =)
+	public ResponseEntity<Passengers> createPassenger (@RequestBody @Valid PassengerSaveRequest passengerInfo) {
 		//        roleDao.save(new Role(savedUser.getUserId(), "ROLE_USER"));
-		return new ResponseEntity<>(passengersService.save (passengerInfo), HttpStatus.OK);
+		return new ResponseEntity<> (passengersService.save (passengerInfo), HttpStatus.CREATED);
 	}
 
-	@DeleteMapping (value = "/{id}")
-	public ResponseEntity<Long> deletePassenger(@PathVariable("id") Long id) {
+	@DeleteMapping(value = "/{id}")
+	@Transactional
+	public ResponseEntity<Long> deletePassenger (@PathVariable("id") Long id) {
 		passengersDao.delete (id);
-		return new ResponseEntity<>(id, HttpStatus.OK);
+		return new ResponseEntity<> (id, HttpStatus.OK);
 	}
 		/*@PutMapping (value = "/{id}")
 		public ResponseEntity<Passengers> updatePassenger(@ApiParam(value = "User ID", required = true) @PathVariable("id")  Long id,
@@ -66,12 +66,11 @@ public class PassengersController {
 			*//*обновление паспорта!?*//*
 		}*/
 
-	@PutMapping (value = "/{id}")
-		public ResponseEntity<Passengers> updatePassenger(@ApiParam(value = "User ID", required = true) @PathVariable("id")  Long id,
-	                                                      @RequestBody @Valid PassengerUpdateRequest passengerInfo) {
-			return new ResponseEntity<>(passengersService.update (passengerInfo, id), HttpStatus.OK);
-		}
-
+	@PutMapping(value = "/{id}")
+	@Transactional
+	public ResponseEntity<Passengers> updatePassenger (@ApiParam(value = "User ID", required = true) @PathVariable("id") Long id, @RequestBody @Valid PassengerUpdateRequest passengerInfo) {
+		return new ResponseEntity<> (passengersService.update (passengerInfo, id), HttpStatus.OK);
+	}
 
 
 }

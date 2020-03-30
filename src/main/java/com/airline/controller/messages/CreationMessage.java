@@ -1,5 +1,7 @@
 package com.airline.controller.messages;
 
+import javax.validation.constraints.Size;
+
 public class CreationMessage {
     private String successMessage;
 

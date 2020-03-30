@@ -1,12 +1,9 @@
 package com.airline.repository;
 
 
-import com.airline.entity.Country;
-import com.airline.entity.Passports;
-
-import java.util.List;
+import com.airline.entity.Countries;
 
 
-public interface CountryDao extends GenericDao <Country, Long> {
-	public Country findByName(String name);
+public interface CountryDao extends GenericDao <Countries, Long> {
+	public Countries findByName(String name);
 }

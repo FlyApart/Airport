@@ -1,9 +1,12 @@
 package com.airline.controller.request;
 
+import com.airline.util.validation.FieldValid;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.DynamicUpdate;
 
-import javax.validation.constraints.Size;
+import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.List;
@@ -11,27 +14,36 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Setter
-@Getter
-@Builder
-@EqualsAndHashCode
-@ToString
+@EqualsAndHashCode (exclude = {"discount"})
+@ToString (exclude = {"discount"})
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@DynamicUpdate
 public class FlightUpdateRequest {
 
-	@NonNull Timestamp departureDate;
-	@NonNull Timestamp arriveDate;
+	@FutureOrPresent
+	Timestamp departureDate;
 
-	@NonNull @Size(min = 4, max = 50) String modelAirplane;
-	@NonNull @Size(min = 4, max = 50) String departureAirport;
-	@NonNull @Size(min = 4, max = 50) String arriveAirport;
-	@NonNull @Size(min = 4, max = 50) String airlines;
-	@NonNull  Double price;
+	@FutureOrPresent
+	Timestamp arriveDate;
 
+	@FieldValid
+	String modelAirplane;
+
+	@FieldValid
+	String departureAirport;
+
+	@FieldValid
+	String arriveAirport;
+
+	@FieldValid
+	String airlines;
+
+	@NotNull
+	Double price;
+
+	@NotNull
 	List<Long> discount = Collections.emptyList ();
 
-	/*Set<PassportRequest> passportRequestSet;
-	List<Long> tickets = Collections.emptyList ();*/
 
 
 

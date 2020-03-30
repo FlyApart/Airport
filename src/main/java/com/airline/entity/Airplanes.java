@@ -2,33 +2,39 @@ package com.airline.entity;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
-import java.sql.Time;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode (exclude = {"id","country"})
+@ToString (exclude = "country")
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@DynamicUpdate
 @Entity
 @Table (name = "airplanes")
 public class Airplanes {
 	@Id
-	@SequenceGenerator(name = "airplanesSeq", sequenceName = "airplanes_id_seq", allocationSize = 0)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "airplanesSeq")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
-	@Column
+
+	@Column(length = 50, nullable = false, unique = true)
 	String model;
+
 	@Column
 	Long seats;
+
 	@Column(name = "max_flight_duration")
-	Time flightDuration;
+	Long flightDuration;
+
 	@Column
 	Timestamp built;
 
 	@OneToOne
 	@JoinColumn (name = "country_id")
-	Country country;
+	Countries countries;
 
 }

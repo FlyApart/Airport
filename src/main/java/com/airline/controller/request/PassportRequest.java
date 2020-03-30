@@ -1,12 +1,9 @@
 package com.airline.controller.request;
 
-import com.airline.entity.Passengers;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.airline.util.validation.FieldValid;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
-import javax.persistence.*;
-import javax.validation.constraints.Size;
+import org.hibernate.annotations.DynamicUpdate;
 
 @Data
 @NoArgsConstructor
@@ -14,12 +11,14 @@ import javax.validation.constraints.Size;
 @EqualsAndHashCode
 @ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@DynamicUpdate
 public class PassportRequest {
 
-	@NonNull @Size(min = 4, max = 10)
 	Long series;
-	@NonNull @Size(min = 4, max = 10)
+
 	Long number;
-	@NonNull @Size(min = 4, max = 50)
+
+	@FieldValid
 	String title;
+
 }

@@ -1,3 +1,8 @@
 
+f
+java:S2153?"IRemove the boxing to "Integer"; The argument is already of the same type.(–Á®Å8÷™Ùì‘.
 l
-java:S1128"ORemove this unused import 'org.springframework.beans.factory.annotation.Value'.(ìø›8©ˆ±.
+java:S1128
+"ORemove this unused import 'org.springframework.beans.factory.annotation.Value'.(ìø›8©ˆ±.
+S
+java:S3416"1Update this logger to use "DatabaseConfig.class".(›ı«¶üÿÿÿÿ8ôËí‘.

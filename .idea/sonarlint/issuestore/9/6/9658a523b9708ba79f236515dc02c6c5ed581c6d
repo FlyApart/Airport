@@ -1,6 +1,7 @@
 
+w
+java:S1128"URemove this unused import 'org.springframework.transaction.annotation.Transactional'.(ğùçøùÿÿÿÿ8Ø’…á‘.
 b
-java:S1128
-"@Remove this unused import 'javax.persistence.EntityTransaction'.(¶“çğüÿÿÿÿ8Ìúˆ.
-q
-java:S4144/"TUpdate this method so that its implementation is not identical to "save" on line 40.(•ÂÌµ8ÃÕ°.
+java:S1128"@Remove this unused import 'javax.persistence.EntityTransaction'.(¶“çğüÿÿÿÿ8Ìúˆ.
+u
+java:S1128"SRemove this unused import 'org.springframework.beans.factory.annotation.Autowired'.(¡¸Îùÿÿÿÿ8Ø’…á‘.

@@ -1,11 +1,8 @@
 package com.airline.repository.impl;
 
-import com.airline.entity.Airline;
-import com.airline.entity.Airplanes;
+import com.airline.entity.Airlines;
 import com.airline.repository.AirlineDao;
-import com.airline.repository.AirplaneDao;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -16,17 +13,17 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AirlineDaoImpl implements AirlineDao {
 
-	@Autowired
-	EntityManager entityManager;
+	private final EntityManager entityManager;
 
 	@Override
-	public List<Airline> findAll () {
-		return entityManager.createQuery ("select f from Airline f", Airline.class).getResultList ();
+	public List<Airlines> findAll () {
+		return entityManager.createQuery ("select a from Airlines a", Airlines.class)
+		                    .getResultList ();
 	}
 
 	@Override
-	public Airline findById (Long id) {
-		return entityManager.find (Airline.class,id);
+	public Airlines findById (Long id) {
+		return entityManager.find (Airlines.class, id);
 	}
 
 	@Override
@@ -35,24 +32,24 @@ public class AirlineDaoImpl implements AirlineDao {
 	}
 
 	@Override
-	public Airline save (Airline entity) {
+	public Airlines save (Airlines entity) {
 		entityManager.joinTransaction ();
 		entityManager.persist (entity);
-		return entityManager.find (Airline.class,entity.getId ());
+		return entityManager.find (Airlines.class, entity.getId ());
 	}
 
 	@Override
-	public Airline update (Airline entity) {
+	public Airlines update (Airlines entity) {
 		entityManager.joinTransaction ();
 		entityManager.persist (entity);
-		return entityManager.find (Airline.class,entity.getId ());
+		return entityManager.find (Airlines.class, entity.getId ());
 	}
 
 
 	@Override
-	public Airline findByName (String name) {
-		TypedQuery<Airline> query = entityManager.createQuery ("select a from Airline a where a.name =:name",Airline.class);
-		query.setParameter ("name",name);
+	public Airlines findByName (String name) {
+		TypedQuery<Airlines> query = entityManager.createQuery ("select a from Airlines a where a.name =:name", Airlines.class);
+		query.setParameter ("name", name);
 		return query.getSingleResult ();
 	}
 }

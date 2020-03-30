@@ -15,46 +15,43 @@ import java.util.List;
 @Repository
 @RequiredArgsConstructor
 public class PassengersDaoImpl implements PassengerDao {
-	@Autowired
-	private EntityManager entityManager;
 
-
-
+	private final EntityManager entityManager;
 
 	@Override
 	public List<Passengers> findAll () {
-		return entityManager.createQuery ("select p from Passengers p", Passengers.class).getResultList ();
+		return entityManager.createQuery ("select p from Passengers p", Passengers.class)
+		                    .getResultList ();
 	}
 
 	@Override
 	public Passengers findById (Long id) {
-			return entityManager.find (Passengers.class, id);
+		return entityManager.find (Passengers.class, id);
 	}
 
 	@Override
-	@Transactional
 	public void delete (Long id) {
 		entityManager.remove (findById (id));
 	}
 
 	@Override
 	public Passengers save (Passengers entity) {
-		entityManager.joinTransaction ();// entityManager.joinTransaction ()
-		entityManager.persist(entity);
+		entityManager.joinTransaction ();
+		entityManager.persist (entity);
 		return entityManager.find (Passengers.class, entity.getId ());
 	}
 
 	@Override
-	@Transactional
 	public Passengers update (Passengers entity) {
 		entityManager.joinTransaction ();
-		entityManager.persist(entity);
+		entityManager.persist (entity);
 		return entityManager.find (Passengers.class, entity.getId ());
 	}
+
 	@Override
-	public Passengers findByLogin(String login) {
-			TypedQuery<Passengers> query = entityManager.createQuery("select tu from Passengers tu where tu.login = :login", Passengers.class);
-			query.setParameter("login", login);
-			return query.getSingleResult();
+	public Passengers findByLogin (String login) {
+		TypedQuery<Passengers> query = entityManager.createQuery ("select p from Passengers p where p.login = :login", Passengers.class);
+		query.setParameter ("login", login);
+		return query.getSingleResult ();
 	}
 }

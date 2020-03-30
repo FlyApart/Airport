@@ -25,5 +25,7 @@ public class LoggingAspect {
         LOGGER.info("Method execution time: " + sw.getTotalTimeMillis() + " milliseconds.");
         return output;
     }
+
+
 }
 // with web add in dispatcher-servlet

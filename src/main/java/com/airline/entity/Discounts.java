@@ -4,26 +4,33 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Collections;
 import java.util.Set;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode (exclude = "flights")
+@EqualsAndHashCode (exclude = {"id","flights"})
+@ToString (exclude = {"flights"})
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@DynamicUpdate
 @Entity
 @Table(name = "discounts")
 public class Discounts {
 	@Id
-	@SequenceGenerator(name = "discountsSeq", sequenceName = "discounts_id_seq", allocationSize = 0)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "discountsSeq")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
-	@Column
+
+	@Column ( length = 50, nullable = false, unique = true)
 	String title;
-	@Column
+
+	@Column(nullable = false)
 	Double cost;
 
 	@JsonBackReference

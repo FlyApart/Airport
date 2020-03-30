@@ -2,21 +2,28 @@ package com.airline.controller;
 
 
 
+import com.airline.controller.request.PassportRequest;
 import com.airline.entity.Passports;
+import com.airline.repository.PassengerDao;
 import com.airline.repository.PassportDao;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+
+import javax.validation.Valid;
 import java.util.List;
 
 @CrossOrigin
 @RestController
 @RequestMapping(value = "/rest/passports")
+@RequiredArgsConstructor
 public class PassportsController {
-	@Autowired
-	PassportDao passportDao;
+
+	private final PassportDao passportDao;
+	private final PassengerDao passengerDao;
 
 	@GetMapping
 	public ResponseEntity<List<Passports>> getPassengers() {
@@ -33,6 +40,18 @@ public class PassportsController {
 	public Long DeletePassportsByPassengersId (@PathVariable ("passengerId") Long passengerId){
 		passportDao.delete (passengerId);
 		return passengerId;
+	}
+
+	@PostMapping
+	@Transactional
+	public ResponseEntity<Passports> createPassport (@RequestBody @Valid PassportRequest passportRequest) {
+		//        roleDao.save(new Role(savedUser.getUserId(), "ROLE_USER"));
+		Passports passports = new Passports ();
+		passports.setSeries (passportRequest.getSeries ());
+		passports.setNumber (passportRequest.getNumber ());
+		passports.setTitle (passportRequest.getTitle ());
+		passports.setPassengersId (passengerDao.findById (13L));
+		return new ResponseEntity<> (passportDao.save (passports), HttpStatus.CREATED);
 	}
 
 

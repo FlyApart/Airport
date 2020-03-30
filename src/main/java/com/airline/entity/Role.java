@@ -9,18 +9,21 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode (exclude = {"passengerId"})
+@ToString (exclude = {"passengerId"})
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @DynamicUpdate
 @Entity
 @Table(name = "role")
 public class Role {
 	@Id
-	@GeneratedValue( strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
+
+	@Column
+	String role;
 
 	@ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
 	@JoinColumn (name = "passengers_id")
 	Passengers passengerId;
-	@Column
-	String role;
 }

@@ -1,9 +1,12 @@
 package com.airline.config.core;
 
+import com.airline.controller.DefaultExceptionHandler;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.apache.commons.dbcp.BasicDataSource;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -15,10 +18,12 @@ import java.util.Objects;
 
 @Setter
 @Getter
-//@NoArgsConstructor
+@NoArgsConstructor
 @Configuration
 @ConfigurationProperties("spring.datasource")
 public class DatabaseConfig {
+
+    private static final Logger LOG = LogManager.getLogger (DefaultExceptionHandler.class);
 
     private String driverName;
 
@@ -32,6 +37,10 @@ public class DatabaseConfig {
 
     private String maxActive;
 
+    private Integer initialSizeDef = 0;
+
+    private Integer maxActiveDef = 5;
+
     @Bean(value = "dataSource", destroyMethod = "close")
     @Scope("singleton")
     @Primary
@@ -40,9 +49,23 @@ public class DatabaseConfig {
         dataSource.setDriverClassName(driverName);
         dataSource.setPassword(password);
         dataSource.setUrl(url);
-       dataSource.setInitialSize(Integer.valueOf (Objects.requireNonNull(initialSize)));
         dataSource.setUsername(login);
-       dataSource.setMaxActive(Integer.valueOf(Objects.requireNonNull(maxActive))); // valueOf to parseInt
+
+        try {
+             initialSizeDef = Integer.valueOf (Objects.requireNonNull(initialSize));
+        }
+        catch (Exception e){
+            LOG.error (e);
+            dataSource.setInitialSize (initialSizeDef);
+        }
+
+        try {
+            maxActiveDef = Integer.valueOf( Objects.requireNonNull(maxActiveDef));
+        } catch (Exception e){
+            LOG.error (e);
+            dataSource.setMaxActive(maxActiveDef); // отлавливать ошибки 50.40 26.03.2020
+        }
+
         return dataSource;
     }
 }

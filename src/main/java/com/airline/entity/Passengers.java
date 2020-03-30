@@ -1,54 +1,61 @@
 package com.airline.entity;
 
+import com.airline.util.validation.FieldValid;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.DynamicUpdate;
-import org.springframework.stereotype.Component;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.Set;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode (exclude = {"id","passports","tickets"})
-@ToString (exclude = {"id","passports"})
+@ToString (exclude = {"passports","tickets"})
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @DynamicUpdate
 @Entity
 @Table (name = "passengers")
 public class Passengers {
 	@Id
-	@SequenceGenerator(name = "passengersSeq", sequenceName = "passengers_id_seq", allocationSize = 0)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "passengersSeq")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
 
-	@Column
+	@Column (nullable = false, length = 50)
 	String name;
-	@Column (name = "surname")
+
+	@Column (name = "surname", nullable = false, length = 50)
 	String secondName;
-	@Column(name = "login", unique = true)
+
+	@Column(name = "login", unique = true, nullable = false, length = 50)
+	@Email
 	String login;
-	@Column
+
+	@Column (nullable = false,length = 50)
 	String password;
+
 	//@Temporal (TemporalType.TIMESTAMP)//реаброзует slq timestamp in java timestamp
 	@Column
 	Timestamp created;
+
 	@Column
 	Timestamp changed;
+
 	@Column (name = "date_birth")
 	Timestamp birthDate;
 
-	@OneToOne(fetch = FetchType.EAGER)
+
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn
-	Country country;
+	Countries countries;
 
 	@JsonManagedReference
 	@OneToMany(fetch = FetchType.EAGER, targetEntity = Passports.class, mappedBy = "passengersId",cascade = CascadeType.ALL)

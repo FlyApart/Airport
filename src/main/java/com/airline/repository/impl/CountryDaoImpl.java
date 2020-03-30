@@ -1,65 +1,57 @@
 package com.airline.repository.impl;
 
-import com.airline.entity.Country;
+import com.airline.entity.Countries;
 import com.airline.repository.CountryDao;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 
 import java.util.List;
 
 @Repository
-public class CountryDaoImpl  implements CountryDao {
+@RequiredArgsConstructor
+public class CountryDaoImpl implements CountryDao {
 
-	@Autowired
-	private EntityManager entityManager;
-
-
+	private final EntityManager entityManager;
 
 	@Override
-	public List<Country> findAll () {
-			return entityManager.createQuery ("select с from Country с", Country.class).getResultList ();
+	public List<Countries> findAll () {
+		return entityManager.createQuery ("select с from Countries с", Countries.class)
+		                    .getResultList ();
 	}
 
 	@Override
-	public Country findById (Long id) {
-
-			return entityManager.find (Country.class, id);
-
+	public Countries findById (Long id) {
+		return entityManager.find (Countries.class, id);
 	}
 
 	@Override
 	public void delete (Long id) {
-			entityManager.remove (findById (id));
+		entityManager.remove (findById (id));
 	}
 
 	@Override
-	public Country save (Country entity) {
-		//EntityTransaction entityTransaction = entityManager.getTransaction ();
-			//entityTransaction.begin ();
-		entityManager.joinTransaction ();
-			entityManager.persist (entity);
-			//entityTransaction.commit ();
-			return  entityManager.find (Country.class, entity.getId ());
-	}
+	public Countries save (Countries entity) {
 
-	@Override
-	public Country update (Country entity) {
 		entityManager.joinTransaction ();
 		entityManager.persist (entity);
-		return  entityManager.find (Country.class, entity.getId ());
+		return entityManager.find (Countries.class, entity.getId ());
+	}
+
+	@Override
+	public Countries update (Countries entity) {
+		entityManager.joinTransaction ();
+		entityManager.persist (entity);
+		return entityManager.find (Countries.class, entity.getId ());
 	}
 
 
 	@Override
-	public Country findByName (String name) {
-			TypedQuery<Country> query = entityManager.createQuery("select c from Country c where c.name = :name", Country.class);
-			query.setParameter("name", name);
-			return query.getSingleResult();
+	public Countries findByName (String name) {
+		TypedQuery<Countries> query = entityManager.createQuery ("select c from Countries c where c.name = :name", Countries.class);
+		query.setParameter ("name", name);
+		return query.getSingleResult ();
 	}
 }

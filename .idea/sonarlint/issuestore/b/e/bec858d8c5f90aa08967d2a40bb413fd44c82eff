@@ -1,0 +1,9 @@
+
+r
+java:S1128"PRemove this unused import 'com.airline.controller.request.PassengerSaveRequest'.(¼½·…şÿÿÿÿ8±ôÒ¤.
+t
+java:S1128"RRemove this unused import 'com.airline.controller.request.PassengerUpdateRequest'.(Ëâ‡ıÿÿÿÿ8Ñïµ¦.
+u
+java:S1128"SRemove this unused import 'org.springframework.beans.factory.annotation.Autowired'.(¡¸Îùÿÿÿÿ8³Â¸ò‘.
+W
+java:S1128":Remove this unused import 'com.airline.entity.Passengers'.(†ÈÍ…8²—Ó¦.

@@ -10,80 +10,66 @@ import com.airline.repository.PassengerDao;
 import com.airline.repository.PassportDao;
 import com.airline.repository.TicketsDao;
 import com.airline.service.PassengersService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.airline.util.converters.ConverterRequestPassport;
+import com.airline.util.converters.ConverterRequestPassenger;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
 import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
 @Service
+@RequiredArgsConstructor
 @Transactional
-public class PassengersServiceImpl implements PassengersService{
-	@Autowired
-	PassportDao passportDao;
-	@Autowired
-	PassengerDao passengersDao;
-	@Autowired
-	CountryDao countryDao;
-	@Autowired
-	EntityManager entityManager;
-	@Autowired
-	TicketsDao ticketsDao;
+public class PassengersServiceImpl implements PassengersService {
 
-	@Override// fix transactional
-	public Passengers save (PassengerSaveRequest entity)  {
+	private final PassportDao passportDao;
 
-			Passengers passengers = new Passengers();
-			passengers.setName (entity.getName ());
-			passengers.setSecondName (entity.getSecondName());
-			passengers.setBirthDate(entity.getBirthDate());
-			passengers.setCreated (new Timestamp (System.currentTimeMillis ()));
-			passengers.setCountry (countryDao.findByName (entity.getCountry ()));
-			passengers.setLogin(entity.getLogin());
-			passengers.setPassword(entity.getPassword());
+	private final PassengerDao passengersDao;
 
-		    passengers.setTickets (ticketsDao.findByIds (entity.getTickets ()));
+	private final CountryDao countryDao;
 
-			Passengers save = passengersDao.save(passengers);
+	private final TicketsDao ticketsDao;
 
-			Set<Passports> set = new HashSet<> ();
-			for (PassportRequest p : entity.getPassportRequestSet ()) {
-				Passports passports = new Passports ();
-				passports.setPassengersId (save);
-				passports.setTitle (p.getTitle ());
-				passports.setNumber (p.getNumber ());
-				passports.setSeries (p.getSeries ());
-				Passports pass = passportDao.save (passports);
-				set.add (pass);
-			}
-			save.setPassports (set);
+	private final ConverterRequestPassenger converterRequestPassenger;
 
-			return save;
+	private final ConverterRequestPassport converterRequestPassport;
+
+	@Override
+	public Passengers save (PassengerSaveRequest entity) {
+
+		Passengers passengers = converterRequestPassenger.convert (entity);
+		passengers.setCreated (new Timestamp (System.currentTimeMillis ()));
+		passengers.setCountries (countryDao.findByName (entity.getCountry ()));
+		passengers.setTickets (ticketsDao.findByIds (entity.getTickets ()));
+		Passengers save = passengersDao.save (passengers);
+
+		Set<Passports> set = new HashSet<> ();
+		for (PassportRequest p : entity.getPassportRequestSet ()) {
+			Passports passports = converterRequestPassport.convert (p);
+			passports.setPassengersId (save);
+			//Passports pass = passportDao.save (passports);
+			set.add (passportDao.save (passports));
+		}
+		save.setPassports (set);
+
+		return save;
 	}
 
 	@Override
 	public Passengers update (PassengerUpdateRequest entity, Long id) {
-		Passengers passengers = passengersDao.findById (id);
-		passengers.setName(entity.getName());
-		passengers.setSecondName (entity.getSecondName());
-		passengers.setBirthDate(entity.getBirthDate());
+
+		Passengers passengers = converterRequestPassenger.convert (entity, passengersDao.findById (id));
 		passengers.setChanged (new Timestamp (System.currentTimeMillis ()));
-		passengers.setCountry (countryDao.findByName (entity.getCountry ()));
-		passengers.setPassword(entity.getPassword());
-
-		Passengers update = passengersDao.update(passengers);
-
+		passengers.setCountries (countryDao.findByName (entity.getCountry ()));
+		Passengers update = passengersDao.update (passengers);
 
 		Set<Passports> set = new HashSet<> ();
 		for (PassportRequest p : entity.getPassportRequestSet ()) {
-			Passports passports = passportDao.findByTitleAndLongPassengersId (p.getTitle (),update.getId ());
-			passports.setNumber (p.getNumber ());
-			passports.setSeries (p.getSeries ());
-			Passports pass = passportDao.save (passports);
-			set.add (pass);
+			Passports passports = converterRequestPassport.convertUpdate (p, passportDao.findByTitleAndLongPassengersId (p.getTitle (), update.getId ()));
+			set.add (passportDao.save (passports));
 		}
 		update.setPassports (set);
 		return update;

@@ -1,10 +1,9 @@
 package com.airline.repository;
 
 
-import com.airline.entity.Airline;
-import com.airline.entity.Airplanes;
+import com.airline.entity.Airlines;
 
 
-public interface AirlineDao extends GenericDao <Airline, Long> {
-	public Airline findByName (String name);
+public interface AirlineDao extends GenericDao <Airlines, Long> {
+	public Airlines findByName (String name);
 }

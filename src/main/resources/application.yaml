@@ -1,28 +1,18 @@
 spring:
   datasource:
-    driverName: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/airport?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
     login: postgres
     password: good
     initialSize: 10
     maxActive: 7
-
   jpa:
-    database-platform: org.hibernate.dialect.PostgreSQL9Dialect
-    properties:
-      hibernate:
-        show_sql: true
-        current_session_context_class: org.springframework.orm.hibernate5.SpringSessionContext
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
 
-
+---
 logging:
   level:
     ROOT: info
     org.springframework: info
     org.hibernate: info
-
-
-
-
-
-

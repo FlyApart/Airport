@@ -2,26 +2,28 @@ package com.airline.entity;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode (exclude = {"counry", "id"})
-@ToString(exclude = {"counry", "id"})
+@EqualsAndHashCode (exclude = {"id","country"})
+@ToString (exclude = "country")
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@DynamicUpdate
 @Entity
 @Table(name = "airports")
 public class Airports {
-
 	@Id
-	@SequenceGenerator(name = "airportsSeq", sequenceName = "airports_id_seq", allocationSize = 0)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "airportsSeq")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
-	@Column
+
+	@Column(length = 75, nullable = false, unique = true)
 	String title;
+
 	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn (name = "id_country")
-	Country country;
+	@JoinColumn (name = "country_id")
+	Countries countries;
 }

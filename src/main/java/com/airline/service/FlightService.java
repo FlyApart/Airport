@@ -7,5 +7,6 @@ import com.airline.entity.Flights;
 public interface FlightService {
 
 	Flights save (FlightSaveRequest request);
+
 	Flights update (FlightUpdateRequest request, Long id);
 }
