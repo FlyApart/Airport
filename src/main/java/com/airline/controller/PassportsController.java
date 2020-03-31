@@ -31,11 +31,18 @@ public class PassportsController {
 		return response;
 	}
 
-	@GetMapping(value = "/{passengerId}")
+	@GetMapping(value = "/passenger/{passengerId}")
 	public ResponseEntity <List<Passports>> findPassportsByPassengersId (@PathVariable ("passengerId") Long passengerId){
 
 		return new ResponseEntity<>(passportDao.findByPassengersId (passengerId), HttpStatus.OK);
 	}
+
+    @GetMapping(value = "/{id}")
+    public ResponseEntity <Passports> findPassportsById (@PathVariable ("id") Long id){
+        return new ResponseEntity<>(passportDao.findById (id), HttpStatus.OK);
+    }
+
+
 	@DeleteMapping(value = "/{passengerId}")
 	public Long DeletePassportsByPassengersId (@PathVariable ("passengerId") Long passengerId){
 		passportDao.delete (passengerId);

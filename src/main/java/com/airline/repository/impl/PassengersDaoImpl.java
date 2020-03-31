@@ -3,6 +3,7 @@ package com.airline.repository.impl;
 import com.airline.entity.Passengers;
 import com.airline.repository.PassengerDao;
 import com.airline.repository.PassportDao;
+import com.airline.util.exceptions.NoSuchEntityException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -11,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -25,8 +27,11 @@ public class PassengersDaoImpl implements PassengerDao {
 	}
 
 	@Override
+    // TODO get optional in all entities
 	public Passengers findById (Long id) {
-		return entityManager.find (Passengers.class, id);
+		//return entityManager.find (Passengers.class, id);
+        Optional <Passengers> passengersOptional = Optional.ofNullable(entityManager.find(Passengers.class, id));
+        return passengersOptional.orElseThrow(NoSuchEntityException::new);
 	}
 
 	@Override

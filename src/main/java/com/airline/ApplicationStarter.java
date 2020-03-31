@@ -16,6 +16,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
@@ -60,6 +61,11 @@ public class ApplicationStarter extends SpringBootServletInitializer {
         return sf;
     }*/
 
+    @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder (){
+        return new BCryptPasswordEncoder();
+    }
+
 	//Entity Manager
 	@Autowired
 	@Bean(name = "entityManagerFactory")
@@ -93,4 +99,5 @@ public class ApplicationStarter extends SpringBootServletInitializer {
 	// check field controller @PathVariable
 	// close password
 	// add role 1:12:15  26.03.2020
+    // add lock annotation on update method 26.03.2020
 }

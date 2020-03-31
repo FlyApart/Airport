@@ -33,7 +33,7 @@ public class Passengers {
 	@Column(name = "login", unique = true, nullable = false, length = 50)
 	String login;
 
-	@Column (nullable = false,length = 50)
+	@Column (nullable = false,length = 255)
 	String password;
 
 	//@Temporal (TemporalType.TIMESTAMP)//реаброзует slq timestamp in java timestamp
