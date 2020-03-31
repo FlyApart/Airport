@@ -5,12 +5,17 @@ package com.airline.util.converters;
 import com.airline.controller.request.PassengerSaveRequest;
 import com.airline.controller.request.PassengerUpdateRequest;
 import com.airline.entity.Passengers;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class ConverterRequestPassenger implements Converter <PassengerSaveRequest, Passengers> {
+
+    private final BCryptPasswordEncoder passwordEncoder;
 
 	@Override
 	public Passengers convert (PassengerSaveRequest entity) {
@@ -18,9 +23,10 @@ public class ConverterRequestPassenger implements Converter <PassengerSaveReques
 		Passengers passengers = new Passengers ();
 		passengers.setName (entity.getName ());
 		passengers.setSecondName (entity.getSecondName ());
-		passengers.setPassword (entity.getPassword ());
+		passengers.setPassword (passwordEncoder.encode(entity.getPassword ()));
 		passengers.setBirthDate (entity.getBirthDate ());
 		passengers.setLogin (entity.getLogin ());
+
 
 		return passengers;
 	}
@@ -29,7 +35,7 @@ public class ConverterRequestPassenger implements Converter <PassengerSaveReques
 
 		passengers.setName (entity.getName ());
 		passengers.setSecondName (entity.getSecondName ());
-		passengers.setPassword (entity.getPassword ());
+        passengers.setPassword (passwordEncoder.encode(entity.getPassword ()));
 		passengers.setBirthDate (entity.getBirthDate ());
 
 

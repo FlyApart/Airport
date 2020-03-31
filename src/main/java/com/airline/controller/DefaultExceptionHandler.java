@@ -1,9 +1,10 @@
 package com.airline.controller;
 
 import com.airline.controller.messages.ErrorMessage;
+import com.airline.util.exceptions.NoSuchEntityException;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
-import org.jboss.logging.Message;
+//import org.jboss.logging.Message;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
@@ -23,12 +24,12 @@ public class DefaultExceptionHandler {
 		return new ResponseEntity<> (new ErrorMessage (e.getMessage ()), HttpStatus.UNPROCESSABLE_ENTITY);
 	}
 
-   /* @ExceptionHandler(NoSuchEntityException)
-    public ResponseEntity<ErrorMessage> handleNoSuchEntityException(NoSuchEntityException e) throws E{
+    @ExceptionHandler({NoSuchEntityException.class})
+    public ResponseEntity<ErrorMessage> handleNoSuchEntityException(NoSuchEntityException e){
         LOG.error(e.getMessage(), e);
         return new ResponseEntity<>(new ErrorMessage(e.getMessage()),
                 HttpStatus.NOT_FOUND);
-    }*/
+    }
 
 	@ExceptionHandler(AuthenticationException.class)
 	public ResponseEntity<ErrorMessage> handleAuthenticationException (AuthenticationException e) {

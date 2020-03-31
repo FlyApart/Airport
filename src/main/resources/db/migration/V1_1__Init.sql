@@ -111,7 +111,7 @@ create table passengers
     created    timestamp,
     login      varchar(50) NOT NULL,
     name       varchar(50) NOT NULL,
-    password   varchar(50) NOT NULL,
+    password   varchar(255) NOT NULL,
     surname    varchar(50) NOT NULL,
     countries_id int8,
     primary key (id)

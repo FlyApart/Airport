@@ -13,6 +13,7 @@ import com.airline.service.PassengersService;
 import com.airline.util.converters.ConverterRequestPassport;
 import com.airline.util.converters.ConverterRequestPassenger;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,6 +45,7 @@ public class PassengersServiceImpl implements PassengersService {
 		passengers.setCreated (new Timestamp (System.currentTimeMillis ()));
 		passengers.setCountries (countryDao.findByName (entity.getCountry ()));
 		passengers.setTickets (ticketsDao.findByIds (entity.getTickets ()));
+
 		Passengers save = passengersDao.save (passengers);
 
 		Set<Passports> set = new HashSet<> ();

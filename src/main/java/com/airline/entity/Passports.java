@@ -29,7 +29,7 @@ public class Passports {
 
 	@Column (name = "number", nullable = false)
 	Long number;
-
+    //TODO Change to enum 26.03.2020 1-30-00
 	@Column(name = "title", nullable = false, length = 50)
 	String title;
 
