@@ -1,8 +1,8 @@
 package com.airline;
 
+import com.airline.config.core.AdditionalPropertiesConfig;
 import com.airline.config.core.DatabaseConfig;
 import com.airline.config.core.JdbcTemplateConfig;
-import com.airline.config.core.AdditionalPropertiesConfig;
 import com.airline.config.swagger.SwaggerConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -100,4 +100,10 @@ public class ApplicationStarter extends SpringBootServletInitializer {
 	// close password
 	// add role 1:12:15  26.03.2020
     // add lock annotation on update method 26.03.2020
+	// 30.03.2020
+	// 50 min
+	// email verification
+	// max price
+	// fix tickets
+
 }

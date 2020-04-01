@@ -12,7 +12,7 @@ import org.hibernate.annotations.DynamicUpdate;
 @ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @DynamicUpdate
-public class PassportRequest {
+public class PassportSaveRequest {
 
 	Long series;
 

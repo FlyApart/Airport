@@ -1,23 +1,13 @@
 package com.airline.util.converters;
 
-import com.airline.controller.request.PassportRequest;
+import com.airline.controller.request.PassportSaveRequest;
 import com.airline.entity.Passports;
-import org.springframework.core.convert.converter.Converter;
-import org.springframework.stereotype.Component;
 
-@Component
-public class ConverterRequestPassport implements Converter<PassportRequest, Passports> {
+public abstract class ConverterRequestPassport<S, T> extends EntityConverter<S, T>  {
 
-	@Override
-	public Passports convert (PassportRequest entity) {
-		Passports passports = new Passports ();
+
+	protected Passports doConvert (Passports passports, PassportSaveRequest entity) {
 		passports.setTitle (entity.getTitle ());
-		passports.setSeries (entity.getSeries ());
-		passports.setNumber (entity.getNumber ());
-		return passports;
-	}
-
-	public Passports convertUpdate (PassportRequest entity, Passports passports){
 		passports.setSeries (entity.getSeries ());
 		passports.setNumber (entity.getNumber ());
 		return passports;

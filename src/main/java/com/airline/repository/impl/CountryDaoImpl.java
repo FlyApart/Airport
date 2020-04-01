@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-
 import java.util.List;
 
 @Repository
@@ -15,6 +14,7 @@ import java.util.List;
 public class CountryDaoImpl implements CountryDao {
 
 	private final EntityManager entityManager;
+
 
 	@Override
 	public List<Countries> findAll () {
@@ -54,4 +54,63 @@ public class CountryDaoImpl implements CountryDao {
 		query.setParameter ("name", name);
 		return query.getSingleResult ();
 	}
+
+
+
+
+
+	/*@Override
+	public <S extends Countries> S save (S entity) {
+		return null;
+	}
+
+	@Override
+	public <S extends Countries> Iterable<S> saveAll (Iterable<S> entities) {
+		return null;
+	}
+
+	@Override
+	public Optional<Countries> findById (Long aLong) {
+		return Optional.empty ();
+	}
+
+	@Override
+	public boolean existsById (Long aLong) {
+		return false;
+	}
+
+	@Override
+	public Iterable<Countries> findAll () {
+		return null;
+	}
+
+	@Override
+	public Iterable<Countries> findAllById (Iterable<Long> longs) {
+		return null;
+	}
+
+	@Override
+	public long count () {
+		return 0;
+	}
+
+	@Override
+	public void deleteById (Long aLong) {
+
+	}
+
+	@Override
+	public void delete (Countries entity) {
+
+	}
+
+	@Override
+	public void deleteAll (Iterable<? extends Countries> entities) {
+
+	}
+
+	@Override
+	public void deleteAll () {
+
+	}*/
 }

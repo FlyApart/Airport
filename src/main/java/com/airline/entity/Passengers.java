@@ -22,6 +22,7 @@ import java.util.Set;
 public class Passengers {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(unique = true, nullable = false)
 	Long id;
 
 	@Column (nullable = false, length = 50)
@@ -53,10 +54,11 @@ public class Passengers {
 
 	@JsonManagedReference
 	@OneToMany(fetch = FetchType.EAGER, targetEntity = Passports.class, mappedBy = "passengersId",cascade = CascadeType.ALL)
+
 	Set<Passports> passports = Collections.emptySet ();
 
 	@JsonManagedReference
-	@ManyToMany
+	@ManyToMany (cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(name = "passengers_ticket",
 			joinColumns = @JoinColumn(name = "passenger_id"),
 			inverseJoinColumns = @JoinColumn(name = "ticket_id"))

@@ -1,14 +1,11 @@
 package com.airline.entity;
 
-import com.airline.util.validation.FieldValid;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 @Data
 @NoArgsConstructor
@@ -22,6 +19,7 @@ import javax.validation.constraints.NotNull;
 public class Passports {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(unique = true, nullable = false)
 	Long id;
 
 	@Column (name = "series", nullable = false)
@@ -34,8 +32,8 @@ public class Passports {
 	String title;
 
 	@JsonBackReference
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "passengers_id")
+	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Passengers.class)
+	@JoinColumn(name = "passengers_id", insertable = false, updatable = false)
 	Passengers passengersId;
 
 

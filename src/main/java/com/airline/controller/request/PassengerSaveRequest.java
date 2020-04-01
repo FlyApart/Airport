@@ -19,10 +19,28 @@ import java.util.Set;
 @ToString (exclude = {"passportRequestSet","tickets"})
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @DynamicUpdate
-public class PassengerSaveRequest extends @NotNull PassengerUpdateRequest{
+public class PassengerSaveRequest{
 
 	@FieldValid
 	String login;
+
+	@FieldValid
+	String name;
+
+	@FieldValid
+	String secondName;
+
+	@FieldValid
+	String password;
+
+	@Past
+	Timestamp birthDate;
+
+	@FieldValid
+	String country;
+
+	@NotNull
+	Set<PassportSaveRequest> passportSaveRequestSet;
 
 	@NotNull
 	List<Long> tickets = Collections.emptyList ();

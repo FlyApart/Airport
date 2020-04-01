@@ -32,14 +32,14 @@ public class Tickets {
 	@Column
 	Boolean reservation;
 
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn (nullable = false)
+	@ManyToOne(cascade = CascadeType.ALL/*{CascadeType.MERGE, CascadeType.PERSIST}*/, fetch = FetchType.EAGER)
+	@JoinColumn (nullable = true)
 	Flights flights;
 
 	//static Long count;
 
 	@JsonBackReference
-	@ManyToMany
+	@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 	@JoinTable(name = "passengers_ticket",
 			joinColumns = @JoinColumn(name = "ticket_id"),
 			inverseJoinColumns = @JoinColumn(name = "passenger_id"))

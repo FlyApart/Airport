@@ -1,16 +1,18 @@
 package com.airline.controller;
 
 import com.airline.controller.messages.ErrorMessage;
-import com.airline.util.exceptions.NoSuchEntityException;
-import org.apache.logging.log4j.Logger;
+import com.airline.util.exceptions.EntityNotFoundException;
 import org.apache.logging.log4j.LogManager;
-//import org.jboss.logging.Message;
+import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+
+//import org.jboss.logging.Message;
+
 
 
 @ControllerAdvice
@@ -19,13 +21,13 @@ public class DefaultExceptionHandler {
 	private static final Logger LOG = LogManager.getLogger (DefaultExceptionHandler.class);
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
-	public ResponseEntity<ErrorMessage> handleNoSuchEntityException (MethodArgumentNotValidException e) {
+	public ResponseEntity<ErrorMessage> handleEntityNotFoundException (MethodArgumentNotValidException e) {
 		LOG.error (e.getMessage ()+"Check working handleNoSuchEntityException", e);
 		return new ResponseEntity<> (new ErrorMessage (e.getMessage ()), HttpStatus.UNPROCESSABLE_ENTITY);
 	}
 
-    @ExceptionHandler({NoSuchEntityException.class})
-    public ResponseEntity<ErrorMessage> handleNoSuchEntityException(NoSuchEntityException e){
+    @ExceptionHandler({EntityNotFoundException.class})
+    public ResponseEntity<ErrorMessage> handleNoSuchEntityException(EntityNotFoundException e){
         LOG.error(e.getMessage(), e);
         return new ResponseEntity<>(new ErrorMessage(e.getMessage()),
                 HttpStatus.NOT_FOUND);

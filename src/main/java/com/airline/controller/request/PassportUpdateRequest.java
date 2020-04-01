@@ -7,10 +7,13 @@ import org.hibernate.annotations.DynamicUpdate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode (exclude = {"passportRequestSet"})
-@ToString (exclude = {"passportRequestSet"})
+@EqualsAndHashCode
+@ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @DynamicUpdate
-public class PassengerUpdateRequest extends  PassengerSaveRequest{
+public class PassportUpdateRequest extends PassportSaveRequest{
+
 	Long id;
+
+
 }

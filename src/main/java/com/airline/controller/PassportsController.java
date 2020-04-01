@@ -2,7 +2,7 @@ package com.airline.controller;
 
 
 
-import com.airline.controller.request.PassportRequest;
+import com.airline.controller.request.PassportSaveRequest;
 import com.airline.entity.Passports;
 import com.airline.repository.PassengerDao;
 import com.airline.repository.PassportDao;
@@ -11,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-
 
 import javax.validation.Valid;
 import java.util.List;
@@ -51,12 +50,12 @@ public class PassportsController {
 
 	@PostMapping
 	@Transactional
-	public ResponseEntity<Passports> createPassport (@RequestBody @Valid PassportRequest passportRequest) {
+	public ResponseEntity<Passports> createPassport (@RequestBody @Valid PassportSaveRequest passportSaveRequest) {
 		//        roleDao.save(new Role(savedUser.getUserId(), "ROLE_USER"));
 		Passports passports = new Passports ();
-		passports.setSeries (passportRequest.getSeries ());
-		passports.setNumber (passportRequest.getNumber ());
-		passports.setTitle (passportRequest.getTitle ());
+		passports.setSeries (passportSaveRequest.getSeries ());
+		passports.setNumber (passportSaveRequest.getNumber ());
+		passports.setTitle (passportSaveRequest.getTitle ());
 		passports.setPassengersId (passengerDao.findById (13L));
 		return new ResponseEntity<> (passportDao.save (passports), HttpStatus.CREATED);
 	}

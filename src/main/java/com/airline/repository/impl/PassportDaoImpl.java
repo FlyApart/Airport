@@ -1,16 +1,13 @@
 package com.airline.repository.impl;
 
-import com.airline.entity.Passengers;
 import com.airline.entity.Passports;
 import com.airline.repository.PassportDao;
-import com.airline.util.exceptions.NoSuchEntityException;
+import com.airline.util.exceptions.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Repository
@@ -28,7 +25,7 @@ public class PassportDaoImpl implements PassportDao {
 	@Override
 	public Passports findById (Long id) {
 	    Optional <Passports> passportsOptional = Optional.ofNullable(entityManager.find (Passports.class, id));
-	    return passportsOptional.orElseThrow(NoSuchEntityException::new);
+	    return passportsOptional.orElseThrow(EntityNotFoundException::new);
 	}
 
 	@Override
@@ -57,7 +54,7 @@ public class PassportDaoImpl implements PassportDao {
                 "where p.passengersId.id =:passengersId", Passports.class).
                 setParameter("passengersId", passengersId).
                 getResultList());
-        return passportsOptional.orElseThrow(NoSuchEntityException::new);
+        return passportsOptional.orElseThrow(EntityNotFoundException::new);
 	}
 
 	@Override
@@ -68,6 +65,6 @@ public class PassportDaoImpl implements PassportDao {
                 .setParameter("title", title)
                 .setParameter ("passengersId", passengersId)
                 .getSingleResult());
-		return optionalPassports.orElseThrow(NoSuchEntityException::new);
+		return optionalPassports.orElseThrow(EntityNotFoundException::new);
 	}
 }
