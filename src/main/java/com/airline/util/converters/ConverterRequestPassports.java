@@ -3,7 +3,7 @@ package com.airline.util.converters;
 import com.airline.controller.request.PassportSaveRequest;
 import com.airline.entity.Passports;
 
-public abstract class ConverterRequestPassport<S, T> extends EntityConverter<S, T>  {
+public abstract class ConverterRequestPassports<S, T> extends EntityConverter<S, T>  {
 
 
 	protected Passports doConvert (Passports passports, PassportSaveRequest entity) {

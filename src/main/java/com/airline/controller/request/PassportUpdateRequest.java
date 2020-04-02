@@ -7,7 +7,7 @@ import org.hibernate.annotations.DynamicUpdate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
+@EqualsAndHashCode (callSuper = false)
 @ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @DynamicUpdate

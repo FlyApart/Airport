@@ -9,7 +9,7 @@ import javax.persistence.EntityNotFoundException;
 import static java.util.Optional.ofNullable;
 
 @Component
-public class ConverterUpdateRequestPassport extends ConverterRequestPassport<PassportUpdateRequest, Passports> {
+public class ConverterUpdateRequestPassports extends ConverterRequestPassports<PassportUpdateRequest, Passports> {
 
 
 	@Override

@@ -1,10 +1,0 @@
-
-[
-java:S1128	">Remove this unused import 'javax.validation.constraints.Size'.(›«´İ8Ö´Æ’.
-M
-java:S1128
-"0Remove this unused import 'java.util.ArrayList'.(÷‰îƒ8İİ‰Œ.
-d
-java:S1128"BRemove this unused import 'javax.validation.constraints.NotBlank'.(µã‡ıÿÿÿÿ8Ö´Æ’.
-M
-java:S1128"+Remove this unused import 'java.util.List'.(Õë±Äøÿÿÿÿ8÷ø€‰Œ.

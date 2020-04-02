@@ -5,6 +5,8 @@ import com.airline.entity.Passengers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.sql.Timestamp;
+
 @RequiredArgsConstructor
 public abstract class ConverterRequestPassengers<S, T> extends EntityConverter<S, T> {
 
@@ -16,6 +18,7 @@ public abstract class ConverterRequestPassengers<S, T> extends EntityConverter<S
 		passengers.setPassword (passwordEncoder.encode (entity.getPassword ()));
 		passengers.setBirthDate (entity.getBirthDate ());
 		passengers.setLogin (entity.getLogin ());
+		passengers.setCreated (new Timestamp (System.currentTimeMillis ()));
 		return passengers;
 	}
 }

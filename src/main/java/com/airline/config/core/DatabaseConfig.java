@@ -1,13 +1,11 @@
 package com.airline.config.core;
 
-import com.airline.controller.DefaultExceptionHandler;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +14,8 @@ import org.springframework.context.annotation.Scope;
 
 import java.util.Objects;
 
+import static java.util.Optional.ofNullable;
+
 @Setter
 @Getter
 @NoArgsConstructor
@@ -23,7 +23,7 @@ import java.util.Objects;
 @ConfigurationProperties("spring.datasource")
 public class DatabaseConfig {
 
-    private static final Logger LOG = LogManager.getLogger (DefaultExceptionHandler.class);
+    private static final Logger LOG = LogManager.getLogger (IllegalArgumentException.class);
 
     private String driverName;
 
@@ -41,6 +41,7 @@ public class DatabaseConfig {
 
     private Integer maxActiveDef = 5;
 
+
     @Bean(value = "dataSource", destroyMethod = "close")
     @Scope("singleton")
     @Primary
@@ -50,22 +51,14 @@ public class DatabaseConfig {
         dataSource.setPassword(password);
         dataSource.setUrl(url);
         dataSource.setUsername(login);
+        initialSizeDef = ofNullable(Integer.valueOf (Objects.requireNonNull(initialSize)))
+                                      .orElseThrow (IllegalArgumentException::new);
 
-        try {
-             initialSizeDef = Integer.valueOf (Objects.requireNonNull(initialSize));
-        }
-        catch (Exception e){
-            LOG.error (e);
-            dataSource.setInitialSize (initialSizeDef);
-        }
+        maxActiveDef = ofNullable(Integer.valueOf (Objects.requireNonNull(maxActive)))
+                                         .orElseThrow (IllegalArgumentException::new);
 
-        try {
-            maxActiveDef = Integer.valueOf( Objects.requireNonNull(maxActiveDef));
-        } catch (Exception e){
-            LOG.error (e);
-            dataSource.setMaxActive(maxActiveDef); // отлавливать ошибки 50.40 26.03.2020
-        }
-
+        dataSource.setMaxActive(maxActiveDef);
+        dataSource.setInitialSize (initialSizeDef);
         return dataSource;
     }
 }

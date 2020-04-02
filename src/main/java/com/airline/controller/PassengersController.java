@@ -62,8 +62,9 @@ public class PassengersController {
 	@Transactional                              //  TODO add (rollbackFor =)
 	public ResponseEntity<Passengers> createPassenger (@RequestBody @Valid PassengerSaveRequest passengerInfo) {
 		//        roleDao.save(new Role(savedUser.getUserId(), "ROLE_USER"));
-
-		return new ResponseEntity<> (passengersService.save (conversionService.convert(passengerInfo, Passengers.class)), HttpStatus.CREATED);
+		//Passengers passengers = passengerRepository.saveAndFlush (conversionService.convert(passengerInfo, Passengers.class));
+		Passengers passengers = passengersService.save (conversionService.convert(passengerInfo, Passengers.class));
+		return new ResponseEntity<> (passengers, HttpStatus.CREATED);
 	}
 
 	@PutMapping(value = "/{id}")

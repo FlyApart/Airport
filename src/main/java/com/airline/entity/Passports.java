@@ -17,6 +17,7 @@ import javax.persistence.*;
 @Entity
 @Table (name = "passports", uniqueConstraints = @UniqueConstraint (columnNames = {"series", "number"}))
 public class Passports {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(unique = true, nullable = false)
@@ -27,15 +28,14 @@ public class Passports {
 
 	@Column (name = "number", nullable = false)
 	Long number;
+
     //TODO Change to enum 26.03.2020 1-30-00
 	@Column(name = "title", nullable = false, length = 50)
 	String title;
 
 	@JsonBackReference
 	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Passengers.class)
-	@JoinColumn(name = "passengers_id", insertable = false, updatable = false)
+	@JoinColumn(name = "passengers_id")//, insertable = false)
 	Passengers passengersId;
-
-
 
 }

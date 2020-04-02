@@ -5,7 +5,7 @@ import com.airline.entity.Passports;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ConverterSaveRequestPassport extends ConverterRequestPassport <PassportSaveRequest, Passports>  {
+public class ConverterSaveRequestPassports extends ConverterRequestPassports<PassportSaveRequest, Passports> {
 
 
     @Override

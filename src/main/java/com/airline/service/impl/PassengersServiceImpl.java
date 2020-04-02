@@ -2,6 +2,7 @@ package com.airline.service.impl;
 
 import com.airline.entity.Passengers;
 import com.airline.entity.Passports;
+import com.airline.repository.springdata.CountriesRepository;
 import com.airline.repository.springdata.PassengerRepository;
 import com.airline.repository.springdata.PassportsRepository;
 import com.airline.service.PassengersService;
@@ -9,37 +10,36 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManagerFactory;
-import java.sql.Timestamp;
+import javax.persistence.EntityManager;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
 public class PassengersServiceImpl implements PassengersService {
 
 	private final PassengerRepository passengerRepository;
+	private final CountriesRepository countriesRepository;
 
 	private final PassportsRepository passportsRepository;
 
-	private final EntityManagerFactory entityManager;
-
+	private final EntityManager entityManager;
 	@Override
 	@Transactional
 	public Passengers save (Passengers passengers) {
 
-		passengers.setCreated (new Timestamp (System.currentTimeMillis ()));
 
-		//passengers.setCountries (countryDao.findByName (entity.getCountry ()));
+		entityManager.joinTransaction ();
+		passengers.setCountries (countriesRepository.findByName (passengers.getCountries ().getName ()));
 		//passengers.setTickets (ticketsDao.findByIds (entity.getTickets ()));
-		Passengers save = passengerRepository.save(passengers);
-		for (Passports p : passengers.getPassports ()){
-			p.setPassengersId (save);
-			passportsRepository.save(p);
-		}
 
-		//passportsRepository.save (passengers.setPassports ());
-		passportsRepository.flush ();
-		passengerRepository.flush ();
-		//passportsRepository.save (set);
+		Set<Passports> passportsSet = passengers.getPassports ();
+		passengers.setPassports (null);
+		Passengers save = passengerRepository.saveAndFlush (passengers);
+
+		for (Passports p : passportsSet){
+			p.setPassengersId (save);
+			passportsRepository.saveAndFlush (p);
+		}
 
 		return save;
 	}

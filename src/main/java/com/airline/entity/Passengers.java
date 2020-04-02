@@ -54,7 +54,6 @@ public class Passengers {
 
 	@JsonManagedReference
 	@OneToMany(fetch = FetchType.EAGER, targetEntity = Passports.class, mappedBy = "passengersId",cascade = CascadeType.ALL)
-
 	Set<Passports> passports = Collections.emptySet ();
 
 	@JsonManagedReference

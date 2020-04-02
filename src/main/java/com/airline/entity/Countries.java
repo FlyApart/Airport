@@ -5,10 +5,6 @@ import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
-import java.util.ArrayList;
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -24,7 +20,7 @@ public class Countries {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
 
-	@Column ( length = 50, nullable = false, unique = true)
+	@Column ( length = 50, nullable = false, unique = true, name = "name")
 	String name;
 
 	@Column
