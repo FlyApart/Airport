@@ -14,9 +14,9 @@ import org.hibernate.annotations.DynamicUpdate;
 @DynamicUpdate
 public class PassportSaveRequest {
 
-	Long series;
+	String series;
 
-	Long number;
+	String number;
 
 	@FieldValid
 	String title;

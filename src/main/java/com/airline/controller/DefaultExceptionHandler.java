@@ -1,6 +1,7 @@
 package com.airline.controller;
 
 import com.airline.controller.messages.ErrorMessage;
+import com.airline.util.exceptions.EntityAlreadyExist;
 import com.airline.util.exceptions.EntityNotFoundException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -46,6 +47,13 @@ public class DefaultExceptionHandler {
 		return new ResponseEntity<> (new ErrorMessage (e.getMessage ()), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
+	@ExceptionHandler(EntityAlreadyExist.class)
+	public ResponseEntity<ErrorMessage> handleEntityAlreadyExist (EntityAlreadyExist e) {
+		//Handles all other exceptions. Status code 500.
+		LOG.error (e.getMessage (), e);
+		System.out.println ("dsfsdfewssssssssssssssssssssssssssssssssssssssssssssssssssssssss");
+		return new ResponseEntity<> (new ErrorMessage (e.getMessage ()), HttpStatus.INTERNAL_SERVER_ERROR);
+	}
 
 	/*@ExceptionHandler(IllegalArgumentException.class)
 	public ResponseEntity<ErrorMessage> getMinCannotBeNegativeException (IllegalArgumentException e) {

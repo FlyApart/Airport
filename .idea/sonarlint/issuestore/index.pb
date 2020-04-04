@@ -129,8 +129,6 @@ u
 Esrc/main/java/com/airline/controller/request/PassportSaveRequest.java,f\2\f23895332a81fc0bf81cfc854064dcf9358bbb50
 w
 Gsrc/main/java/com/airline/controller/request/PassportUpdateRequest.java,f\2\f236373a00ccb69b947bfce5a5b9c3a6f1a96b59
-y
-Isrc/main/java/com/airline/util/converters/ConverterRequestPassengers.java,f\c\fcd395e5a26302aa1baf4c8a938eb445f9afd0d3
 :
 
 .gitignore,a\5\a5cc2925ca8258af241be7e5b0381edf30266302
@@ -140,11 +138,13 @@ Hsrc/main/java/com/airline/repository/springdata/PassengerRepository.java,e\5\e
 Lsrc/main/java/com/airline/util/converters/ConverterSaveRequestPassenger.java,6\b\6bd2c2c8914f1a93e589a88b51ec580c609cee93
 x
 Hsrc/main/java/com/airline/repository/springdata/PassportsRepository.java,a\0\a0fe26016a8189462af1c5ab6b5e7eed4930306d
-n
->src/main/java/com/airline/util/converters/EntityConverter.java,e\a\ea81f6bab323acf9940457d35f619e7258ba2bbd
-x
-Hsrc/main/java/com/airline/util/converters/ConverterRequestPassports.java,a\1\a1260c9ad4aabb734373aa8c51cad07a37cc13af
-x
-Hsrc/main/java/com/airline/util/converters/ConverterRequestCountries.java,2\4\2425309eb2d6225a4683ef1bf9807309a8b84fa9
 x
 Hsrc/main/java/com/airline/repository/springdata/CountriesRepository.java,f\5\f58bf225e8b9e9bd2372985c3c03dc4c958dab21
+
+Osrc/main/java/com/airline/util/converters/parent/ConverterRequestCountries.java,f\e\fe6788d64c77ee8ba33065ade86d9d1f420349e3
+u
+Esrc/main/java/com/airline/util/converters/parent/EntityConverter.java,c\8\c8ab17cd16284d4f46e1764d335d87b7887949a1
+
+Osrc/main/java/com/airline/util/converters/parent/ConverterRequestPassports.java,b\a\ba9b04f59e761a5ed8e96cf32fb4831b69c0dcf6
+€
+Psrc/main/java/com/airline/util/converters/parent/ConverterRequestPassengers.java,d\d\dd76f1825178b2002dc972180e85f9c0faaecdb4

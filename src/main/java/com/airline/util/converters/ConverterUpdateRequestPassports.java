@@ -2,9 +2,9 @@ package com.airline.util.converters;
 
 import com.airline.controller.request.PassportUpdateRequest;
 import com.airline.entity.Passports;
+import com.airline.util.converters.parent.ConverterRequestPassports;
+import com.airline.util.exceptions.EntityNotFoundException;
 import org.springframework.stereotype.Component;
-
-import javax.persistence.EntityNotFoundException;
 
 import static java.util.Optional.ofNullable;
 
@@ -14,10 +14,21 @@ public class ConverterUpdateRequestPassports extends ConverterRequestPassports<P
 
 	@Override
 	public Passports convert (PassportUpdateRequest request) {
+	if (request.getId ()!=null){// TODO add security
+		Passports passports =
+				ofNullable(entityManager.find(Passports.class, request.getId ()))
+						.orElseThrow(() -> new EntityNotFoundException (Passports.class, request.getId ()));
+		return doConvert(passports, request);
+	}
 
-		Passports passports = ofNullable (entityManager.find (Passports.class, request.getId ()))
-				                  .orElseThrow (() -> new EntityNotFoundException ());
-		//.orElseThrow(() -> new EntityNotFoundException(Passengers.class, request.getUserId()));
-		return doConvert (passports, request);
+	else {
+		Passports passports = ofNullable (entityManager.createQuery ("select p from Passports p where p.title =:title and " + "p.passengersId.id =:passengersId", Passports.class)
+		                                     .setParameter ("title", request.getTitle ())
+		                                     .setParameter ("passengersId", Long.valueOf(request.getPassengerId ()))
+		                                     .getSingleResult ()).orElseThrow (() -> new EntityNotFoundException (Passports.class, request.getId ()));
+		return doConvert( passports, request);
+	}
+
+
 	}
 }

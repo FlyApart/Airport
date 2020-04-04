@@ -14,6 +14,7 @@ import javax.persistence.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @DynamicUpdate
 @Entity
+@Builder
 @Table (name = "countries")
 public class Countries {
 	@Id

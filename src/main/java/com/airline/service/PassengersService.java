@@ -4,8 +4,8 @@ import com.airline.entity.Passengers;
 
 public interface PassengersService {
 
-	Passengers save (Passengers entity);
+	Passengers save (Passengers passenger);
 
-	Passengers update (Passengers entity, Long id);
+	Passengers update (Passengers entity);
 
 }

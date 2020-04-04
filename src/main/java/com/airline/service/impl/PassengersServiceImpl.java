@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.sql.Timestamp;
 import java.util.Set;
 
 @Service
@@ -19,47 +20,48 @@ public class PassengersServiceImpl implements PassengersService {
 
 	private final PassengerRepository passengerRepository;
 	private final CountriesRepository countriesRepository;
-
 	private final PassportsRepository passportsRepository;
 
 	private final EntityManager entityManager;
 	@Override
 	@Transactional
-	public Passengers save (Passengers passengers) {
+	public Passengers save (Passengers passenger) {
 
 
-		entityManager.joinTransaction ();
-		passengers.setCountries (countriesRepository.findByName (passengers.getCountries ().getName ()));
+		//entityManager.joinTransaction ();
+		passenger.setCountries (countriesRepository.findCountriesByName (passenger.getCountries ().getName ()));
+		passenger.setCreated (new Timestamp (System.currentTimeMillis ()));
 		//passengers.setTickets (ticketsDao.findByIds (entity.getTickets ()));
 
-		Set<Passports> passportsSet = passengers.getPassports ();
-		passengers.setPassports (null);
-		Passengers save = passengerRepository.saveAndFlush (passengers);
+		Set<Passports> passportsSet = passenger.getPassports ();
+		passenger.setPassports (null);
+		Passengers save = passengerRepository.saveAndFlush (passenger);
 
 		for (Passports p : passportsSet){
 			p.setPassengersId (save);
-			passportsRepository.saveAndFlush (p);
+			passportsSet.add (passportsRepository.saveAndFlush (p));
 		}
-
+		save.setPassports (passportsSet);
 		return save;
 	}
 
 	@Override
-	public Passengers update (Passengers entity, Long id) {
+	@Transactional
+	public Passengers update (Passengers passenger) {
+		entityManager.joinTransaction ();
 
-		/*Passengers passengers = converterRequestPassenger.convert (entity, passengersDao.findById (id));
-		passengers.setChanged (new Timestamp (System.currentTimeMillis ()));
-		passengers.setCountries (countryDao.findByName (entity.getCountry ()));
-		Passengers update = passengersDao.update (passengers);
+		//countriesRepository.findCountriesByName (passenger.getCountries ().getName
+		// ());
+		passenger.setChanged (new Timestamp (System.currentTimeMillis ()));
+		Passengers update = passengerRepository.saveAndFlush (passenger);
 
-		Set<Passports> set = new HashSet<> ();
-		for (PassportRequest p : entity.getPassportRequestSet ()) {
-			Passports passports = converterRequestPassport.convertUpdate (p, passportDao.findByTitleAndLongPassengersId (p.getTitle (), update.getId ()));
-			set.add (passportDao.save (passports));
+		/*for (Passports p : passportsSet){
+			p.setPassengersId (save);
+			passportsSet.add (passportsRepository.saveAndFlush (p));
 		}
-		update.setPassports (set);
-		return update;*/
-		return null;
+		save.setPassports (passportsSet);*/
+		return update;
+
 	}
 
 

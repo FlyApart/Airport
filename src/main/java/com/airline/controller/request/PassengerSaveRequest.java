@@ -8,8 +8,6 @@ import org.hibernate.annotations.DynamicUpdate;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import java.sql.Timestamp;
-import java.util.Collections;
-import java.util.List;
 import java.util.Set;
 
 @Data
@@ -40,10 +38,10 @@ public class PassengerSaveRequest{
 	String country;
 
 	@NotNull
-	Set<PassportSaveRequest> passportSaveRequestSet;
+	Set<PassportSaveRequest> passportSaveRequest;
 
-	@NotNull
-	List<Long> tickets = Collections.emptyList ();
+	/*@NotNull
+	List<Long> tickets = Collections.emptyList ();*/
 
 
 

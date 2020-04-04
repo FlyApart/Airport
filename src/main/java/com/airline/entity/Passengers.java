@@ -34,10 +34,9 @@ public class Passengers {
 	@Column(name = "login", unique = true, nullable = false, length = 50)
 	String login;
 
-	@Column (nullable = false,length = 255)
+	@Column (nullable = false, length = 255)
 	String password;
 
-	//@Temporal (TemporalType.TIMESTAMP)//реаброзует slq timestamp in java timestamp
 	@Column
 	Timestamp created;
 
@@ -56,12 +55,12 @@ public class Passengers {
 	@OneToMany(fetch = FetchType.EAGER, targetEntity = Passports.class, mappedBy = "passengersId",cascade = CascadeType.ALL)
 	Set<Passports> passports = Collections.emptySet ();
 
-	@JsonManagedReference
-	@ManyToMany (cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	/*@JsonManagedReference
+	@ManyToMany (cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
 	@JoinTable(name = "passengers_ticket",
 			joinColumns = @JoinColumn(name = "passenger_id"),
 			inverseJoinColumns = @JoinColumn(name = "ticket_id"))
-	Set<Tickets> tickets = Collections.emptySet ();
+	Set<Tickets> tickets = Collections.emptySet ();*/
 
 	// void test() {Passengers passengers = Passengers.builder ().id(1L).name("sad").build (); }
 }
