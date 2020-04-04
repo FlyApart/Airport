@@ -5,7 +5,7 @@ import com.airline.controller.request.PassengerUpdateRequest;
 import com.airline.entity.Passengers;
 import com.airline.repository.springdata.PassengerRepository;
 import com.airline.service.PassengersService;
-import com.airline.util.exceptions.EntityNotFoundException;
+import com.airline.controller.exceptions.EntityNotFoundException;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import lombok.RequiredArgsConstructor;

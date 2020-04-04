@@ -2,7 +2,7 @@ package com.airline.repository.impl;
 
 import com.airline.entity.Passports;
 import com.airline.repository.PassportDao;
-import com.airline.util.exceptions.EntityNotFoundException;
+import com.airline.controller.exceptions.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

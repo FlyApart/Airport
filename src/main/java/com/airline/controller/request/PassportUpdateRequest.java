@@ -23,7 +23,7 @@ public class PassportUpdateRequest {//extends PassportSaveRequest{
 	//@Size (min = 4,max = 50)
 	String title;
 
-	String id;
+	String id = null;
 
 	@JsonIgnore
 	String passengerId;

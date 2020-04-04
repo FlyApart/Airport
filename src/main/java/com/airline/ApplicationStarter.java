@@ -105,5 +105,6 @@ public class ApplicationStarter extends SpringBootServletInitializer {
 	// email verification
 	// max price
 	// fix tickets
+    // https://teleg.run/joinchat/AAAAAFHdnCVpzkMGcwertA
 
 }

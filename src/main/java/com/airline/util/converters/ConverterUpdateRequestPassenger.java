@@ -6,7 +6,7 @@ import com.airline.entity.Countries;
 import com.airline.entity.Passengers;
 import com.airline.entity.Passports;
 import com.airline.util.converters.parent.ConverterRequestPassengers;
-import com.airline.util.exceptions.EntityNotFoundException;
+import com.airline.controller.exceptions.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;

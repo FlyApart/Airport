@@ -26,9 +26,6 @@ public class PassengersServiceImpl implements PassengersService {
 	@Override
 	@Transactional
 	public Passengers save (Passengers passenger) {
-
-
-		//entityManager.joinTransaction ();
 		passenger.setCountries (countriesRepository.findCountriesByName (passenger.getCountries ().getName ()));
 		passenger.setCreated (new Timestamp (System.currentTimeMillis ()));
 		//passengers.setTickets (ticketsDao.findByIds (entity.getTickets ()));
@@ -50,8 +47,6 @@ public class PassengersServiceImpl implements PassengersService {
 	public Passengers update (Passengers passenger) {
 		entityManager.joinTransaction ();
 
-		//countriesRepository.findCountriesByName (passenger.getCountries ().getName
-		// ());
 		passenger.setChanged (new Timestamp (System.currentTimeMillis ()));
 		Passengers update = passengerRepository.saveAndFlush (passenger);
 

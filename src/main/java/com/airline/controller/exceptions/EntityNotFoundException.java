@@ -1,8 +1,8 @@
-package com.airline.util.exceptions;
+package com.airline.controller.exceptions;
 
 public class EntityNotFoundException extends RuntimeException {
 
-    private static final String MESSAGE_ID_TEMPLATE = "%s with id=%s not found";
+    private static final String MESSAGE_ID_TEMPLATE = "%s with id= %s not found";
     private static final String MESSAGE_TEMPLATE = "%s not found";
 
     public EntityNotFoundException() {
@@ -28,4 +28,5 @@ public class EntityNotFoundException extends RuntimeException {
     public EntityNotFoundException(Class<?> entityClass, Object id) {
         super(String.format(MESSAGE_ID_TEMPLATE, entityClass.getSimpleName(), id));
     }
+
 }

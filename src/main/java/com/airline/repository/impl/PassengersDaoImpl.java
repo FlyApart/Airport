@@ -2,7 +2,7 @@ package com.airline.repository.impl;
 
 import com.airline.entity.Passengers;
 import com.airline.repository.PassengerDao;
-import com.airline.util.exceptions.EntityNotFoundException;
+import com.airline.controller.exceptions.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

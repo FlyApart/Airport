@@ -20,7 +20,6 @@ public class ConverterSaveRequestPassenger extends ConverterRequestPassengers<Pa
 	@Autowired
 	private ConverterSaveRequestPassports converterSaveRequestPassport;
 
-
 	public ConverterSaveRequestPassenger (BCryptPasswordEncoder passwordEncoder) {
 		super (passwordEncoder);
 	}
@@ -29,7 +28,6 @@ public class ConverterSaveRequestPassenger extends ConverterRequestPassengers<Pa
 	public Passengers convert (PassengerSaveRequest request) {
 
 		Passengers passengers = new Passengers ();
-
 
 		Set<Passports> passportsSet = new HashSet<> ();
 		for (PassportSaveRequest p : request.getPassportSaveRequest ()) {
