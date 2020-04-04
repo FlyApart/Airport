@@ -1,5 +1,8 @@
 
-m	java:S100"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(­Ãïüøÿÿÿÿ8í§å¹Œ.
-V	java:S125"<This block of commented-out lines of code should be removed.(ê½—Û8Åâ½‡“.
-€
-java:S1488"`Immediately return this expression instead of assigning it to the temporary variable "response".(ÉĞ©üÿÿÿÿ8è¤Ñã‰.
+‚
+java:S1488""`Immediately return this expression instead of assigning it to the temporary variable "response".(ÉĞ©üÿÿÿÿ8è¤Ñã‰.
+c
+java:S1128"HRemove this unused import 'com.fasterxml.jackson.annotation.JsonIgnore'.(ş‘‹„8¨üú‹”.
+o	java:S1003"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(­Ãïüøÿÿÿÿ8Ù±¡Š”.
+T
+java:S3655."7Call "Optional#isPresent()" before accessing the value.(ˆ­¸8Éñ—Š”.

@@ -11,8 +11,21 @@ create table airlines
 
 create unique index airline_id_uindex
     on airlines (id);
+
 create unique index airline_name_site_uindex
     on airlines USING btree (name, website);
+
+create table cities
+(
+    id                  bigserial   NOT NULL,
+    name                varchar(50) NOT NULL,
+    countries_id         int8 NOT NULL ,
+    primary key (id)
+);
+
+create unique index cities_id_uindex
+    on cities (id);
+
 
 create table airplanes
 (
@@ -34,7 +47,7 @@ create table airports
 (
     id         bigserial   NOT NULL,
     title      varchar(75) NOT NULL,
-    countries_id int8,
+    cities_id int8,
     primary key (id)
 );
 
@@ -113,7 +126,7 @@ create table passengers
     name       varchar(50) NOT NULL,
     password   varchar(255) NOT NULL,
     surname    varchar(50) NOT NULL,
-    countries_id int8,
+    cities_id int8,
     primary key (id)
 );
 
@@ -123,16 +136,6 @@ create unique index passengers_login_uindex
 create unique index passengers_id_uindex
     on passengers (id);
 
-create table passengers_ticket
-(
-    ticket_id    int8 NOT NULL,
-    passenger_id int8 NOT NULL,
-    primary key (passenger_id, ticket_id)
-);
-
-create unique index passengers_ticket_uindex
-    on passengers_ticket USING btree
-        (ticket_id, ticket_id);
 
 create table passports
 (
@@ -164,14 +167,19 @@ create table tickets
     reservation boolean,
     total_price float8 NOT NULL,
     flights_id  int8 not null,
+    passengers_id int8 NOT NULL,
     primary key (id)
 );
 
 create unique index tickets_id_uindex
     on tickets (id);
 
-create unique index tickets_place_flight_id_uindex
+create unique index tickets_place_flight_uindex
     on tickets USING btree (flights_id,place);
+
+create unique index tickets_flight_id_passenger_id_uindex
+    on tickets USING btree (flights_id,passengers_id);
+
 
 
 /*TODO add role*/
@@ -191,9 +199,6 @@ create unique index role_id_uindex
         primary key (id);
 */
 
-
-
-
 alter table if exists airlines
     add constraint airline_countries_fk foreign key (countries_id) references countries
         on update cascade on delete cascade;
@@ -203,7 +208,7 @@ alter table if exists airplanes
         on update cascade on delete cascade;
 
 alter table if exists airports
-    add constraint airports_countries_fk foreign key (countries_id) references countries
+    add constraint airports_cities_fk foreign key (cities_id) references cities
         on update cascade on delete cascade;
 
 alter table if exists flights
@@ -231,15 +236,7 @@ alter table if exists flights_discounts
         on update cascade on delete cascade;
 
 alter table if exists passengers
-    add constraint passengers_countries_fk foreign key (countries_id) references countries
-        on update cascade on delete cascade;
-
-alter table if exists passengers_ticket
-    add constraint passengers_ticket_passenger_fk foreign key (passenger_id) references passengers
-        on update cascade on delete cascade;
-
-alter table if exists passengers_ticket
-    add constraint passengers_ticket_tickets_fk foreign key (ticket_id) references tickets
+    add constraint passengers_cities_fk foreign key (cities_id) references cities
         on update cascade on delete cascade;
 
 alter table if exists passports
@@ -252,6 +249,14 @@ alter table if exists role
 
 alter table if exists tickets
     add constraint tickets_flights_fk foreign key (flights_id) references flights
+        on update cascade on delete cascade;
+
+alter table if exists tickets
+    add constraint tickets_passengers_fk foreign key (passengers_id) references passengers
+        on update cascade on delete cascade;
+
+alter table if exists cities
+    add constraint cities_country_fk foreign key (countries_id) references countries
         on update cascade on delete cascade
 
 

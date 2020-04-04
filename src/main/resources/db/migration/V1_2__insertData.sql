@@ -4,6 +4,12 @@ values ('55°45′N 37°37′E', 'Russia', 146745098),
        ('53°55′N 27°33′E', 'Belarus', 9491800),
        ('51°30′N 0°7′W', 'England', 55977178);
 
+insert into cities
+( name, countries_id)
+values ( 'Moscow', 1),
+       ( 'Minsk', 2),
+       ('London', 3);
+
 insert into airlines
     (fleet, flights_per_year, name, website, countries_id)
 values (180, 18000, 'Ural Airline', 'ural.ru', 1),
@@ -18,7 +24,7 @@ values ('2007-04-27', 15400, 'Airbus A380', 525, 3),
        ('2011-04-21', 4600, 'Superjet 100', 98, 1);
 
 insert into airports
-(title, countries_id)
+(title, cities_id)
 values ('Kolchovo', 1),
        ('Minsk International Airport', 2),
        ('Heathrow', 3);
@@ -32,7 +38,7 @@ values (3500, 'PROMO#35'),
 
 
 insert into passengers
-(date_birth, changed, created, login, name, password, surname, countries_id)
+(date_birth, changed, created, login, name, password, surname, cities_id)
 values ('13-05-1997', null, '30-03-2020', 'oglorn@mail.ru', 'Alex', '1234qwer', 'Zuev', '1'),
        ('21-12-1996', null, '20-02-2020', 'dunya@mail.ru', 'Dima', 'rewq4321', 'Dunya', '2'),
        ('06-04-1971', null, '17-01-2020', 'lelya@qmail.com', 'Olga', '1234qwer', 'Zinevich', '1');
@@ -50,12 +56,12 @@ values ('2020-11-11 15:10:00', null, '2020-11-11 12:20:00', 'AOPRR133', 24000, 1
        ('2020-12-06 05:10:00', null, '2020-12-05 23:20:00', 'DHUE908', 20000, 2, 1, 3, 2);
 
 insert into tickets
-(place, reservation, total_price, flights_id)
-values ('1A', TRUE, 22000, 1),
-       ('22 D', FALSE, 22000, 1),
-       ('7 C', TRUE, 22000, 1),
-       ('22 C', FALSE, 17000, 2),
-       ('11 D', TRUE, 17000, 2);
+(place, reservation, total_price, flights_id, passengers_id)
+values ('1A', TRUE, 22000, 1, 1),
+       ('22 D', FALSE, 22000, 1,2),
+       ('7 C', TRUE, 22000, 1,3),
+       ('22 C', FALSE, 17000, 2,1),
+       ('11 D', TRUE, 17000, 2,3);
 
 insert into flights_discounts (flights_id, discounts_id)
 values (1,1),
@@ -64,11 +70,11 @@ values (1,1),
        (2,1),
        (2,2);
 
-insert into passengers_ticket (passenger_id, ticket_id)
+/*insert into passengers_ticket (passenger_id, ticket_id)
     values (1,1),
            (1,2),
            (2,4),
-           (3,3);
+           (3,3);*/
 /*insert into role
 (role,
  passengers_id)
