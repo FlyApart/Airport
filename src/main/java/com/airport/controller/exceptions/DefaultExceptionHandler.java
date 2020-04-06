@@ -27,10 +27,9 @@ public class DefaultExceptionHandler {
 		return new ResponseEntity<> (new ErrorMessage (e.getMessage ()), HttpStatus.UNPROCESSABLE_ENTITY);
 	}
 
-    @ExceptionHandler({EntityNotFoundException.class})
-    public ResponseEntity<ErrorMessage> handleNoSuchEntityException(EntityNotFoundException e){
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<ErrorMessage> handleEntityNotFoundException(EntityNotFoundException e){
         LOG.error(e.getMessage(), e);
-    System.out.println("asdasdasdsadaaaaaaaaaaaaaaaaaaaa");
         return new ResponseEntity<>(new ErrorMessage(e.getMessage()),
                 HttpStatus.NOT_FOUND);
     }
@@ -41,13 +40,11 @@ public class DefaultExceptionHandler {
 		return new ResponseEntity<> (new ErrorMessage (e.getMessage ()), HttpStatus.UNAUTHORIZED);
 	}
 
-
-
 	@ExceptionHandler(EntityAlreadyExistException.class)
 	public ResponseEntity<ErrorMessage> handleEntityAlreadyExistException (EntityAlreadyExistException e) {
 		//Handles all other exceptions. Status code 500.
 		LOG.error (e.getMessage (), e);
-		return new ResponseEntity<> (new ErrorMessage (e.getMessage ()), HttpStatus.INTERNAL_SERVER_ERROR);
+		return new ResponseEntity<> (new ErrorMessage (e.getMessage ()), HttpStatus.BAD_REQUEST);
 	}
 
     @ExceptionHandler(NoResultException.class)
@@ -55,6 +52,13 @@ public class DefaultExceptionHandler {
         LOG.error (e.getMessage (), e);
         return new ResponseEntity<> (new ErrorMessage (e.getMessage ()), HttpStatus.NOT_FOUND);
     }
+
+	@ExceptionHandler(RuntimeException.class)
+	public ResponseEntity<ErrorMessage> handleOthersException (RuntimeException e) {
+		//Handles all other exceptions. Status code 500.
+		LOG.error (e.getMessage (), e);
+		return new ResponseEntity<> (new ErrorMessage (e.getMessage ()), HttpStatus.INTERNAL_SERVER_ERROR);
+	}
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorMessage> handleOthersException (Exception e) {

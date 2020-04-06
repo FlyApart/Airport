@@ -1,27 +1,34 @@
 package com.airport.repository.springdata;
 
 import com.airport.entity.Passengers;
+import com.airport.entity.Passports;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 
-import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 public interface PassengerRepository extends CrudRepository<Passengers, Long>, JpaRepository<Passengers, Long> {
          void deletePassengersById (Long id);
 
+    @Query("select p.passports from Passengers p  where p.id = :id")
+    Optional<Set<Passports>> findPassportsById (@Param("id") Long id);
 
+    @Query("select p.passports from Passengers p  where p.id = :id")
+    Optional<Passports> findPassports (@Param("id") Long id);
 
 
 
     // public Passengers findByLogin(String login);
-    List<Passengers> findByNameAndSecondName (String name, String secondName);
-    /*List<Passengers> findByUserNameAndUserSurnameAndLogin (String userName, String userSurname, String login);
+    /*List<Passengers> findByNameAndSecondName (String name, String secondName);
+    *//*List<Passengers> findByUserNameAndUserSurnameAndLogin (String userName, String userSurname, String login);
     List<Passengers> findByUserNameAndUserSurnameAndLoginLike (String userName, String userSurname, String login);
-    List<Passengers> findDistinctByUserNameLikeOrderByBirthDateAscUserIdDesc (String userName);*/
+    List<Passengers> findDistinctByUserNameLikeOrderByBirthDateAscUserIdDesc (String userName);*//*
 
     @Query(value = "select u from Passengers u", countQuery = "select count(u) from Passengers u")
-    List<Passengers> qweqweqweqw ();
+    List<Passengers> qweqweqweqw ();*/
 
    /* @Query(value = "select u.* from m_users u", nativeQuery = true)
     List<Passengers> nativeQuery ();

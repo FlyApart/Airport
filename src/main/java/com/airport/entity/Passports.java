@@ -30,8 +30,9 @@ public class Passports {
 	Long number;
 
     //TODO Change to enum 26.03.2020 1-30-00
-	@Column(name = "title", nullable = false, length = 50)
-	String title;
+	@Enumerated(EnumType.STRING)
+	@Column(name = "types", nullable = false, length = 50)
+	PassportsTypes types = PassportsTypes.NOT_SELECTED;
 
 	@JsonBackReference
 	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Passengers.class, cascade = CascadeType.ALL)

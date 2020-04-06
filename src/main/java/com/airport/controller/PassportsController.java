@@ -2,21 +2,27 @@ package com.airport.controller;
 
 
 
+import com.airport.controller.exceptions.EntityNotFoundException;
 import com.airport.controller.request.save.PassportSaveRequest;
 import com.airport.controller.request.update.PassportUpdateRequest;
+import com.airport.entity.Passengers;
 import com.airport.entity.Passports;
-import com.airport.repository.PassengerDao;
-import com.airport.repository.PassportDao;
+import com.airport.repository.springdata.PassengerRepository;
 import com.airport.repository.springdata.PassportsRepository;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.ConversionService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
-import java.util.List;
+import java.util.Set;
 
 @CrossOrigin
 @RestController
@@ -24,32 +30,37 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PassportsController {
 
-	private final PassportDao passportDao;
-	private final PassengerDao passengerDao;
 	private final PassportsRepository passportsRepository;
+	private final PassengerRepository passengerRepository;
 	private final ConversionService conversionService;
 
+	@ApiImplicitParams(
+			{@ApiImplicitParam(name = "page", dataType = "integer", paramType = "query", value = "Results page you want to retrieve (0..N)"),
+			@ApiImplicitParam(name = "size", dataType = "integer", paramType = "query", value = "Number of records per page."),
+			@ApiImplicitParam(name = "sort", allowMultiple = true, dataType = "string", paramType = "query", value = "Sorting criteria in the format: property(, " +
+					          "\"asc or desc\"). " + "Default sort order is ascending. " + "Multiple sort criteria are supported.")})
 	@GetMapping
-	public ResponseEntity<List<Passports>> getPassengers() {
-		ResponseEntity <List<Passports>> response = new ResponseEntity<>(passportDao.findAll(), HttpStatus.OK);
+	public ResponseEntity<Page<Passports>> findAllPassports(@ApiIgnore Pageable pageable) {
+		ResponseEntity <Page<Passports>> response = new ResponseEntity<>(passportsRepository.findAll(pageable), HttpStatus.OK);
 		return response;
 	}
 
-	@GetMapping(value = "/passport/{passengerId}")
-	public ResponseEntity <List<Passports>> findPassportsByPassengersId (@PathVariable ("passengerId") Long passengerId){
-
-		return new ResponseEntity<>(passportDao.findByPassengersId (passengerId), HttpStatus.OK);
+	@GetMapping(value = "/{id}")
+	public ResponseEntity <Passports> findPassportById (@PathVariable ("id") String id){
+		Passports passports = passportsRepository.findById (Long.valueOf (id)).orElseThrow (() -> new EntityNotFoundException (Passports.class, id));
+		return new ResponseEntity<>(passports, HttpStatus.OK);
 	}
 
-    @GetMapping(value = "/{id}")
-    public ResponseEntity <Passports> findPassportsById (@PathVariable ("id") Long id){
-        return new ResponseEntity<>(passportsRepository.findById (id).get (), HttpStatus.OK);
+    @GetMapping(value = "/passenger/{passengerId}")
+    public ResponseEntity <Set<Passports>> findPassportsByPassengersId (@PathVariable ("passengerId") String passengerId){
+	    Passengers passengers =  passengerRepository.findById (Long.valueOf (passengerId)).orElseThrow  (() -> new EntityNotFoundException (Passengers.class, passengerId));
+	    return new ResponseEntity<>(passengers.getPassports (), HttpStatus.OK);
     }
 
 
-	@DeleteMapping(value = "/{passengerId}")
-	public Long DeletePassportsByPassengersId (@PathVariable ("passengerId") Long passengerId){
-		passportDao.delete (passengerId);
+	@DeleteMapping(value = "/passenger/{passengerId}")
+	public Long DeletePassport (@PathVariable ("passengerId") Long passengerId){
+		passportsRepository.delete (passportsRepository.findById (Long.valueOf (passengerId)).orElseThrow(() -> new EntityNotFoundException (Passports.class, passengerId)));
 		return passengerId;
 	}
 

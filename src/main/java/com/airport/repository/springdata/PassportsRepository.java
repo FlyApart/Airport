@@ -1,12 +1,22 @@
 package com.airport.repository.springdata;
 
+import com.airport.entity.Passengers;
 import com.airport.entity.Passports;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 
+import java.util.Optional;
 import java.util.Set;
 
 public interface PassportsRepository extends CrudRepository <Passports, Long>, JpaRepository<Passports, Long> {
-	Set<Passports> findByPassengersId (Long passengersId);
+	Optional<Set<Passports>> findByPassengersId (Passengers passengersId);
+	//Set<Passports> findByPassengers (Passengers passengers);
 	//Passports findByPassengersId (String title, Long passengersId);
+
+	@Query ("select p from Passports p where p.passengersId = :idP")
+	Optional<Set<Passports>> qweqweqweqw (@Param("idP") Long idP);
+
+
 }

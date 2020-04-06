@@ -44,11 +44,11 @@ values ('13-05-1997', null, '30-03-2020', 'oglorn@mail.ru', 'Alex', '1234qwer', 
        ('06-04-1971', null, '17-01-2020', 'lelya@qmail.com', 'Olga', '1234qwer', 'Zinevich', '1');
 
 insert into passports
-(number, series, title, passengers_id)
-values (1234, 1234, 'Russian', 1),
-       (4321, 4321, 'international', 1),
-       (2222, 2222, 'Belarusian', 2),
-       (3333, 3333, 'international', 3);
+(number, series, types, passengers_id)
+values (1234, 1234, 'CITIZEN', 1),
+       (4321, 4321, 'FOREIGN', 1),
+       (2222, 2222, 'CITIZEN', 2),
+       (3333, 3333, 'DIPLOMATIC', 3);
 
 insert into flights
 (arrive_date, changed, departure_date, flights_number, price, airline_id, airplane_id, arrive_airport_id, departure_airport_id)

@@ -142,7 +142,7 @@ create table passports
     id            bigserial NOT NULL,
     number        int8  NOT NULL,
     series        int8  NOT NULL,
-    title         varchar(50) NOT NULL,
+    types         varchar(50) NOT NULL,
     passengers_id int8 NOT NULL,
     primary key (id)
 );
@@ -154,9 +154,9 @@ create unique index passports_serial_number_uindex
     on passports
         using btree (number, series);
 
-create unique index passports_unique_title_uindex
+create unique index passports_unique_types_uindex
     on passports
-        using btree (passengers_id, title);
+        using btree (passengers_id, types);
 
 
 

@@ -1,15 +1,0 @@
-
-{
-java:S1128"YRemove this unused import 'org.springframework.web.bind.MethodArgumentNotValidException'.(Ñîœ¥ÿÿÿÿÿ8ãõ¬®“.
-m
-java:S1128"KRemove this unused import 'com.airline.controller.DefaultExceptionHandler'.(†ûÊìüÿÿÿÿ8ı´«®“.
-[
-java:S1128"9Remove this unused import 'com.airline.entity.Passports'.(ì¯ˆãüÿÿÿÿ8Ô¤¢®“.
-l
-java:S1128"ORemove this unused import 'org.springframework.beans.factory.annotation.Value'.(ìø›8©ˆ±.
-b
-java:S1128"FRemove this unused import 'javax.persistence.EntityNotFoundException'.(©ÿ€8Êè§®“.
-N
-java:S3416 "1Update this logger to use "DatabaseConfig.class".(Ø–¦8ôËí‘.
-Q
-java:S1128"/Remove this unused import 'java.util.Optional'.(¨˜ëİüÿÿÿÿ8¾£¤®“.

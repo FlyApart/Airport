@@ -1,5 +1,6 @@
 package com.airport.controller.request.save;
 
+import com.airport.entity.PassportsTypes;
 import com.airport.util.validation.FieldValid;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -20,7 +21,10 @@ public class PassportSaveRequest {
 	@FieldValid
 	String number;
 
-	@FieldValid
-	String title;
+	//@NotEmpty
+	PassportsTypes types = PassportsTypes.NOT_SELECTED;
+
+	String passengerId;
+
 
 }
