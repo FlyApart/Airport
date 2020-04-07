@@ -1,5 +1,6 @@
 package com.airport.controller.request.create;
 
+import com.airport.entity.Cities;
 import com.airport.util.validation.FieldValid;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -9,6 +10,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Set;
 
@@ -38,15 +40,7 @@ public class PassengerSaveRequest{
 	Date birthDate;
 
 	@FieldValid
-	String country;
+    String cities;
 
-	@NotNull
-	@NotEmpty
-	Set<PassportSaveRequest> passportSaveRequest;
-
-	/*@NotNull
-	List<Long> tickets = Collections.emptyList ();*/
-
-
-
+	Set<PassportSaveRequest> passportSaveRequest = Collections.emptySet ();
 }

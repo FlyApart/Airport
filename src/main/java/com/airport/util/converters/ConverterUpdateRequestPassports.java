@@ -23,7 +23,7 @@ public class ConverterUpdateRequestPassports extends ConverterRequestPassports<P
 
 	Passports findById (Passports passports, PassportUpdateRequest request) {
 		passports = ofNullable (entityManager.find (Passports.class, Long.valueOf (request.getId ())))
-                            .orElseThrow (() -> new ConversionException (PassportSaveRequest.class, Passports.class, request,
+                            .orElseThrow (() -> new ConversionException (PassportUpdateRequest.class, Passports.class, request,
                                     new EntityNotFoundException (Passports.class, request.getId ())));
 		return passports;
 	}
@@ -35,9 +35,9 @@ public class ConverterUpdateRequestPassports extends ConverterRequestPassports<P
 			                         .setParameter ("passengersId", Long.valueOf (request.getPassengerId ()))
 			                         .getSingleResult ();
 		} catch (NumberFormatException e) {
-			throw new ConversionException (PassportSaveRequest.class, Passports.class, request, new MethodArgumentNotValidException (request));
+			throw new ConversionException (PassportUpdateRequest.class, Passports.class, request, new MethodArgumentNotValidException (request));
 		} catch (NoResultException e) {
-			throw new ConversionException (PassportSaveRequest.class, Passports.class, request,
+			throw new ConversionException (PassportUpdateRequest.class, Passports.class, request,
                     new EntityNotFoundException ("type = " + request.getTypes () + ", passenger id = " + request.getPassengerId (), Passports.class));
 		}
 		return passports;
@@ -54,7 +54,7 @@ public class ConverterUpdateRequestPassports extends ConverterRequestPassports<P
 		} catch (NoResultException e) {
 		    return;
 		}
-		throw new ConversionException (TypeDescriptor.valueOf (PassportSaveRequest.class), TypeDescriptor.valueOf (Passports.class), request,
+		throw new ConversionException (TypeDescriptor.valueOf (PassportUpdateRequest.class), TypeDescriptor.valueOf (Passports.class), request,
                 new EntityAlreadyExistException ("Passport with (number = " + request.getNumber () + ", series = " + request.getSeries () + ") " +
                                                          "or (passengers id = " + request.getPassengerId () + ",  types = " + request.getTypes () + ") "));
 	}
@@ -73,7 +73,7 @@ public class ConverterUpdateRequestPassports extends ConverterRequestPassports<P
             checkUniqueNumberAndSeries(request);
 		}
 		else {
-            throw new ConversionException (PassportSaveRequest.class, Passports.class, request,
+            throw new ConversionException (PassportUpdateRequest.class, Passports.class, request,
                     new EntityNotFoundException (request, Passports.class));
         }
 		return doConvert (passports, request);

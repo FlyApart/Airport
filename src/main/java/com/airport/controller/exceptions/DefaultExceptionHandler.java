@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import javax.validation.ValidationException;
+
 //import org.jboss.logging.Message;
 
 
@@ -56,14 +58,19 @@ public class DefaultExceptionHandler extends ResponseEntityExceptionHandler {//T
 	public ResponseEntity<ErrorMessage> handleRuntimeException (RuntimeException e) {
 		//Handles all other exceptions. Status code 500.
 		LOG.error (e.getMessage (), e);
-		return new ResponseEntity<> (new ErrorMessage (e.getMessage ()), HttpStatus.INTERNAL_SERVER_ERROR);
+		return new ResponseEntity<> (new ErrorMessage (e.getMessage ()), HttpStatus.NOT_FOUND);
 	}
 
+    @ExceptionHandler(ValidationException.class)
+    public ResponseEntity<ErrorMessage> handleValidationException (ValidationException e) {
+        LOG.error (e.getMessage (), e);
+        return new ResponseEntity<> (new ErrorMessage (422L,e.getCause().getMessage()),HttpStatus.UNPROCESSABLE_ENTITY);
+    }
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public ResponseEntity<ErrorMessage> handleMethodArgumentNotValidException (MethodArgumentNotValidException e) {
 		LOG.error (e.getMessage (), e);
-		return new ResponseEntity<> (new ErrorMessage (e.getMessage ()),HttpStatus.UNPROCESSABLE_ENTITY);
+		return new ResponseEntity<> (new ErrorMessage (e.getMessage ()),HttpStatus.BAD_REQUEST);
 	}
 
 }

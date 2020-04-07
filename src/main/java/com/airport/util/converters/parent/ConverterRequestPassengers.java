@@ -6,6 +6,8 @@ import com.airport.entity.Passengers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.sql.Timestamp;
+
 @RequiredArgsConstructor
 public abstract class ConverterRequestPassengers<S, T> extends EntityConverter<S, T> {
 
@@ -17,17 +19,16 @@ public abstract class ConverterRequestPassengers<S, T> extends EntityConverter<S
 		passengers.setPassword (passwordEncoder.encode (entity.getPassword ()));
 		passengers.setBirthDate (entity.getBirthDate ());
 		passengers.setLogin (entity.getLogin ());
+		passengers.setCreated(new Timestamp(System.currentTimeMillis()));
 		return passengers;
 	}
 
 	protected Passengers doConvert (Passengers passengers, PassengerUpdateRequest entity) {
-		passengers.setId (Long.valueOf(entity.getId ()));
-		passengers.setName (entity.getName ());
-		passengers.setSecondName (entity.getSecondName ());
-		passengers.setPassword (passwordEncoder.encode (entity.getPassword ()));
-		passengers.setBirthDate (entity.getBirthDate ());
-		//passengers.setLogin (entity.getLogin ());
+		if(entity.getName() !=null)passengers.setName (entity.getName ());
+		if(entity.getSecondName() !=null)passengers.setSecondName (entity.getSecondName ());
+		if(entity.getPassword() !=null)passengers.setPassword (passwordEncoder.encode (entity.getPassword ()));
+		if(entity.getBirthDate() !=null)passengers.setBirthDate (entity.getBirthDate ());
+		passengers.setChanged(new Timestamp(System.currentTimeMillis()));
 		return passengers;
 	}
-
 }

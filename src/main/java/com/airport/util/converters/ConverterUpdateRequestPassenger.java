@@ -30,7 +30,7 @@ public class ConverterUpdateRequestPassenger extends ConverterRequestPassengers<
 
 		Passengers passengers =
 				ofNullable(entityManager.find(Passengers.class, Long.valueOf(request.getId ())))
-						.orElseThrow(() -> new EntityNotFoundException (Passengers.class, request.getId ()));
+						.orElseThrow(() -> new EntityNotFoundException(Passengers.class, request.getId ()));
 
 		Set<Passports> passportsSet = new HashSet<> ();
 		for (PassportUpdateRequest passportUpdateRequest : request.getPassportUpdateRequests ()) {
