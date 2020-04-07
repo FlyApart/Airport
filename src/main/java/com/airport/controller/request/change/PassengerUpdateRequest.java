@@ -39,7 +39,7 @@ public class PassengerUpdateRequest {//extends  PassengerSaveRequest{
 	@Size (max = 50, min = 4)
 	String cities;
 
-    Set<PassportSaveRequest> passportSaveRequest = Collections.emptySet ();
+    Set<PassportUpdateRequest> passportUpdateRequest = Collections.emptySet ();
 
     Set<Long> tickets = Collections.emptySet ();
 

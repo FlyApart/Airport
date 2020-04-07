@@ -1,10 +1,11 @@
-package com.airport.util.converters.parent;
+package com.airport.util.converters.passports;
 
 import com.airport.controller.request.change.PassportUpdateRequest;
 import com.airport.controller.request.create.PassportSaveRequest;
 import com.airport.entity.Passports;
+import com.airport.util.converters.EntityConverter;
 
-public abstract class ConverterRequestPassports<S, T> extends EntityConverter<S, T>  {
+public abstract class ConverterRequestPassports<S, T> extends EntityConverter<S, T> {
 
 	protected Passports doConvert (Passports passports, PassportSaveRequest entity) {
 		passports.setTypes (entity.getTypes ());

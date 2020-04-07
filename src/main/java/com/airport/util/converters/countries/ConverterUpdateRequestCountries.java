@@ -1,11 +1,10 @@
-package com.airport.util.converters;
+package com.airport.util.converters.countries;
 
 import com.airport.controller.exceptions.ConversionException;
 import com.airport.controller.exceptions.EntityNotFoundException;
 import com.airport.controller.exceptions.MethodArgumentNotValidException;
 import com.airport.controller.request.change.CountriesUpdateRequest;
 import com.airport.entity.Countries;
-import com.airport.util.converters.parent.ConverterRequestCountries;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.NoResultException;

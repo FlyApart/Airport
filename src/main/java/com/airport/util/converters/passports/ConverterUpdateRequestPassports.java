@@ -1,4 +1,4 @@
-package com.airport.util.converters;
+package com.airport.util.converters.passports;
 
 import com.airport.controller.exceptions.ConversionException;
 import com.airport.controller.exceptions.EntityAlreadyExistException;
@@ -8,7 +8,6 @@ import com.airport.controller.request.change.PassportUpdateRequest;
 import com.airport.controller.request.create.PassportSaveRequest;
 import com.airport.entity.Passports;
 import com.airport.entity.PassportsTypes;
-import com.airport.util.converters.parent.ConverterRequestPassports;
 import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.stereotype.Component;
 

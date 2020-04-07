@@ -1,21 +1,16 @@
-package com.airport.util.converters;
+package com.airport.util.converters.countries;
 
 import com.airport.controller.exceptions.ConversionException;
 import com.airport.controller.exceptions.EntityAlreadyExistException;
-import com.airport.controller.exceptions.EntityNotFoundException;
 import com.airport.controller.exceptions.MethodArgumentNotValidException;
 import com.airport.controller.request.create.CountriesSaveRequest;
 import com.airport.controller.request.create.PassportSaveRequest;
 import com.airport.entity.Countries;
-import com.airport.entity.Passengers;
 import com.airport.entity.Passports;
-import com.airport.util.converters.parent.ConverterRequestCountries;
-import com.airport.util.converters.parent.ConverterRequestPassports;
 import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.NoResultException;
-import java.util.Optional;
 
 @Component
 public class ConverterSaveRequestCountries extends ConverterRequestCountries <CountriesSaveRequest, Countries> {

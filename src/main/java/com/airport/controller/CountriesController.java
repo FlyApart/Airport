@@ -22,7 +22,7 @@ import javax.validation.Valid;
 
 @CrossOrigin
 @RestController
-@RequestMapping(value = "/rest/Countries")
+@RequestMapping(value = "/rest/countries")
 @RequiredArgsConstructor
 public class CountriesController {
     

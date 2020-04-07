@@ -1,13 +1,10 @@
-package com.airport.util.converters;
+package com.airport.util.converters.cities;
 
 import com.airport.controller.exceptions.ConversionException;
 import com.airport.controller.exceptions.EntityNotFoundException;
 import com.airport.controller.exceptions.MethodArgumentNotValidException;
 import com.airport.controller.request.change.CitiesUpdateRequest;
-import com.airport.controller.request.change.CitiesUpdateRequest;
 import com.airport.entity.Cities;
-import com.airport.entity.Cities;
-import com.airport.util.converters.parent.ConverterRequestCities;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.NoResultException;

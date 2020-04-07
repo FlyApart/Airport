@@ -35,7 +35,6 @@ public class PassportsController {
 	private final PassportsRepository passportsRepository;
 	private final PassengerRepository passengerRepository;
 	private final ConversionService conversionService;
-	private final EntityManager entityManager;
 
 	@ApiImplicitParams(
 			{@ApiImplicitParam(name = "page", dataType = "integer", paramType = "query", value = "Results page you want to retrieve (0..N)"),

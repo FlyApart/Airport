@@ -1,6 +1,7 @@
 package com.airport.service.impl;
 
 import com.airport.entity.Passengers;
+import com.airport.entity.Passports;
 import com.airport.repository.springdata.CountriesRepository;
 import com.airport.repository.springdata.PassengerRepository;
 import com.airport.repository.springdata.PassportsRepository;
@@ -11,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.sql.Timestamp;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -21,14 +23,13 @@ public class PassengersServiceImpl implements PassengersService {
 	private final PassportsRepository passportsRepository;
 
 	private final EntityManager entityManager;
+
 	@Override
-	@Transactional
 	public Passengers save (Passengers passenger) {
-		//passenger.setCountries (countriesRepository.findCountriesByName (passenger.getCountries ().getName ()));
-		passenger.setCreated (new Timestamp (System.currentTimeMillis ()));
+
 		//passengers.setTickets (ticketsDao.findByIds (entity.getTickets ()));
 
-		/*Set<Passports> passportsSet = passenger.getPassports ();
+		Set<Passports> passportsSet = passenger.getPassports ();
 		passenger.setPassports (null);
 		Passengers save = passengerRepository.saveAndFlush (passenger);
 
@@ -37,8 +38,7 @@ public class PassengersServiceImpl implements PassengersService {
 			passportsSet.add (passportsRepository.saveAndFlush (p));
 		}
 		save.setPassports (passportsSet);
-		return save;*/
-		return null;
+		return save;
 	}
 
 	@Override

@@ -18,7 +18,7 @@ import java.util.List;
 
 	@CrossOrigin
 	@RestController
-	@RequestMapping("/rest/Flights")
+	@RequestMapping("/rest/flights")
 	@RequiredArgsConstructor
 	public class FlightsController {
 

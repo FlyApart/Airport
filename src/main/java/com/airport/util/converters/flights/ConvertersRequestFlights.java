@@ -1,4 +1,4 @@
-package com.airport.util.converters;
+package com.airport.util.converters.flights;
 
 import com.airport.controller.request.change.FlightUpdateRequest;
 import com.airport.controller.request.create.FlightSaveRequest;

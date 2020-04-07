@@ -1,9 +1,9 @@
-package com.airport.util.converters.parent;
+package com.airport.util.converters.countries;
 
 import com.airport.controller.request.change.CountriesUpdateRequest;
 import com.airport.controller.request.create.CountriesSaveRequest;
-import com.airport.controller.request.create.PassengerSaveRequest;
 import com.airport.entity.Countries;
+import com.airport.util.converters.EntityConverter;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor

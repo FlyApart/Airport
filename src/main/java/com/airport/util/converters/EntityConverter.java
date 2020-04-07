@@ -1,4 +1,4 @@
-package com.airport.util.converters.parent;
+package com.airport.util.converters;
 
 import org.springframework.core.convert.converter.Converter;
 
