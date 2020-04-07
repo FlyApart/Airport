@@ -14,7 +14,7 @@ public interface PassengerRepository extends CrudRepository<Passengers, Long>, J
          void deletePassengersById (Long id);
 
     @Query("select p.passports from Passengers p  where p.id = :id")
-    Optional<Set<Passports>> findPassportsById (@Param("id") Long id);
+    Set<Passports> findPassportsById (@Param("id") Long id);
 
     @Query("select p.passports from Passengers p  where p.id = :id")
     Optional<Passports> findPassports (@Param("id") Long id);

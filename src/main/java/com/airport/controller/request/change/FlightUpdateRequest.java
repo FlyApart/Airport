@@ -1,4 +1,4 @@
-package com.airport.controller.request.update;
+package com.airport.controller.request.change;
 
 import com.airport.util.validation.FieldValid;
 import lombok.*;

@@ -1,10 +1,12 @@
-package com.airport.controller.request.save;
+package com.airport.controller.request.create;
 
 import com.airport.entity.PassportsTypes;
 import com.airport.util.validation.FieldValid;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.DynamicUpdate;
+
+import javax.validation.constraints.NotNull;
 
 @Data
 @NoArgsConstructor
@@ -21,7 +23,7 @@ public class PassportSaveRequest {
 	@FieldValid
 	String number;
 
-	//@NotEmpty
+	@NotNull
 	PassportsTypes types = PassportsTypes.NOT_SELECTED;
 
 	String passengerId;

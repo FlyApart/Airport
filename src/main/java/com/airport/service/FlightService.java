@@ -1,7 +1,7 @@
 package com.airport.service;
 
-import com.airport.controller.request.save.FlightSaveRequest;
-import com.airport.controller.request.update.FlightUpdateRequest;
+import com.airport.controller.request.change.FlightUpdateRequest;
+import com.airport.controller.request.create.FlightSaveRequest;
 import com.airport.entity.Flights;
 
 public interface FlightService {

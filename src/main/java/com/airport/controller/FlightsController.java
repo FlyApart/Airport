@@ -1,7 +1,7 @@
 package com.airport.controller;
 
-import com.airport.controller.request.save.FlightSaveRequest;
-import com.airport.controller.request.update.FlightUpdateRequest;
+import com.airport.controller.request.change.FlightUpdateRequest;
+import com.airport.controller.request.create.FlightSaveRequest;
 import com.airport.entity.Flights;
 import com.airport.repository.FlightsDao;
 import com.airport.service.FlightService;

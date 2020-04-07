@@ -3,8 +3,8 @@ package com.airport.controller;
 
 
 import com.airport.controller.exceptions.EntityNotFoundException;
-import com.airport.controller.request.save.PassportSaveRequest;
-import com.airport.controller.request.update.PassportUpdateRequest;
+import com.airport.controller.request.change.PassportUpdateRequest;
+import com.airport.controller.request.create.PassportSaveRequest;
 import com.airport.entity.Passengers;
 import com.airport.entity.Passports;
 import com.airport.repository.springdata.PassengerRepository;
@@ -21,7 +21,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.persistence.EntityManager;
 import javax.validation.Valid;
+import java.util.Optional;
 import java.util.Set;
 
 @CrossOrigin
@@ -33,6 +35,7 @@ public class PassportsController {
 	private final PassportsRepository passportsRepository;
 	private final PassengerRepository passengerRepository;
 	private final ConversionService conversionService;
+	private final EntityManager entityManager;
 
 	@ApiImplicitParams(
 			{@ApiImplicitParam(name = "page", dataType = "integer", paramType = "query", value = "Results page you want to retrieve (0..N)"),
@@ -57,24 +60,39 @@ public class PassportsController {
 	    return new ResponseEntity<>(passengers.getPassports (), HttpStatus.OK);
     }
 
+	@Transactional
+	@DeleteMapping(value = "/{id}")
+	public String DeletePassport (@PathVariable ("id") String id){
+		Passports passports = passportsRepository.findById (Long.valueOf (id))
+		                                         .orElseThrow(() -> new EntityNotFoundException (Passports.class, id));
+		passportsRepository.deletePassports (passports);
+		return id;
+	}
 
+	@Transactional
 	@DeleteMapping(value = "/passenger/{passengerId}")
-	public Long DeletePassport (@PathVariable ("passengerId") Long passengerId){
-		passportsRepository.delete (passportsRepository.findById (Long.valueOf (passengerId)).orElseThrow(() -> new EntityNotFoundException (Passports.class, passengerId)));
+	public String DeletePassportByPassengersId (@PathVariable ("passengerId") String passengerId){
+
+		Set<Passports> passports = Optional.ofNullable (passengerRepository.findPassportsById(Long.valueOf (passengerId)))
+		                                                       .orElseThrow(() -> new EntityNotFoundException (Passports.class, passengerId));
+		passportsRepository.deletePassports (passports);
 		return passengerId;
 	}
 
 	@PostMapping
 	@Transactional
 	public ResponseEntity<Passports> createPassport (@RequestBody @Valid PassportSaveRequest passportSaveRequest) {
-
-		return new ResponseEntity<> (passportsRepository.save (conversionService.convert (passportSaveRequest,Passports.class)), HttpStatus.CREATED);
+		Passports passports = conversionService.convert (passportSaveRequest,Passports.class);
+		return new ResponseEntity<> (passportsRepository.saveAndFlush (passports), HttpStatus.CREATED);
 	}
 
-	@PutMapping (value = "/passport/{passengerId}")
+	@PutMapping (value = "/passenger/{passengerId}")
 	@Transactional
-	public ResponseEntity<Passports> updatePassport (@PathVariable ("passengerId") Long passengerId, @RequestBody @Valid PassportUpdateRequest passportUpdateRequest) {
-		return new ResponseEntity<> (passportsRepository.saveAndFlush (conversionService.convert (passportUpdateRequest, Passports.class)), HttpStatus.CREATED);
+	public ResponseEntity<Passports> updatePassport (@PathVariable ("passengerId") String passengerId, @RequestBody @Valid PassportUpdateRequest passportUpdateRequest) {
+
+		passportUpdateRequest.setPassengerId (passengerId);
+		Passports passports = conversionService.convert (passportUpdateRequest, Passports.class);
+		return new ResponseEntity<> (passportsRepository.saveAndFlush (passports), HttpStatus.CREATED);
 	}
 
 

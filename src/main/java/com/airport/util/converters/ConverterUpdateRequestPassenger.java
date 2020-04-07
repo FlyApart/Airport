@@ -1,8 +1,8 @@
 package com.airport.util.converters;
 
 import com.airport.controller.exceptions.EntityNotFoundException;
-import com.airport.controller.request.update.PassengerUpdateRequest;
-import com.airport.controller.request.update.PassportUpdateRequest;
+import com.airport.controller.request.change.PassengerUpdateRequest;
+import com.airport.controller.request.change.PassportUpdateRequest;
 import com.airport.entity.Passengers;
 import com.airport.entity.Passports;
 import com.airport.util.converters.parent.ConverterRequestPassengers;

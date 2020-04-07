@@ -1,7 +1,7 @@
 package com.airport.util.converters;
 
-import com.airport.controller.request.save.PassengerSaveRequest;
-import com.airport.controller.request.save.PassportSaveRequest;
+import com.airport.controller.request.create.PassengerSaveRequest;
+import com.airport.controller.request.create.PassportSaveRequest;
 import com.airport.entity.Passengers;
 import com.airport.entity.Passports;
 import com.airport.util.converters.parent.ConverterRequestPassengers;

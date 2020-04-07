@@ -2,8 +2,8 @@ package com.airport.controller.exceptions;
 
 public class EntityAlreadyExistException extends RuntimeException {
 
-    private static final String MESSAGE_ID_TEMPLATE = "%s with sourceaaaa %s already existaaaaaa";
-    private static final String MESSAGE_TEMPLATE = "%s already existaaaa";
+    private static final String MESSAGE_ID_TEMPLATE = "%s with source %s already exist";
+    private static final String MESSAGE_TEMPLATE = "%s already exist";
 
     public EntityAlreadyExistException() {
         super();

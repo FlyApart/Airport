@@ -1,6 +1,6 @@
 package com.airport.util.converters.parent;
 
-import com.airport.controller.request.save.PassengerSaveRequest;
+import com.airport.controller.request.create.PassengerSaveRequest;
 import com.airport.entity.Countries;
 import lombok.RequiredArgsConstructor;
 

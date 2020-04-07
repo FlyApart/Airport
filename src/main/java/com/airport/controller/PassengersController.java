@@ -1,8 +1,8 @@
 package com.airport.controller;
 
 import com.airport.controller.exceptions.EntityNotFoundException;
-import com.airport.controller.request.save.PassengerSaveRequest;
-import com.airport.controller.request.update.PassengerUpdateRequest;
+import com.airport.controller.request.change.PassengerUpdateRequest;
+import com.airport.controller.request.create.PassengerSaveRequest;
 import com.airport.entity.Passengers;
 import com.airport.repository.springdata.PassengerRepository;
 import com.airport.service.PassengersService;
@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.persistence.EntityManager;
 import javax.validation.Valid;
 
 @CrossOrigin
@@ -31,6 +32,7 @@ public class PassengersController {
 	private final PassengersService passengersService;
 
 	private final ConversionService conversionService;
+	private final EntityManager entityManager;
 
 	@ApiImplicitParams({@ApiImplicitParam(name = "page", dataType = "integer", paramType = "query", value = "Results page you want to retrieve (0..N)"),
 			@ApiImplicitParam(name = "size", dataType = "integer", paramType = "query", value = "Number of records per page."),

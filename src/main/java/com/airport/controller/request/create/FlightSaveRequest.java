@@ -1,6 +1,6 @@
-package com.airport.controller.request.save;
+package com.airport.controller.request.create;
 
-import com.airport.controller.request.update.FlightUpdateRequest;
+import com.airport.controller.request.change.FlightUpdateRequest;
 import com.airport.util.validation.FieldValid;
 import lombok.*;
 import lombok.experimental.FieldDefaults;

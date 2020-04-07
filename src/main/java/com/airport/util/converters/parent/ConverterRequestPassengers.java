@@ -1,7 +1,7 @@
 package com.airport.util.converters.parent;
 
-import com.airport.controller.request.save.PassengerSaveRequest;
-import com.airport.controller.request.update.PassengerUpdateRequest;
+import com.airport.controller.request.change.PassengerUpdateRequest;
+import com.airport.controller.request.create.PassengerSaveRequest;
 import com.airport.entity.Passengers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
