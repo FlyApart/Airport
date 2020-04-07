@@ -1,8 +1,8 @@
-package com.airport.repository.impl;
+package com.airport.repository.hibernate.impl;
 
 import com.airport.controller.exceptions.EntityNotFoundException;
 import com.airport.entity.Passengers;
-import com.airport.repository.PassengerDao;
+import com.airport.repository.hibernate.PassengerDao;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

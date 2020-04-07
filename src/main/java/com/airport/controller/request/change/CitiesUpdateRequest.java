@@ -1,6 +1,6 @@
 package com.airport.controller.request.change;
 
-import com.airport.entity.PassportsTypes;
+import com.airport.util.validation.FieldValid;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -11,25 +11,16 @@ import javax.validation.constraints.Size;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode //(callSuper = false)
+@EqualsAndHashCode
 @ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @DynamicUpdate
-@Builder
-public class PassportUpdateRequest {//extends PassportSaveRequest{
-
-	@Size( min = 4, max = 15)
-	String series;
-
-	@Size( min = 4, max = 15)
-	String number;
-
-	PassportsTypes types = PassportsTypes.NOT_SELECTED;
-
+public class CitiesUpdateRequest {
     @JsonIgnore
-	String id;
+    String id;
 
-	String passengerId;
+    @Size(min = 5, max = 50)
+    String name;
 
-
+    String countriesId;
 }

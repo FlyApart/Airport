@@ -1,7 +1,7 @@
-package com.airport.repository.impl;
+package com.airport.repository.hibernate.impl;
 
 import com.airport.entity.Countries;
-import com.airport.repository.CountryDao;
+import com.airport.repository.hibernate.CountryDao;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

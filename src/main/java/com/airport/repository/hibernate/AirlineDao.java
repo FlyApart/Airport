@@ -1,4 +1,4 @@
-package com.airport.repository;
+package com.airport.repository.hibernate;
 
 
 import com.airport.entity.Airlines;

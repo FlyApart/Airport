@@ -3,7 +3,7 @@ package com.airport.service.impl;
 import com.airport.controller.request.change.FlightUpdateRequest;
 import com.airport.controller.request.create.FlightSaveRequest;
 import com.airport.entity.Flights;
-import com.airport.repository.*;
+import com.airport.repository.hibernate.*;
 import com.airport.service.FlightService;
 import com.airport.util.converters.ConvertersRequestFlights;
 import lombok.RequiredArgsConstructor;

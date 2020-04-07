@@ -1,7 +1,7 @@
-package com.airport.repository.impl;
+package com.airport.repository.hibernate.impl;
 
 import com.airport.entity.Airports;
-import com.airport.repository.AirportDao;
+import com.airport.repository.hibernate.AirportDao;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

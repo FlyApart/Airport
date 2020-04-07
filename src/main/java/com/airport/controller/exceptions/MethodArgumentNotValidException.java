@@ -2,8 +2,8 @@ package com.airport.controller.exceptions;
 
 public class MethodArgumentNotValidException extends RuntimeException {
 
-    private static final String MESSAGE_ID_TEMPLATE = "%s with source %s not valid";
-    private static final String MESSAGE_TEMPLATE = "%s  sources not valid";
+    private static final String S_WITH_SOURCE_S_NOT_VALID = "%s with source %s not valid";
+    private static final String MESSAGE_TEMPLATE = "%s not valid";
 
     public MethodArgumentNotValidException () {
         super();
@@ -14,19 +14,19 @@ public class MethodArgumentNotValidException extends RuntimeException {
     }
 
     public MethodArgumentNotValidException (String entityName) {
-        super(String.format(MESSAGE_TEMPLATE, entityName));
+        super(entityName);
     }
 
     public MethodArgumentNotValidException (String entity, String id) {
-        super(String.format(MESSAGE_ID_TEMPLATE, entity, id));
+        super(String.format(S_WITH_SOURCE_S_NOT_VALID, entity, id));
     }
 
     public MethodArgumentNotValidException (String entity, Long id) {
-        super(String.format(MESSAGE_ID_TEMPLATE, entity, id));
+        super(String.format(S_WITH_SOURCE_S_NOT_VALID, entity, id));
     }
 
     public MethodArgumentNotValidException (Class<?> entityClass, Object source) {
-        super(String.format(MESSAGE_ID_TEMPLATE, entityClass.getSimpleName(), source));
+        super(String.format(S_WITH_SOURCE_S_NOT_VALID, entityClass.getSimpleName(), source));
     }
     public MethodArgumentNotValidException (Object source) {
         super(String.format(MESSAGE_TEMPLATE, source));

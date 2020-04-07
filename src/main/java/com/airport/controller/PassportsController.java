@@ -86,11 +86,11 @@ public class PassportsController {
 		return new ResponseEntity<> (passportsRepository.saveAndFlush (passports), HttpStatus.CREATED);
 	}
 
-	@PutMapping (value = "/passenger/{passengerId}")
+	@PutMapping (value = "/{id}")
 	@Transactional
-	public ResponseEntity<Passports> updatePassport (@PathVariable ("passengerId") String passengerId, @RequestBody @Valid PassportUpdateRequest passportUpdateRequest) {
+	public ResponseEntity<Passports> updatePassport (@PathVariable String id, @RequestBody @Valid PassportUpdateRequest passportUpdateRequest) {
 
-		passportUpdateRequest.setPassengerId (passengerId);
+		passportUpdateRequest.setId (id);
 		Passports passports = conversionService.convert (passportUpdateRequest, Passports.class);
 		return new ResponseEntity<> (passportsRepository.saveAndFlush (passports), HttpStatus.CREATED);
 	}

@@ -2,8 +2,8 @@ package com.airport.service;
 
 import com.airport.entity.Passengers;
 import com.airport.entity.Role;
-import com.airport.repository.PassengerDao;
-import com.airport.repository.RoleDao;
+import com.airport.repository.hibernate.PassengerDao;
+import com.airport.repository.hibernate.RoleDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -1,9 +1,16 @@
 package com.airport.controller.messages;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.validation.FieldError;
 
 import java.util.List;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ErrorsListMessage {
     private Long errorCode;
 
@@ -11,41 +18,9 @@ public class ErrorsListMessage {
 
     private String message;
 
-    public ErrorsListMessage() {
-    }
-
     public ErrorsListMessage(List<FieldError> errors, String message) {
         this.errors = errors;
         this.message = message;
     }
 
-    public ErrorsListMessage(Long errorCode, List<FieldError> errors, String message) {
-        this.errorCode = errorCode;
-        this.errors = errors;
-        this.message = message;
-    }
-
-    public List<FieldError> getErrors() {
-        return errors;
-    }
-
-    public void setErrors(List<FieldError> errors) {
-        this.errors = errors;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public Long getErrorCode() {
-        return errorCode;
-    }
-
-    public void setErrorCode(Long errorCode) {
-        this.errorCode = errorCode;
-    }
 }

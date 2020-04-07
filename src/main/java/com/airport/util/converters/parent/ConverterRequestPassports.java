@@ -14,9 +14,10 @@ public abstract class ConverterRequestPassports<S, T> extends EntityConverter<S,
 	}
 
 	protected Passports doConvert (Passports passports, PassportUpdateRequest entity) {
-		passports.setTypes (entity.getTypes ());
-		passports.setSeries (Long.valueOf(entity.getSeries ()));
-		passports.setNumber (Long.valueOf(entity.getNumber ()));
+	    if (entity.getNumber()!=null) passports.setNumber (Long.valueOf(entity.getNumber ()));
+	    if (entity.getTypes()!=null) passports.setTypes (entity.getTypes ());
+	    if (entity.getSeries()!=null) passports.setSeries (Long.valueOf(entity.getSeries ()));
+
 		return passports;
 	}
 }

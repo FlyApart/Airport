@@ -1,7 +1,7 @@
-package com.airport.repository.impl;
+package com.airport.repository.hibernate.impl;
 
 import com.airport.entity.Discounts;
-import com.airport.repository.DiscountDao;
+import com.airport.repository.hibernate.DiscountDao;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
