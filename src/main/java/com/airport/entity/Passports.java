@@ -10,8 +10,8 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode (exclude = {"id","passengersId"})
-@ToString (exclude = {"passengersId"})
+@EqualsAndHashCode (exclude = {"id","passengersId","types"})
+@ToString (exclude = {"id","types","passengersId"})
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @DynamicUpdate
 @Entity
@@ -29,14 +29,13 @@ public class Passports {
 	@Column (name = "number", nullable = false)
 	Long number;
 
-    //TODO Change to enum 26.03.2020 1-30-00
 	@Enumerated(EnumType.STRING)
 	@Column(name = "types", nullable = false, length = 50)
 	PassportsTypes types = PassportsTypes.NOT_SELECTED;
 
 	@JsonBackReference
-	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Passengers.class, cascade = {CascadeType.ALL})
-	@JoinColumn(name = "passengers_id")
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Passengers.class, cascade = CascadeType.ALL)
+	@JoinColumn(nullable = false,name = "passengers_id")
 	Passengers passengersId;
 
 }

@@ -7,7 +7,7 @@ import com.airport.controller.request.change.PassportUpdateRequest;
 import com.airport.controller.request.create.PassportSaveRequest;
 import com.airport.entity.Passengers;
 import com.airport.entity.Passports;
-import com.airport.repository.springdata.PassengerRepository;
+import com.airport.repository.springdata.PassengersRepository;
 import com.airport.repository.springdata.PassportsRepository;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -21,7 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
-import javax.persistence.EntityManager;
 import javax.validation.Valid;
 import java.util.Optional;
 import java.util.Set;
@@ -33,7 +32,7 @@ import java.util.Set;
 public class PassportsController {
 
 	private final PassportsRepository passportsRepository;
-	private final PassengerRepository passengerRepository;
+	private final PassengersRepository passengersRepository;
 	private final ConversionService conversionService;
 
 	@ApiImplicitParams(
@@ -55,7 +54,7 @@ public class PassportsController {
 
     @GetMapping(value = "/passenger/{passengerId}")
     public ResponseEntity <Set<Passports>> findPassportsByPassengersId (@PathVariable ("passengerId") String passengerId){
-	    Passengers passengers =  passengerRepository.findById (Long.valueOf (passengerId)).orElseThrow  (() -> new EntityNotFoundException (Passengers.class, passengerId));
+	    Passengers passengers =  passengersRepository.findById (Long.valueOf (passengerId)).orElseThrow  (() -> new EntityNotFoundException (Passengers.class, passengerId));
 	    return new ResponseEntity<>(passengers.getPassports (), HttpStatus.OK);
     }
 
@@ -72,7 +71,7 @@ public class PassportsController {
 	@DeleteMapping(value = "/passenger/{passengerId}")
 	public String DeletePassportByPassengersId (@PathVariable ("passengerId") String passengerId){
 
-		Set<Passports> passports = Optional.ofNullable (passengerRepository.findPassportsById(Long.valueOf (passengerId)))
+		Set<Passports> passports = Optional.ofNullable (passengersRepository.findPassportsById(Long.valueOf (passengerId)))
 		                                                       .orElseThrow(() -> new EntityNotFoundException (Passports.class, passengerId));
 		passportsRepository.deletePassports (passports);
 		return passengerId;

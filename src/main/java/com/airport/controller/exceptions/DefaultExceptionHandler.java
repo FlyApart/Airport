@@ -53,7 +53,7 @@ public class DefaultExceptionHandler extends DefaultResponseEntityExceptionHandl
 	@ExceptionHandler(ArgumentOfMethodNotValidException.class)
 	public ResponseEntity<ErrorMessage> handleArgumentOfMethodNotValidException (ArgumentOfMethodNotValidException e) {
 		LOG.error (e.getMessage (), e);
-		return new ResponseEntity<> (new ErrorMessage (e.getMessage ()),HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<> (new ErrorMessage (e.getMessage ()+e),HttpStatus.BAD_REQUEST);
 	}
 
 }

@@ -15,8 +15,13 @@ public class ConverterSaveRequestPassports extends ConverterRequestPassports<Pas
 
 		Passports passports = new Passports ();
 
-		if (request.getPassengerId () != null && request.getTypes()!=null) {
-			Passengers passengers = findByPassengerId(request.getPassengerId());
+        if (request.getTypes()==null){
+            throw new ConversionException (PassportSaveRequest.class, Passports.class, request,
+                    new ArgumentOfMethodNotValidException (Passports.class," type = "+request.getTypes()));
+        }
+
+        if (request.getPassengerId () != null) {
+            Passengers passengers = findByPassengerId(request.getPassengerId());
 
             if(uniquePassengerIdAndTypes(passengers, request.getTypes())!=null){
                 throw new ConversionException (PassportSaveRequest.class, Passports.class, request.getTypes(),
@@ -24,8 +29,10 @@ public class ConverterSaveRequestPassports extends ConverterRequestPassports<Pas
                                 ", type = " + request.getTypes()));
             }
 
-			passports.setPassengersId (passengers);
-		}
+            passports.setPassengersId (passengers);
+        }
+
+
 		if (request.getSeries()!= null & request.getNumber()!= null){
             isUniquePassportsNumberAndSeries(request.getClass(), request.getNumber(),request.getSeries());
         }

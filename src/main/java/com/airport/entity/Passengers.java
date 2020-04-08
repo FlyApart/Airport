@@ -14,8 +14,8 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode (exclude = {"id","passports","tickets"})
-@ToString (exclude = {"passports","tickets"})
+@EqualsAndHashCode (exclude = {"id","passports","tickets","cities"})
+@ToString (exclude = {"id","passports","tickets"})
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @DynamicUpdate
 @Entity
@@ -35,7 +35,7 @@ public class Passengers {
 	@Column(name = "login", unique = true, nullable = false, length = 50)
 	String login;
 
-	@Column (nullable = false, length = 255)
+	@Column (nullable = false, length = 50)
 	String password;
 
 	@Column

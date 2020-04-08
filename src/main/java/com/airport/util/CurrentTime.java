@@ -8,11 +8,15 @@ import java.sql.Timestamp;
 
 public class CurrentTime {
 
-	private Timestamp currentTime;
+	private Timestamp currentTime = new Timestamp (System.currentTimeMillis ());
 
-	public Timestamp getCurrentTime () {
-		return  new Timestamp (System.currentTimeMillis ());
-	}
+    public Timestamp getCurrentTime() {
+        return currentTime;
+    }
+
+    public void setCurrentTime(Timestamp currentTime) {
+        this.currentTime = currentTime;
+    }
 }
 
 

@@ -17,8 +17,8 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode (exclude = {"passportRequestSet","tickets"})
-@ToString (exclude = {"passportRequestSet","tickets"})
+@EqualsAndHashCode (exclude = {"tickets"})
+@ToString (exclude = {"tickets"})
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @DynamicUpdate
 public class PassengerSaveRequest{
@@ -42,5 +42,7 @@ public class PassengerSaveRequest{
 	@FieldValid
     String cities;
 
+	@NotNull
+    @NotEmpty
 	Set<PassportSaveRequest> passportSaveRequest = Collections.emptySet ();
 }

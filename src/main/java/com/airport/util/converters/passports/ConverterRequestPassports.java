@@ -50,7 +50,7 @@ public abstract class ConverterRequestPassports<S, T> extends EntityConverter<S,
                         .setParameter ("series", Long.valueOf (series))
                         .getSingleResult ();
             }catch (NumberFormatException e) {
-                throw new ConversionException(sClass, Passports.class, sClass.getFields(),
+                throw new ConversionException(sClass, Passports.class, number.concat(" "+series),
                         new ArgumentOfMethodNotValidException("Passport with number = " + number + ", series = " + series));
             } catch (NoResultException e) {
                 return;
