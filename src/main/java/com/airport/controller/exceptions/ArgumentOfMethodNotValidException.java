@@ -1,34 +1,35 @@
 package com.airport.controller.exceptions;
 
-public class MethodArgumentNotValidException extends RuntimeException {
+public class ArgumentOfMethodNotValidException extends RuntimeException {
 
     private static final String S_WITH_SOURCE_S_NOT_VALID = "%s with source %s not valid";
     private static final String MESSAGE_TEMPLATE = "%s not valid";
 
-    public MethodArgumentNotValidException () {
+
+    public ArgumentOfMethodNotValidException() {
         super();
     }
 
-    public MethodArgumentNotValidException (String message, Throwable cause) {
+    public ArgumentOfMethodNotValidException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public MethodArgumentNotValidException (String entityName) {
+    public ArgumentOfMethodNotValidException(String entityName) {
         super(entityName);
     }
 
-    public MethodArgumentNotValidException (String entity, String id) {
+    public ArgumentOfMethodNotValidException(String entity, String id) {
         super(String.format(S_WITH_SOURCE_S_NOT_VALID, entity, id));
     }
 
-    public MethodArgumentNotValidException (String entity, Long id) {
+    public ArgumentOfMethodNotValidException(String entity, Long id) {
         super(String.format(S_WITH_SOURCE_S_NOT_VALID, entity, id));
     }
 
-    public MethodArgumentNotValidException (Class<?> entityClass, Object source) {
+    public ArgumentOfMethodNotValidException(Class<?> entityClass, Object source) {
         super(String.format(S_WITH_SOURCE_S_NOT_VALID, entityClass.getSimpleName(), source));
     }
-    public MethodArgumentNotValidException (Object source) {
+    public ArgumentOfMethodNotValidException(Object source) {
         super(String.format(MESSAGE_TEMPLATE, source));
     }
 }

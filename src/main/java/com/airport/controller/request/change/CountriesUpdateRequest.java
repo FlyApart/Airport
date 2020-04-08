@@ -26,7 +26,7 @@ public class CountriesUpdateRequest {
     @Size(min = 3,max = 25)
     String name;
 
-
+    @Size (max = 50)
     String population;
 
     @Pattern(regexp = "^[\\d]+.[\\d]{4,} [\\d]+.[\\d]{4,}", message = "example 52.0157 55.2073")

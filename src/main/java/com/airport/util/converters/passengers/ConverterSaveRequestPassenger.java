@@ -2,7 +2,7 @@ package com.airport.util.converters.passengers;
 
 import com.airport.controller.exceptions.ConversionException;
 import com.airport.controller.exceptions.EntityNotFoundException;
-import com.airport.controller.exceptions.MethodArgumentNotValidException;
+import com.airport.controller.exceptions.ArgumentOfMethodNotValidException;
 import com.airport.controller.request.create.PassengerSaveRequest;
 import com.airport.controller.request.create.PassportSaveRequest;
 import com.airport.entity.Cities;
@@ -35,7 +35,7 @@ public class ConverterSaveRequestPassenger extends ConverterRequestPassengers<Pa
                     .getSingleResult ();
         } catch (NumberFormatException e) {
             throw new ConversionException (PassengerSaveRequest.class, Passengers.class, request,
-                    new MethodArgumentNotValidException(request.getCities()));
+                    new ArgumentOfMethodNotValidException(request.getCities()));
         } catch (NoResultException e) {
             throw new ConversionException (PassengerSaveRequest.class, Passengers.class, request,
                     new EntityNotFoundException ("City with name = " + request.getCities(), Passports.class));

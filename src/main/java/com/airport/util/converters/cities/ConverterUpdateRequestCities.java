@@ -2,9 +2,11 @@ package com.airport.util.converters.cities;
 
 import com.airport.controller.exceptions.ConversionException;
 import com.airport.controller.exceptions.EntityNotFoundException;
-import com.airport.controller.exceptions.MethodArgumentNotValidException;
+import com.airport.controller.exceptions.ArgumentOfMethodNotValidException;
 import com.airport.controller.request.change.CitiesUpdateRequest;
+import com.airport.controller.request.create.CitiesSaveRequest;
 import com.airport.entity.Cities;
+import com.airport.entity.Countries;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.NoResultException;
@@ -13,7 +15,7 @@ import static java.util.Optional.ofNullable;
 
 @Component
 public class ConverterUpdateRequestCities extends ConverterRequestCities <CitiesUpdateRequest, Cities> {
-    
+
     Cities findById (Cities cities, CitiesUpdateRequest request) {
         cities = ofNullable (entityManager.find (Cities.class, Long.valueOf (request.getId ())))
                 .orElseThrow (() -> new ConversionException (CitiesUpdateRequest.class, Cities.class, request,
@@ -29,7 +31,7 @@ public class ConverterUpdateRequestCities extends ConverterRequestCities <Cities
            }
      catch (NumberFormatException e) {
         throw new ConversionException (CitiesUpdateRequest.class, Cities.class, request,
-                new MethodArgumentNotValidException (request));
+                new ArgumentOfMethodNotValidException (request));
     } catch (NoResultException e) {
         throw new ConversionException (CitiesUpdateRequest.class, Cities.class, request,
                 new EntityNotFoundException (" Cities with name = " + request.getName(), Cities.class));
@@ -52,6 +54,7 @@ public class ConverterUpdateRequestCities extends ConverterRequestCities <Cities
             throw new ConversionException (CitiesUpdateRequest.class, Cities.class, request,
                     new EntityNotFoundException (request, Cities.class));
             }
-            return doConvert (cities, request);
+        cities.setCountries(findCountries(request.getCountriesId()));
+        return doConvert (cities, request);
         }
 }

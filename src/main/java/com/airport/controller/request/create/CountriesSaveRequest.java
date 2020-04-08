@@ -19,7 +19,8 @@ public class CountriesSaveRequest {
   @FieldValid(min = 3, max = 25)
   String name;
 
-  @NotNull String population;
+  @FieldValid
+  String population;
 
   @Pattern(regexp = "^[\\d]+.[\\d]{4,} [\\d]+.[\\d]{4,}", message = "example 52.0157 55.2073")
   @NotNull

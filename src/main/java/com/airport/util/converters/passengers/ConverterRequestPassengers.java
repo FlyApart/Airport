@@ -24,11 +24,11 @@ public abstract class ConverterRequestPassengers<S, T> extends EntityConverter<S
 	}
 
 	protected Passengers doConvert (Passengers passengers, PassengerUpdateRequest entity) {
-		passengers.setId (Long.valueOf(entity.getId ()));
-		passengers.setName (entity.getName ());
-		passengers.setSecondName (entity.getSecondName ());
-		passengers.setPassword (passwordEncoder.encode (entity.getPassword ()));
-		passengers.setBirthDate (entity.getBirthDate ());
+		if(entity.getId()!=null)passengers.setId (Long.valueOf(entity.getId ()));
+		if(entity.getName()!=null)passengers.setName (entity.getName ());
+		if(entity.getSecondName()!=null)passengers.setSecondName (entity.getSecondName ());
+		if(entity.getPassword()!=null)passengers.setPassword (passwordEncoder.encode (entity.getPassword ()));
+		if(entity.getBirthDate()!=null)passengers.setBirthDate (entity.getBirthDate ());
 		passengers.setChanged (new CurrentTime ().getCurrentTime ());
 		//passengers.setLogin (entity.getLogin ());
 		return passengers;

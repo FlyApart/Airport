@@ -2,7 +2,7 @@ package com.airport.util.converters.countries;
 
 import com.airport.controller.exceptions.ConversionException;
 import com.airport.controller.exceptions.EntityNotFoundException;
-import com.airport.controller.exceptions.MethodArgumentNotValidException;
+import com.airport.controller.exceptions.ArgumentOfMethodNotValidException;
 import com.airport.controller.request.change.CountriesUpdateRequest;
 import com.airport.entity.Countries;
 import org.springframework.stereotype.Component;
@@ -13,6 +13,8 @@ import static java.util.Optional.ofNullable;
 
 @Component
 public class ConverterUpdateRequestCountries extends ConverterRequestCountries <CountriesUpdateRequest, Countries> {
+
+
     Countries findById (Countries countries, CountriesUpdateRequest request) {
         countries = ofNullable (entityManager.find (Countries.class, Long.valueOf (request.getId ())))
                 .orElseThrow (() -> new ConversionException (CountriesUpdateRequest.class, Countries.class, request,
@@ -28,7 +30,7 @@ public class ConverterUpdateRequestCountries extends ConverterRequestCountries <
            }
      catch (NumberFormatException e) {
         throw new ConversionException (CountriesUpdateRequest.class, Countries.class, request,
-                new MethodArgumentNotValidException (request));
+                new ArgumentOfMethodNotValidException (request));
     } catch (NoResultException e) {
         throw new ConversionException (CountriesUpdateRequest.class, Countries.class, request,
                 new EntityNotFoundException (" Country with name = " + request.getName(), Countries.class));

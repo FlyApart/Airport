@@ -2,7 +2,7 @@ package com.airport.util.converters.countries;
 
 import com.airport.controller.exceptions.ConversionException;
 import com.airport.controller.exceptions.EntityAlreadyExistException;
-import com.airport.controller.exceptions.MethodArgumentNotValidException;
+import com.airport.controller.exceptions.ArgumentOfMethodNotValidException;
 import com.airport.controller.request.create.CountriesSaveRequest;
 import com.airport.controller.request.create.PassportSaveRequest;
 import com.airport.entity.Countries;
@@ -25,7 +25,7 @@ public class ConverterSaveRequestCountries extends ConverterRequestCountries <Co
 
 		} catch (NumberFormatException e) {
 			throw new ConversionException(PassportSaveRequest.class, Passports.class, request,
-					new MethodArgumentNotValidException (request));
+					new ArgumentOfMethodNotValidException (request));
 		} catch (NoResultException e) {
 			return doConvert (countries, request);
 		}

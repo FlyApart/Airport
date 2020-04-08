@@ -1,6 +1,6 @@
 package com.airport.util.validation.impl;
 
-import com.airport.controller.exceptions.MethodArgumentNotValidException;
+import com.airport.controller.exceptions.ArgumentOfMethodNotValidException;
 import com.airport.util.validation.FieldValid;
 import org.hibernate.validator.internal.util.logging.Log;
 import org.hibernate.validator.internal.util.logging.LoggerFactory;
@@ -14,8 +14,8 @@ import java.time.Clock;
 public class FieldValidValidator implements ConstraintValidator<FieldValid, CharSequence> {
 	private static final Log LOG = LoggerFactory.make (MethodHandles.lookup ());
 
-	private int min;
-	private int max;
+	private long min;
+	private long max;
 	private boolean isNotNull;
 
 	@Override
@@ -29,13 +29,16 @@ public class FieldValidValidator implements ConstraintValidator<FieldValid, Char
 	@Override
 	public boolean isValid (CharSequence value, ConstraintValidatorContext ctx) {
 		if (isNotNull == true && value == null) {
-            throw new ValidationException(
-                    new MethodArgumentNotValidException("value must be not null"));
+
+            ctx.disableDefaultConstraintViolation ();
+            ctx.buildConstraintViolationWithTemplate("value must be not null ").addConstraintViolation();
+            return false;
 		}
 		int length = value.length ();
 		if (length < min | length > max) {
-            throw new ValidationException(
-			        new MethodArgumentNotValidException("value must be between " + min + " and " + max));
+            ctx.disableDefaultConstraintViolation ();
+            ctx.buildConstraintViolationWithTemplate ("value must be between " + min + " and " + max).addConstraintViolation();
+            return false;
 		}
 		return true;
 	}

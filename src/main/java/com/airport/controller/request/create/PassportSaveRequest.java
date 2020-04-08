@@ -6,7 +6,9 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.DynamicUpdate;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Data
 @NoArgsConstructor
@@ -24,8 +26,10 @@ public class PassportSaveRequest {
 	String number;
 
 	@NotNull
-	PassportsTypes types = PassportsTypes.NOT_SELECTED;
+	PassportsTypes types;
 
+	@NotNull
+    @NotEmpty
 	String passengerId;
 
 
