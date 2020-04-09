@@ -21,7 +21,6 @@ public class CitiesSaveRequest {
     @Pattern(regexp = "^[a-zA-Z]{3,25}$", message = "example : Moscow")
     String name;
 
-    @FieldValid(min = 1, max = 15)
-    @Pattern(regexp = "^[\\d]{1,15}$", message = "example : 2")
-    String countriesId;
+    @FieldValid(min = 3, max = 50)
+    String country;
 }

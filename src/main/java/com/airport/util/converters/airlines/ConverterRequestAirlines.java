@@ -44,6 +44,7 @@ public abstract class ConverterRequestAirlines<S, T> extends EntityConverter<S, 
 		return countries;
 	}
 
+
 	void isUniqueAirlines(Class<?> sClass, String name, String website){
 		try {
 			entityManager.createQuery ("select c from Airlines c where c.name =:name or c.website=:website", Airlines.class)
@@ -52,12 +53,12 @@ public abstract class ConverterRequestAirlines<S, T> extends EntityConverter<S, 
 			             .getSingleResult ();
 
 		} catch (NumberFormatException e) {
-			throw new ConversionException(AirlinesSaveRequest.class, Airlines.class, sClass,
+			throw new ConversionException(sClass, Airlines.class, name.concat(" "+website),
 					new ArgumentOfMethodNotValidException ("name = " + name+" or website = "+website));
 		} catch (NoResultException e) {
-			return;
+		   return;
 		}
-		throw new ConversionException(AirlinesSaveRequest.class, Airlines.class, sClass,
+		throw new ConversionException(sClass, Airlines.class, name.concat(" "+website),
 				new EntityAlreadyExistException (Airlines.class,"name = " + name+" or website = "+website));
 
 	}

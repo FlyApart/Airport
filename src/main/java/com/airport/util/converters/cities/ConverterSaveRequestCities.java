@@ -15,27 +15,14 @@ import javax.persistence.NoResultException;
 @Component
 public class ConverterSaveRequestCities extends ConverterRequestCities<CitiesSaveRequest, Cities> {
 
-	@Override
-	public Cities convert (CitiesSaveRequest request) {
-		Cities cities = new Cities ();
+  @Override
+  public Cities convert(CitiesSaveRequest request) {
+    Cities cities = new Cities();
 
-		if (request.getCountriesId () == null && request.getName () == null) {
-			throw new ConversionException (CitiesUpdateRequest.class, Cities.class, request, new EntityNotFoundException (request, Cities.class));
-		}
+    cities.setCountries(findCountries(request.getClass(), request.getCountry()));
 
-		cities.setCountries (findCountries (request.getClass (), request.getCountriesId ()));
+    uniqueCitiesName(request.getClass(), request.getName());
 
-		try {
-			entityManager.createQuery ("select c from Cities c where c.name =:name ", Cities.class)
-			             .setParameter ("name", request.getName ())
-			             .getSingleResult ();
-
-		} catch (NumberFormatException e) {
-			throw new ConversionException (CitiesSaveRequest.class, Cities.class, request, new ArgumentOfMethodNotValidException (request));
-		} catch (NoResultException e) {
-			return doConvert (cities, request);
-		}
-		throw new ConversionException (TypeDescriptor.valueOf (CitiesSaveRequest.class), TypeDescriptor.valueOf (Cities.class), request,
-				new EntityAlreadyExistException (" name = " + request.getName ()));
-	}
+    return doConvert(cities, request);
+  }
 }

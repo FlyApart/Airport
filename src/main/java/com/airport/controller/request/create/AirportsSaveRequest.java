@@ -1,11 +1,12 @@
-package com.airport.controller.request.change;
+package com.airport.controller.request.create;
 
+import com.airport.entity.Cities;
+import com.airport.util.validation.FieldValid;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.DynamicUpdate;
 
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Data
@@ -15,14 +16,13 @@ import javax.validation.constraints.Size;
 @ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @DynamicUpdate
-public class CitiesUpdateRequest {
-    @JsonIgnore
-    String id;
+@Builder
+public class AirportsSaveRequest {
 
-    @Size
-    @Pattern(regexp = "^[a-zA-Z]{3,25}$", message = "example : Moscow")
-    String name;
+    @FieldValid(min = 1, max = 50)
+    String title;
 
-    @Size(min = 1, max = 50)
-    String country;
+    @FieldValid(min = 3, max = 50)
+    String cities;
+
 }

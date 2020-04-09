@@ -16,12 +16,16 @@ public class ConverterUpdateRequestAirlines extends ConverterRequestAirlines<Air
 
 	@Override
 	public Airlines convert (AirlinesUpdateRequest request) {
-		Airlines airlines = ofNullable (entityManager.find (Airlines.class, Long.valueOf (request.getId ())))
+
+	    Airlines airlines =
+                ofNullable (entityManager.find (Airlines.class, Long.valueOf (request.getId ())))
                            .orElseThrow (() -> new ConversionException (AirlinesUpdateRequest.class, Airlines.class, request,
                                    new EntityNotFoundException (Airlines.class, request.getId ())));
 
 		isUniqueAirlines (request.getClass (), request.getName (), request.getWebsite ());
-		if (request.getCountry ()!=null) airlines.setCountries (findCountries (request.getClass (), request.getCountry ()));
+
+		airlines.setCountries(findCountries(request.getClass(),request.getCountry()));
+
 		return doConvert (airlines, request);
 	}
 }

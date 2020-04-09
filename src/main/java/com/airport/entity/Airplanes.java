@@ -6,6 +6,7 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Date;
 
 @Data
 @NoArgsConstructor
@@ -31,7 +32,7 @@ public class Airplanes {
 	Long flightDuration;
 
 	@Column
-	Timestamp built;
+    Date built;
 
 	@OneToOne
 	@JoinColumn

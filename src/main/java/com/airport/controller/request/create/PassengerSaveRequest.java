@@ -38,7 +38,7 @@ public class PassengerSaveRequest{
 	@Past
 	Date birthDate;
 
-	@FieldValid
+    @FieldValid(min = 3, max = 50)
     String cities;
 
 	@NotNull
