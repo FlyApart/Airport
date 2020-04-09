@@ -1,15 +1,12 @@
 package com.airport.controller.request.change;
 
-import com.airport.controller.request.create.PassportSaveRequest;
-import com.airport.util.validation.FieldValid;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.DynamicUpdate;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.Collections;
 import java.util.Date;
@@ -18,19 +15,22 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode (exclude = {"passportRequestSet"})
-@ToString (exclude = {"passportRequestSet"})
+@EqualsAndHashCode
+@ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @DynamicUpdate
-public class PassengerUpdateRequest {//extends  PassengerSaveRequest{
+public class PassengerUpdateRequest {
 
-    @Size (max = 50, min = 4)
+    @Size (max = 50, min = 2)
+    @Pattern(regexp = "^[a-zA-Z]{2,50}$", message = "example : Alex")
 	String name;
 
-    @Size (max = 50, min = 4)
+    @Size (max = 50, min = 2)
+    @Pattern(regexp = "^[a-zA-Z]{2,50}$", message = "example : Cruise")
 	String secondName;
 
     @Size (max = 50, min = 4)
+    @Pattern(regexp = "(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}", message = "example : Ar2%fd*")
 	String password;
 
 	@Past
@@ -39,7 +39,7 @@ public class PassengerUpdateRequest {//extends  PassengerSaveRequest{
 	@Size (max = 50, min = 4)
 	String cities;
 
-    Set<PassportUpdateRequest> passportUpdateRequest = Collections.emptySet ();
+    Set<PassportUpdateRequest> passportUpdateRequest;
 
     Set<Long> tickets = Collections.emptySet ();
 

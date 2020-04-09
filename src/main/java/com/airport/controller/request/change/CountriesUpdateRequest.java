@@ -1,13 +1,10 @@
 package com.airport.controller.request.change;
 
-import com.airport.util.validation.FieldValid;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.DynamicUpdate;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -23,13 +20,14 @@ public class CountriesUpdateRequest {
     @JsonIgnore
     String id;
 
-    @Size(min = 3,max = 25)
+    @Pattern(regexp = "^[a-zA-Z]{3,25}$", message = "example : Russia")
     String name;
 
     @Size (max = 50)
+    @Pattern(regexp = "^[\\d]+$", message = "example : 123")
     String population;
 
-    @Pattern(regexp = "^[\\d]+.[\\d]{4,} [\\d]+.[\\d]{4,}", message = "example 52.0157 55.2073")
+    @Pattern(regexp = "^[\\d]+\\.[\\d]{4,6} [\\d]+\\.[\\d]{4,6}", message = "example 52.0157 55.2073")
     String location;
 
 }

@@ -1,16 +1,10 @@
 package com.airport.controller.request.create;
 
-import com.airport.entity.Countries;
 import com.airport.util.validation.FieldValid;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.DynamicUpdate;
 
-import javax.persistence.Column;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 @Data
@@ -24,7 +18,10 @@ public class CitiesSaveRequest {
 
 
     @FieldValid
+    @Pattern(regexp = "^[a-zA-Z]{3,25}$", message = "example : Moscow")
     String name;
 
+    @FieldValid(min = 1, max = 15)
+    @Pattern(regexp = "^[\\d]{1,15}$", message = "example : 2")
     String countriesId;
 }

@@ -1,6 +1,5 @@
 package com.airport.controller.request.change;
 
-import com.airport.entity.PassportsTypes;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -17,25 +16,27 @@ import javax.validation.constraints.Size;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @DynamicUpdate
 @Builder
-public class PassportUpdateRequest {
+public class AirlinesUpdateRequest {
 
+	@Size (min = 3, max = 50)
+	String name;
 
+	@Pattern(regexp = "^[\\w]+\\.[\\w]+", message = "example.com")
+	@Size(min = 3,max = 50)
+	String website;
 
-	@Pattern(regexp = "^[\\d]+$", message = "example : 20212223")
-	@Size(min = 4, max = 50)
-	String series;
+	@Size(min = 1, max = 25)
+	@Pattern(regexp = "^[\\d]+", message = "example : 123")
+	String sumFleet;
 
-	@Pattern(regexp = "^[\\d]+$", message = "example : 20212223")
-	@Size(min = 4, max = 50)
-	String number;
+	@Size(min = 1, max = 50)
+	@Pattern(regexp = "^[\\d]+", message = "example : 123")
+	String flightsCounts;
 
-	PassportsTypes types;
+	@Size(min = 3, max = 50)
+	String country;
 
-    @JsonIgnore
+	@JsonIgnore
 	String id;
-
-	@Pattern(regexp = "^[\\d]+$", message = "example : 2")
-	String passengerId;
-
 
 }

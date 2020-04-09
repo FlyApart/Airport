@@ -29,6 +29,7 @@ public class ConverterSaveRequestPassenger extends ConverterRequestPassengers<Pa
 
 		Set<Passports> passportsSet = new HashSet<> ();
 		for (PassportSaveRequest p : request.getPassportSaveRequest ()) {
+			p.setPassengerId (null);
 			passportsSet.add (converterSaveRequestPassport.convert (p));
 		}
 		passengers.setPassports (passportsSet);

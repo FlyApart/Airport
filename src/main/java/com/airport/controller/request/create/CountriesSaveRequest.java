@@ -5,7 +5,8 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.DynamicUpdate;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 @Data
 @NoArgsConstructor
@@ -17,12 +18,13 @@ import javax.validation.constraints.*;
 public class CountriesSaveRequest {
 
   @FieldValid(min = 3, max = 25)
+  @Pattern(regexp = "^[a-zA-Z]{3,25}$", message = "example : Russia")
   String name;
 
   @FieldValid
   String population;
 
-  @Pattern(regexp = "^[\\d]+.[\\d]{4,} [\\d]+.[\\d]{4,}", message = "example 52.0157 55.2073")
+  @Pattern(regexp = "^[\\d]{1,3}+\\.[\\d]{4,6}\\s[\\d]{1,3}\\.[\\d]{4,6}$", message = "example : 152.0157 155.2073")
   @NotNull
   String location;
 }

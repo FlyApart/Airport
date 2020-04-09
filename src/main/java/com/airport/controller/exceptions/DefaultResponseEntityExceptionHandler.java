@@ -27,13 +27,16 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class DefaultResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
     private static final Logger LOG = LogManager.getLogger (DefaultResponseEntityExceptionHandler.class);
+    public DefaultResponseEntityExceptionHandler () {
+        super ();
+    }
   @Override
   protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(
       HttpRequestMethodNotSupportedException ex,
       HttpHeaders headers,
       HttpStatus status,
       WebRequest request) {
-      LOG.error(ex.getMessage(), ex, status ,request);
+       
       return new ResponseEntity<>(new ErrorMessage(ex.getMessage() ),
               status);
   }
@@ -44,7 +47,7 @@ public class DefaultResponseEntityExceptionHandler extends ResponseEntityExcepti
       HttpHeaders headers,
       HttpStatus status,
       WebRequest request) {
-      LOG.error(ex.getMessage(), ex, status );
+       
       return new ResponseEntity<>(new ErrorMessage(ex.getMessage() ),
               status);
   }
@@ -55,7 +58,7 @@ public class DefaultResponseEntityExceptionHandler extends ResponseEntityExcepti
       HttpHeaders headers,
       HttpStatus status,
       WebRequest request) {
-      LOG.error(ex.getMessage(), ex, status );
+       
       return new ResponseEntity<>(new ErrorMessage(ex.getMessage() ),
               status);
   }
@@ -63,7 +66,7 @@ public class DefaultResponseEntityExceptionHandler extends ResponseEntityExcepti
   @Override
   protected ResponseEntity<Object> handleMissingPathVariable(
       MissingPathVariableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-      LOG.error(ex.getMessage(), ex, status );
+       
       return new ResponseEntity<>(new ErrorMessage(ex.getMessage() ),
               status);
   }
@@ -74,7 +77,7 @@ public class DefaultResponseEntityExceptionHandler extends ResponseEntityExcepti
       HttpHeaders headers,
       HttpStatus status,
       WebRequest request) {
-      LOG.error(ex.getMessage(), ex, status );
+       
       return new ResponseEntity<>(new ErrorMessage(ex.getMessage() ),
               status);
   }
@@ -85,7 +88,7 @@ public class DefaultResponseEntityExceptionHandler extends ResponseEntityExcepti
       HttpHeaders headers,
       HttpStatus status,
       WebRequest request) {
-      LOG.error(ex.getMessage(), ex, status );
+       
       return new ResponseEntity<>(new ErrorMessage(ex.getMessage() ),
               status);
   }
@@ -96,7 +99,7 @@ public class DefaultResponseEntityExceptionHandler extends ResponseEntityExcepti
       HttpHeaders headers,
       HttpStatus status,
       WebRequest request) {
-      LOG.error(ex.getMessage(), ex, status );
+       
       return new ResponseEntity<>(new ErrorMessage(ex.getMessage() ),
               status);
   }
@@ -104,7 +107,7 @@ public class DefaultResponseEntityExceptionHandler extends ResponseEntityExcepti
   @Override
   protected ResponseEntity<Object> handleTypeMismatch(
       TypeMismatchException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-      LOG.error(ex.getMessage(), ex, status );
+       
     return new ResponseEntity<>(new ErrorMessage(ex.getMessage() ),
               status);
   }
@@ -115,7 +118,7 @@ public class DefaultResponseEntityExceptionHandler extends ResponseEntityExcepti
       HttpHeaders headers,
       HttpStatus status,
       WebRequest request) {
-      LOG.error(ex.getMessage(), ex, status );
+       
       return new ResponseEntity<>(new ErrorMessage(ex.getMessage() ),
               status);
   }
@@ -126,7 +129,7 @@ public class DefaultResponseEntityExceptionHandler extends ResponseEntityExcepti
       HttpHeaders headers,
       HttpStatus status,
       WebRequest request) {
-      LOG.error(ex.getMessage(), ex, status );
+       
       return new ResponseEntity<>(new ErrorMessage(ex.getMessage() ),
               status);
   }
@@ -137,7 +140,7 @@ public class DefaultResponseEntityExceptionHandler extends ResponseEntityExcepti
       HttpHeaders headers,
       HttpStatus status,
       WebRequest request) {
-      LOG.error(ex.getMessage(), ex, status );
+       
       return new ResponseEntity<>(new ErrorMessage(ex.getMessage() ),
               status);
   }
@@ -148,7 +151,7 @@ public class DefaultResponseEntityExceptionHandler extends ResponseEntityExcepti
       HttpHeaders headers,
       HttpStatus status,
       WebRequest request) {
-      LOG.error(ex.getMessage(), ex, status );
+       
       return new ResponseEntity<>(new ErrorMessage(ex.getMessage() ),
               status);
   }
@@ -156,7 +159,7 @@ public class DefaultResponseEntityExceptionHandler extends ResponseEntityExcepti
   @Override
   protected ResponseEntity<Object> handleBindException(
       BindException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-      LOG.error(ex.getMessage(), ex, status );
+       
       return new ResponseEntity<>(new ErrorMessage(ex.getMessage() ),
               status);
   }
@@ -164,7 +167,7 @@ public class DefaultResponseEntityExceptionHandler extends ResponseEntityExcepti
   @Override
   protected ResponseEntity<Object> handleNoHandlerFoundException(
       NoHandlerFoundException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-      LOG.error(ex.getMessage(), ex, status );
+       
       return new ResponseEntity<>(new ErrorMessage(ex.getMessage() ),
               status);
   }
@@ -175,7 +178,7 @@ public class DefaultResponseEntityExceptionHandler extends ResponseEntityExcepti
       HttpHeaders headers,
       HttpStatus status,
       WebRequest webRequest) {
-    LOG.error(ex.getMessage(), ex, status );
+     
       return new ResponseEntity<>(new ErrorMessage(ex.getMessage() ),
               status);
   }
@@ -183,7 +186,7 @@ public class DefaultResponseEntityExceptionHandler extends ResponseEntityExcepti
   @Override
   protected ResponseEntity<Object> handleExceptionInternal(
       Exception ex, Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
-    LOG.error(ex.getMessage(), ex, status ,request);
+     
       return new ResponseEntity<>(new ErrorMessage(ex.getMessage() ),
               status);
   }

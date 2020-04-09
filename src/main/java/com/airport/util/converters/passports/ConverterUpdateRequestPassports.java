@@ -1,7 +1,6 @@
 package com.airport.util.converters.passports;
 
 import com.airport.controller.exceptions.ConversionException;
-import com.airport.controller.exceptions.EntityAlreadyExistException;
 import com.airport.controller.exceptions.EntityNotFoundException;
 import com.airport.controller.request.change.PassportUpdateRequest;
 import com.airport.entity.Passengers;
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Component;
 
 import static java.util.Optional.ofNullable;
 
-//import javax.persistence.NoResultException;
 
 @Component
 public class ConverterUpdateRequestPassports extends ConverterRequestPassports<PassportUpdateRequest, Passports> {
@@ -25,6 +23,7 @@ public class ConverterUpdateRequestPassports extends ConverterRequestPassports<P
 
 	@Override
 	public Passports convert (PassportUpdateRequest request) {
+
 		Passports passports = new Passports ();
 
 

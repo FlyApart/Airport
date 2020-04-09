@@ -8,7 +8,7 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.Pattern;
 
 @Data
 @NoArgsConstructor
@@ -20,9 +20,11 @@ import javax.validation.constraints.Size;
 public class PassportSaveRequest {
 
 	@FieldValid
+	@Pattern(regexp = "^[\\d]+$", message = "example : 654676")
 	String series;
 
 	@FieldValid
+	@Pattern(regexp = "^[\\d]+$", message = "example : 20212223")
 	String number;
 
 	@NotNull
@@ -30,6 +32,7 @@ public class PassportSaveRequest {
 
 	@NotNull
     @NotEmpty
+	@Pattern(regexp = "^[\\d]+$", message = "example : 2")
 	String passengerId;
 
 

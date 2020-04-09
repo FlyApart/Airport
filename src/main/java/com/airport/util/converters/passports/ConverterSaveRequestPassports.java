@@ -1,8 +1,8 @@
 package com.airport.util.converters.passports;
 
+import com.airport.controller.exceptions.ArgumentOfMethodNotValidException;
 import com.airport.controller.exceptions.ConversionException;
 import com.airport.controller.exceptions.EntityAlreadyExistException;
-import com.airport.controller.exceptions.ArgumentOfMethodNotValidException;
 import com.airport.controller.request.create.PassportSaveRequest;
 import com.airport.entity.Passengers;
 import com.airport.entity.Passports;
@@ -15,7 +15,7 @@ public class ConverterSaveRequestPassports extends ConverterRequestPassports<Pas
 
 		Passports passports = new Passports ();
 
-        if (request.getTypes()==null){
+        if (request.getTypes()==null /*|| request.getTypes()== PassportsTypes.NOT_SELECTED*/){
             throw new ConversionException (PassportSaveRequest.class, Passports.class, request,
                     new ArgumentOfMethodNotValidException (Passports.class," type = "+request.getTypes()));
         }

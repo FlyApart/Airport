@@ -1,12 +1,10 @@
 package com.airport.util.converters.cities;
 
+import com.airport.controller.exceptions.ArgumentOfMethodNotValidException;
 import com.airport.controller.exceptions.ConversionException;
 import com.airport.controller.exceptions.EntityNotFoundException;
-import com.airport.controller.exceptions.ArgumentOfMethodNotValidException;
 import com.airport.controller.request.change.CitiesUpdateRequest;
-import com.airport.controller.request.create.CitiesSaveRequest;
 import com.airport.entity.Cities;
-import com.airport.entity.Countries;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.NoResultException;
@@ -54,7 +52,7 @@ public class ConverterUpdateRequestCities extends ConverterRequestCities <Cities
             throw new ConversionException (CitiesUpdateRequest.class, Cities.class, request,
                     new EntityNotFoundException (request, Cities.class));
             }
-        cities.setCountries(findCountries(request.getCountriesId()));
+        cities.setCountries(findCountries(request.getClass (),request.getCountriesId()));
         return doConvert (cities, request);
         }
 }
