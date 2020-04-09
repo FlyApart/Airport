@@ -36,8 +36,7 @@ public class CountriesController {
 					          "\"asc or desc\"). " + "Default sort order is ascending. " + "Multiple sort criteria are supported.")})
 	@GetMapping
 	public ResponseEntity<Page<Countries>> findAllCountries(@ApiIgnore Pageable pageable) {
-		ResponseEntity <Page<Countries>> response = new ResponseEntity<>(countriesRepository.findAll(pageable), HttpStatus.OK);
-		return response;
+		return new ResponseEntity<>(countriesRepository.findAll(pageable), HttpStatus.OK);
 	}
 
 	@GetMapping(value = "/{id}")
