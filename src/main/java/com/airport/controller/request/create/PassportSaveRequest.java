@@ -6,7 +6,6 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.DynamicUpdate;
 
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
@@ -30,9 +29,8 @@ public class PassportSaveRequest {
 	@NotNull
 	PassportsTypes types;
 
-	@NotNull
-    @NotEmpty
-	@Pattern(regexp = "^[\\d]+$", message = "example : 2")
+	@FieldValid (min = 1)
+	@Pattern(regexp = "^[\\d]+$", message = "example : 123")
 	String passengerId;
 
 

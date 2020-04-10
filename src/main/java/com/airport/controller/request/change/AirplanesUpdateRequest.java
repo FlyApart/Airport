@@ -1,16 +1,13 @@
 package com.airport.controller.request.change;
 
-import com.airport.entity.Countries;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.DynamicUpdate;
 
-import javax.persistence.*;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import java.sql.Timestamp;
 import java.util.Date;
 
 @Data
@@ -28,14 +25,34 @@ public class AirplanesUpdateRequest {
 	String id;
 
     @Size(min = 3, max = 50)
-    @Pattern(regexp = "^[\\w]+", message = "example : 12AA_3")
+    @Pattern(regexp = "^[\\w]+", message = "example : 12AA3")
     String model;
 
-    @Size(min = 1, max = 15)
+    @Size(min = 1, max = 3)
     @Pattern(regexp = "^[\\d]+", message = "example : 123")
     String seats;
 
-    @Size(min = 1, max = 15)
+    @Size(min = 1, max = 2)
+    @Pattern(regexp = "^[\\d]+", message = "example : 123")
+    String row;
+
+    @Size(max = 3)
+    @Pattern(regexp = "^[\\d]+", message = "example : 123")
+    String ComfortSeats;
+
+    @Size(min = 0,max = 2)
+    @Pattern(regexp = "^[\\d]+", message = "example : 5")
+    String ComfortRow;
+
+    @Size(max = 3)
+    @Pattern(regexp = "^[\\d]+", message = "example : 123")
+    String businessSeats;
+
+    @Size(min = 0,max = 2)
+    @Pattern(regexp = "^[\\d]+", message = "example : 5")
+    String businessRow;
+
+    @Size(min = 1, max = 3)
     @Pattern(regexp = "^[\\d]+", message = "example : 123")
     String flightDuration;
 

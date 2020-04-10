@@ -5,7 +5,7 @@ create table airlines
     flights_per_year int8,
     name             varchar(50) NOT NULL,
     website          varchar(50) NOT NULL,
-    countries_id       int8,
+    countries_id     int8,
     primary key (id)
 );
 
@@ -17,9 +17,9 @@ create unique index airline_name_site_uindex
 
 create table cities
 (
-    id                  bigserial   NOT NULL,
-    name                varchar(50) NOT NULL,
-    countries_id         int8 NOT NULL ,
+    id           bigserial   NOT NULL,
+    name         varchar(50) NOT NULL,
+    countries_id int8        NOT NULL,
     primary key (id)
 );
 
@@ -29,12 +29,18 @@ create unique index cities_id_uindex
 
 create table airplanes
 (
-    id                  bigserial   NOT NULL,
-    built               timestamp,
-    max_flight_duration int8,
-    model               varchar(50) NOT NULL,
-    seats               int8,
-    countries_id          int8,
+    id                     bigserial   NOT NULL,
+    built                  timestamp,
+    max_flight_duration    int8,
+    model                  varchar(50) NOT NULL,
+    seats                  int8  NOT NULL,
+    number_of_row          int8  NOT NULL,
+    business_seats         int8,
+    business_number_of_row int8,
+    comfort_seats          int8,
+    comfort_number_of_row  int8,
+    countries_id           int8,
+
     primary key (id)
 );
 
@@ -45,8 +51,8 @@ create unique index airplanes_model_uindex
 
 create table airports
 (
-    id         bigserial   NOT NULL,
-    title      varchar(75) NOT NULL,
+    id        bigserial   NOT NULL,
+    title     varchar(75) NOT NULL,
     cities_id int8,
     primary key (id)
 );
@@ -118,15 +124,15 @@ create unique index flights_discounts_uindex
 
 create table passengers
 (
-    id         bigserial   NOT NULL,
+    id         bigserial    NOT NULL,
     date_birth timestamp,
     changed    timestamp,
     created    timestamp,
-    login      varchar(50) NOT NULL,
-    name       varchar(50) NOT NULL,
+    login      varchar(50)  NOT NULL,
+    name       varchar(50)  NOT NULL,
     password   varchar(255) NOT NULL,
-    surname    varchar(50) NOT NULL,
-    cities_id int8,
+    surname    varchar(50)  NOT NULL,
+    cities_id  int8,
     primary key (id)
 );
 
@@ -139,11 +145,11 @@ create unique index passengers_id_uindex
 
 create table passports
 (
-    id            bigserial NOT NULL,
-    number        int8  NOT NULL,
-    series        int8  NOT NULL,
+    id            bigserial   NOT NULL,
+    number        int8        NOT NULL,
+    series        int8        NOT NULL,
     types         varchar(50) NOT NULL,
-    passengers_id int8 NOT NULL,
+    passengers_id int8        NOT NULL,
     primary key (id)
 );
 
@@ -162,12 +168,13 @@ create unique index passports_unique_types_uindex
 
 create table tickets
 (
-    id          bigserial NOT NULL,
-    place       varchar(10) NOT NULL,
-    reservation boolean,
-    total_price float8 NOT NULL,
-    flights_id  int8 not null,
-    passengers_id int8 NOT NULL,
+    id            bigserial   NOT NULL,
+    place         varchar(10) NOT NULL,
+    reservation   boolean,
+    total_price   float8      NOT NULL,
+    flights_id    int8        not null,
+    passengers_id int8        NOT NULL,
+    class         varchar(50) NOT NULL,
     primary key (id)
 );
 
@@ -175,11 +182,10 @@ create unique index tickets_id_uindex
     on tickets (id);
 
 create unique index tickets_place_flight_uindex
-    on tickets USING btree (flights_id,place);
+    on tickets USING btree (flights_id, place);
 
 create unique index tickets_flight_id_passenger_id_uindex
-    on tickets USING btree (flights_id,passengers_id);
-
+    on tickets USING btree (flights_id, passengers_id);
 
 
 /*TODO add role*/

@@ -20,9 +20,8 @@ import javax.validation.constraints.Size;
 public class PassportUpdateRequest {
 
 
-
-	@Pattern(regexp = "^[\\d]+$", message = "example : 20212223")
 	@Size(min = 4, max = 50)
+	@Pattern(regexp = "^[\\d]+$", message = "example : 20212223")
 	String series;
 
 	@Pattern(regexp = "^[\\d]+$", message = "example : 20212223")

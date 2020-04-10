@@ -61,8 +61,10 @@ public class PassengersController {
 	@Transactional
 	@PostMapping
 	public ResponseEntity<Passengers> createPassenger (@RequestBody @Valid PassengerSaveRequest passengerInfo) {
-		Passengers passengers = passengersService.saveAndUpdate (conversionService.convert (passengerInfo, Passengers.class));
-		return new ResponseEntity<> (passengers, HttpStatus.CREATED);
+		Passengers passengers = conversionService.convert (passengerInfo, Passengers.class);
+		if (passengerInfo==null) return new ResponseEntity<> (passengersRepository.saveAndFlush (passengers), HttpStatus.CREATED);
+			else return new ResponseEntity<> (passengersRepository.saveAndFlushPassengers (passengers), HttpStatus.CREATED);
+
 	}
 
 

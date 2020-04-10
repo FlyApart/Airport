@@ -19,6 +19,11 @@ public abstract class ConverterRequestAirplanes<S, T> extends EntityConverter<S,
 		airplanes.setFlightDuration(Long.valueOf (entity.getFlightDuration ()));
 		airplanes.setModel(entity.getModel());
 		airplanes.setSeats(Long.valueOf (entity.getSeats ()));
+		airplanes.setRow (Long.valueOf (entity.getRow ()));
+		airplanes.setComfortSeats (Long.valueOf (entity.getComfortSeats ()));
+		airplanes.setComfortRow (Long.valueOf (entity.getComfortRow ()));
+		airplanes.setBusinessRow (Long.valueOf (entity.getBusinessSeats ()));
+		airplanes.setBusinessRow (Long.valueOf (entity.getBusinessRow ()));
 		return airplanes;
 	}
 
@@ -27,6 +32,11 @@ public abstract class ConverterRequestAirplanes<S, T> extends EntityConverter<S,
 		if (entity.getFlightDuration () != null) airplanes.setFlightDuration (Long.valueOf (entity.getFlightDuration ()));
 		if (entity.getModel () != null) airplanes.setModel (entity.getModel ());
 		if (entity.getSeats () != null) airplanes.setSeats (Long.valueOf(entity.getSeats()));
+		if (entity.getRow()!=null)airplanes.setRow (Long.valueOf (entity.getRow ()));
+		if (entity.getComfortSeats()!=null)airplanes.setComfortSeats (Long.valueOf (entity.getComfortSeats ()));
+		if (entity.getComfortRow()!=null)airplanes.setComfortRow (Long.valueOf (entity.getComfortRow ()));
+		if (entity.getBusinessSeats()!=null)airplanes.setBusinessRow (Long.valueOf (entity.getBusinessSeats ()));
+		if (entity.getBusinessRow()!=null)airplanes.setBusinessRow (Long.valueOf (entity.getBusinessRow ()));
 		return airplanes;
 	}
 

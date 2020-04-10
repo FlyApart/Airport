@@ -1,15 +1,12 @@
 package com.airport.controller.request.create;
 
 import com.airport.util.validation.FieldValid;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
-import java.sql.Timestamp;
 import java.util.Date;
 
 @Data
@@ -26,11 +23,31 @@ public class AirplanesSaveRequest {
     @Pattern(regexp = "^[\\w]+", message = "example : 12AA3")
     String model;
 
-    @FieldValid(min = 1, max = 15)
+    @FieldValid(min = 1, max = 3)
     @Pattern(regexp = "^[\\d]+", message = "example : 123")
     String seats;
 
-    @FieldValid(min = 1, max = 15)
+    @FieldValid(min = 1, max = 2)
+    @Pattern(regexp = "^[\\d]+", message = "example : 123")
+    String row;
+
+    @FieldValid(min = 0, max = 3)
+    @Pattern(regexp = "^[\\d]+", message = "example : 123")
+    String ComfortSeats;
+
+    @FieldValid(min = 0,max = 2)
+    @Pattern(regexp = "^[\\d]+", message = "example : 5")
+    String ComfortRow;
+
+    @FieldValid(min = 0, max = 3)
+    @Pattern(regexp = "^[\\d]+", message = "example : 123")
+    String businessSeats;
+
+    @FieldValid(min = 0,max = 2)
+    @Pattern(regexp = "^[\\d]+", message = "example : 5")
+    String businessRow;
+
+    @FieldValid(min = 1, max = 3)
     @Pattern(regexp = "^[\\d]+", message = "example : 123")
     String flightDuration;
 
@@ -41,3 +58,5 @@ public class AirplanesSaveRequest {
     String country;
 
 }
+
+

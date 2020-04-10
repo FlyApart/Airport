@@ -7,7 +7,6 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -17,18 +16,33 @@ import java.util.Set;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @DynamicUpdate
 @Builder
-public class DiscountsUpdateRequest {
+public class TicketsUpdateRequest {
 
 	@JsonIgnore
-	String id;
+	Boolean reservation;
+
+	@Size(min = 1, max = 10)
+	String place;
+
+	@Size (min = 1,max = 50)
+	@Pattern(regexp = "^[\\d]+\\.[\\d]+", message = "example : 123.45")
+	Double totalPrice;
+
+	@Size (min = 1,max = 50)
+	@Pattern(regexp = "^[\\d]+$", message = "example : 123")
+	String flightsID;
+
+	@Size (min = 1,max = 50)
+	@Pattern(regexp = "^[\\d]+$", message = "example : 123")
+	String passengersId;
 
 	@Size (min = 4, max = 50)
 	@Pattern(regexp = "^[\\w]+", message = "example : AUL_125")
-	String title;
+	String DiscountsTitle;
 
-	@Size (min = 4, max = 50)
-	@Pattern(regexp = "^[\\d]+\\.[\\d]+", message = "example : 123,45")
-	String cost;
 
-	Set<Long> flightsId;
+
+
+
+
 }

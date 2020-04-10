@@ -27,6 +27,10 @@ public class Tickets {
 	@Column (name = "total_price", nullable = false)
 	Double totalPrice;
 
+	@Enumerated(EnumType.STRING)
+	@Column(name = "class", nullable = false, length = 50)
+	FlightsClass flightsClass =FlightsClass.NORMAL;
+
 	@Column
 	Boolean reservation;
 
@@ -39,5 +43,5 @@ public class Tickets {
 	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Passengers.class ,cascade = CascadeType.ALL)
 	@JoinColumn (name = "passengers_id",nullable = false)
 	Passengers passengersId;
-	//static Long count;
+
 }

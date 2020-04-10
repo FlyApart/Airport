@@ -63,7 +63,7 @@ public class PassportsController {
 	public String DeletePassport (@PathVariable ("id") String id){
 		Passports passports = passportsRepository.findById (Long.valueOf (id))
 		                                         .orElseThrow(() -> new EntityNotFoundException (Passports.class, id));
-		passportsRepository.deletePassports (passports);
+		passportsRepository.delete (passports);
 		return id;
 	}
 
@@ -87,7 +87,6 @@ public class PassportsController {
 	@PutMapping (value = "/{id}")
 	@Transactional
 	public ResponseEntity<Passports> updatePassport (@PathVariable String id, @RequestBody @Valid PassportUpdateRequest passportUpdateRequest) {
-
 		passportUpdateRequest.setId (id);
 		Passports passports = conversionService.convert (passportUpdateRequest, Passports.class);
 		return new ResponseEntity<> (passportsRepository.saveAndFlush (passports), HttpStatus.CREATED);

@@ -52,7 +52,7 @@ public class DiscountsController {
 	public String DeleteDiscounts (@PathVariable ("id") String id){
 		 Discounts  discounts =  discountsRepository.findById (Long.valueOf (id))
 		                                         .orElseThrow(() -> new EntityNotFoundException ( Discounts.class, id));
-		 discountsRepository.deleteDiscounts (discounts);
+		 discountsRepository.delete (discounts);
 		return id;
 	}
 
