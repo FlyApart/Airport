@@ -2,7 +2,8 @@ package com.airport.controller;
 
 
 import com.airport.controller.exceptions.EntityNotFoundException;
-import com.airport.controller.request.create.SaveAndUpdateTicketsRequest;
+import com.airport.controller.request.create.TicketsSaveUpdateRequest;
+import com.airport.entity.Flights;
 import com.airport.entity.FlightsClass;
 import com.airport.entity.Tickets;
 import com.airport.repository.springdata.TicketsRepository;
@@ -21,7 +22,6 @@ import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @CrossOrigin
 @RestController
@@ -54,11 +54,8 @@ public class TicketsController {
     @GetMapping(value = "/flights/{id}")
     public ResponseEntity <List<String>> findTickets (@PathVariable ("id") String id, FlightsClass flightsClass){
         List<String> reservationPlaces =  ticketsRepository.findPlacesByFlights(Long.valueOf (id),flightsClass)
-                .orElseThrow (() -> new EntityNotFoundException ( Tickets.class, id));
-
-
-
-        return new ResponseEntity<>( reservationPlaces, HttpStatus.OK);
+                .orElseThrow (() -> new EntityNotFoundException ( "id = "+id+", seats class ="+flightsClass, Flights.class));
+	    return new ResponseEntity<>( reservationPlaces, HttpStatus.OK);
     }
 	
 
@@ -75,16 +72,16 @@ public class TicketsController {
 
 	@PostMapping
 	@Transactional
-	public ResponseEntity< Tickets> createTickets (@RequestBody @Valid SaveAndUpdateTicketsRequest ticketsSaveAndUpdateRequest) {
-		return new ResponseEntity<> ( ticketsService.saveAndUpdate (ticketsSaveAndUpdateRequest), HttpStatus.CREATED);
+	public ResponseEntity< Tickets> createTickets (@RequestBody @Valid TicketsSaveUpdateRequest ticketsSaveUpdateRequest) {
+		return new ResponseEntity<> ( ticketsService.saveAndUpdate(ticketsSaveUpdateRequest), HttpStatus.CREATED);
 	}
 
 	@PutMapping (value = "/{id}")
 	@Transactional
 	public ResponseEntity< Tickets> updateTickets (@PathVariable ("id") String id,
-                                                       @RequestBody @Valid  SaveAndUpdateTicketsRequest  ticketsSaveAndUpdateRequest) {
-		ticketsSaveAndUpdateRequest.setId(id);
-		return new ResponseEntity<> ( ticketsService.saveAndUpdate (ticketsSaveAndUpdateRequest), HttpStatus.CREATED);
+                                                       @RequestBody @Valid TicketsSaveUpdateRequest ticketsSaveUpdateRequest) {
+		ticketsSaveUpdateRequest.setId(id);
+		return new ResponseEntity<> ( ticketsService.saveAndUpdate (ticketsSaveUpdateRequest), HttpStatus.CREATED);
 	}
 
 

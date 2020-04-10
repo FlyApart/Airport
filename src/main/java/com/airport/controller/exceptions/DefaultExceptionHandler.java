@@ -9,8 +9,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import javax.validation.ValidationException;
-
 
 
 @ControllerAdvice
@@ -53,7 +51,14 @@ public class DefaultExceptionHandler extends DefaultResponseEntityExceptionHandl
 	@ExceptionHandler(ArgumentOfMethodNotValidException.class)
 	public ResponseEntity<ErrorMessage> handleArgumentOfMethodNotValidException (ArgumentOfMethodNotValidException e) {
 		LOG.error (e.getMessage (), e);
-		return new ResponseEntity<> (new ErrorMessage (e.getMessage ()+e),HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<> (new ErrorMessage (e.getMessage ()),HttpStatus.BAD_REQUEST);
 	}
+
+	@ExceptionHandler(CustomException.class)
+	public ResponseEntity<ErrorMessage> handleCustomException(CustomException e) {
+		LOG.error (e.getMessage (), e);
+		return new ResponseEntity<> (new ErrorMessage (e.getMessage ()),HttpStatus.NOT_ACCEPTABLE);
+	}
+
 
 }

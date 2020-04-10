@@ -5,7 +5,6 @@ import com.airport.util.validation.FieldValid;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.hibernate.annotations.DynamicUpdate;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -17,21 +16,19 @@ import javax.validation.constraints.Size;
 @EqualsAndHashCode
 @ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@DynamicUpdate
-@Builder
-public class SaveAndUpdateTicketsRequest {
-
-	@JsonIgnore
-	String id;
+public class TicketsSaveUpdateRequest {
 
 	@JsonIgnore
 	Boolean reservation;
 
 	@JsonIgnore
+	String id;
+
+	@JsonIgnore
 	Double totalPrice;
 
 	@Pattern(regexp = "^[\\d]{1,2}[A-L]$", message = "example : 9L")
-	@FieldValid(min = 1, max = 10)
+	@Size(min = 1, max = 10)
 	String place;
 
 	@FieldValid (min = 1)

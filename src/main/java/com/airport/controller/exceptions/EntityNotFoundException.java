@@ -3,7 +3,7 @@ package com.airport.controller.exceptions;
 public class EntityNotFoundException extends RuntimeException {
 
     private static final String MESSAGE_ID_TEMPLATE = "%s with id= %s not found";
-    private static final String MESSAGE_SOURCES_TEMPLATE = "%s with sources= %s not found";
+    private static final String MESSAGE_SOURCES_TEMPLATE = "%s with sources: %s not found";
     private static final String MESSAGE_TEMPLATE = "%s not found";
 
     public EntityNotFoundException() {
