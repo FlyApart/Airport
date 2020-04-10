@@ -3,6 +3,7 @@ package com.airport.controller;
 
 import com.airport.controller.exceptions.EntityNotFoundException;
 import com.airport.controller.request.create.SaveAndUpdateTicketsRequest;
+import com.airport.entity.FlightsClass;
 import com.airport.entity.Tickets;
 import com.airport.repository.springdata.TicketsRepository;
 import com.airport.service.TicketsService;
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin
 @RestController
@@ -47,6 +50,16 @@ public class TicketsController {
                 .orElseThrow (() -> new EntityNotFoundException ( Tickets.class, id));
 		return new ResponseEntity<>( tickets, HttpStatus.OK);
 	}
+
+    @GetMapping(value = "/flights/{id}")
+    public ResponseEntity <List<String>> findTickets (@PathVariable ("id") String id, FlightsClass flightsClass){
+        List<String> reservationPlaces =  ticketsRepository.findPlacesByFlights(Long.valueOf (id),flightsClass)
+                .orElseThrow (() -> new EntityNotFoundException ( Tickets.class, id));
+
+
+
+        return new ResponseEntity<>( reservationPlaces, HttpStatus.OK);
+    }
 	
 
 	@Transactional

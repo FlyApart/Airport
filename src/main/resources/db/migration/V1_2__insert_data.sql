@@ -41,14 +41,20 @@ insert into passengers
 (date_birth, changed, created, login, name, password, surname, cities_id)
 values ('13-05-1997', null, '30-03-2020', 'oglorn@mail.ru', 'Alex', '1234qwer', 'Zuev', '1'),
        ('21-12-1996', null, '20-02-2020', 'dunya@mail.ru', 'Dima', 'rewq4321', 'Dunya', '2'),
+       ('21-12-1996', null, '20-02-2020', 'dunya2@mail.ru', 'Dima', 'rewq4321', 'Dunya', '2'),
+       ('21-12-1996', null, '20-02-2020', 'dunya3@mail.ru', 'Dima', 'rewq4321', 'Dunya', '2'),
+       ('21-12-1996', null, '20-02-2020', 'dunya4@mail.ru', 'Dima', 'rewq4321', 'Dunya', '2'),
        ('06-04-1971', null, '17-01-2020', 'lelya@qmail.com', 'Olga', '1234qwer', 'Zinevich', '1');
 
 insert into passports
 (number, series, types, passengers_id)
 values (1234, 1234, 'CITIZEN', 1),
        (4321, 4321, 'FOREIGN', 1),
-       (2222, 2222, 'CITIZEN', 2),
-       (3333, 3333, 'DIPLOMATIC', 3);
+       (22221, 2222, 'CITIZEN', 2),
+       (22222, 2222, 'CITIZEN', 4),
+       (22223, 2222, 'CITIZEN', 5),
+       (22224, 2222, 'CITIZEN', 6),
+       (33335, 3333, 'DIPLOMATIC', 3);
 
 insert into flights
 (arrive_date, changed, departure_date, flights_number, price, airline_id, airplane_id, arrive_airport_id, departure_airport_id)
@@ -58,10 +64,13 @@ values ('2020-11-11 15:10:00', null, '2020-11-11 12:20:00', 'AOPRR133', 24000, 1
 insert into tickets
 (place, reservation, total_price, flights_id, passengers_id,class)
 values ('1A', TRUE, 22000, 1, 1,'BUSINESS'),
-       ('22 D', FALSE, 22000, 1,2,'BUSINESS'),
-       ('7 C', TRUE, 22000, 1,3,'BUSINESS'),
-       ('22 C', FALSE, 17000, 2,1,'NORMAL'),
-       ('11 D', TRUE, 17000, 2,3,'COMFORT');
+       ('22D', FALSE, 22000, 1,2,'BUSINESS'),
+       ('7C', TRUE, 22000, 1,3,'BUSINESS'),
+       ('6D', TRUE, 22000, 1,4,'BUSINESS'),
+       ('8C', TRUE, 22000, 1,5,'BUSINESS'),
+       ('7E', TRUE, 22000, 1,6,'BUSINESS'),
+       ('22C', FALSE, 17000, 2,1,'NORMAL'),
+       ('11D', TRUE, 17000, 2,3,'COMFORT');
 
 insert into flights_discounts (flights_id, discounts_id)
 values (1,1),
