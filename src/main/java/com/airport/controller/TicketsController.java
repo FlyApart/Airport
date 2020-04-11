@@ -4,14 +4,13 @@ package com.airport.controller;
 import com.airport.controller.exceptions.EntityNotFoundException;
 import com.airport.controller.request.create.TicketsSaveUpdateRequest;
 import com.airport.entity.Flights;
-import com.airport.entity.FlightsClass;
+import com.airport.entity.SeatsClass;
 import com.airport.entity.Tickets;
 import com.airport.repository.springdata.TicketsRepository;
 import com.airport.service.TicketsService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -30,7 +29,6 @@ import java.util.List;
 public class TicketsController {
     
 	private final  TicketsRepository ticketsRepository;
-	private final ConversionService conversionService;
 	private final TicketsService ticketsService;
 
 	@ApiImplicitParams(
@@ -52,9 +50,9 @@ public class TicketsController {
 	}
 
     @GetMapping(value = "/flights/{id}")
-    public ResponseEntity <List<String>> findTickets (@PathVariable ("id") String id, FlightsClass flightsClass){
-        List<String> reservationPlaces =  ticketsRepository.findPlacesByFlights(Long.valueOf (id),flightsClass)
-                .orElseThrow (() -> new EntityNotFoundException ( "id = "+id+", seats class ="+flightsClass, Flights.class));
+    public ResponseEntity <List<String>> findTickets (@PathVariable ("id") String id, SeatsClass seatsClass){
+        List<String> reservationPlaces =  ticketsRepository.findPlacesByFlights(Long.valueOf (id), seatsClass)
+                .orElseThrow (() -> new EntityNotFoundException ( "id = "+id+", seats class ="+ seatsClass, Flights.class));
 	    return new ResponseEntity<>( reservationPlaces, HttpStatus.OK);
     }
 	
@@ -67,8 +65,6 @@ public class TicketsController {
 		 ticketsRepository.deleteTickets (tickets);
 		return id;
 	}
-
-
 
 	@PostMapping
 	@Transactional

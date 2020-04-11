@@ -33,12 +33,12 @@ create table airplanes
     built                  timestamp,
     max_flight_duration    int8,
     model                  varchar(50) NOT NULL,
-    seats                  int8  NOT NULL,
-    number_of_row          int8  NOT NULL,
-    business_seats         int8,
-    business_number_of_row int8,
-    comfort_seats          int8,
-    comfort_number_of_row  int8,
+    seats                  int4  NOT NULL,
+    number_of_row          int4  NOT NULL,
+    business_seats         int4,
+    business_number_of_row int4,
+    comfort_seats          int4,
+    comfort_number_of_row  int4,
     countries_id           int8,
 
     primary key (id)

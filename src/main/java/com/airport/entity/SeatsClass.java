@@ -1,6 +1,6 @@
 package com.airport.entity;
 
-public enum FlightsClass {
+public enum SeatsClass {
 
 	NORMAL,BUSINESS,COMFORT
 }

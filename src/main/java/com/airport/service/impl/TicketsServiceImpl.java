@@ -68,80 +68,91 @@ public class TicketsServiceImpl implements TicketsService {
 
 		Integer minSeatsNum;
 		Integer maxSeatsNum;
-		Long row;
-		Long seats;
+		Integer row;
+		Integer seats;
 
-		if (FlightsClass.NORMAL.equals (tickets.getFlightsClass ())) {
+		if (SeatsClass.NORMAL.equals (tickets.getSeatsClass ())) {
 			seats = tickets.getFlights ()
 			               .getAirplane ()
 			               .getSeats ();
-			if (seats == null) throw new CustomException ("Airplane "+tickets.getFlights ().getAirplane ()+" does not have " + tickets.getFlightsClass ()+" class");
+
 			row = tickets.getFlights ()
 			             .getAirplane ()
 			             .getRow ();
 			minSeatsNum = 1;
-			maxSeatsNum = (int) (seats / row) + minSeatsNum;
-		} else if (FlightsClass.COMFORT.equals (tickets.getFlightsClass ())) {
+			maxSeatsNum = seats / row + minSeatsNum;
+
+		} else if (SeatsClass.COMFORT.equals (tickets.getSeatsClass ())) {
 			seats = tickets.getFlights ()
 			               .getAirplane ()
 			               .getComfortSeats ();
-			if (seats == null) throw new CustomException ("Airplane "+tickets.getFlights ().getAirplane ()+" does not have " + tickets.getFlightsClass ()+" class");
+
 			row = tickets.getFlights ()
 			             .getAirplane ()
 			             .getComfortRow ();
-			minSeatsNum = (int) ((tickets.getFlights ()
-			                             .getAirplane ()
-			                             .getSeats () / tickets.getFlights ()
-			                                                   .getAirplane ()
-			                                                   .getRow ()) + 2);
-			maxSeatsNum = (int) (seats / row) + minSeatsNum;
-		} else if (FlightsClass.BUSINESS.equals (tickets.getFlightsClass ())) {
+			minSeatsNum = (tickets.getFlights ()
+			                      .getAirplane ()
+			                      .getSeats () / tickets.getFlights ()
+			                                            .getAirplane ()
+			                                            .getRow () + 2);
+			maxSeatsNum = seats / row + minSeatsNum;
+
+		} else if (SeatsClass.BUSINESS.equals (tickets.getSeatsClass ())) {
 			seats = tickets.getFlights ()
 			               .getAirplane ()
 			               .getBusinessSeats ();
-			if (seats == null) throw new CustomException ("Airplane "+tickets.getFlights ().getAirplane ()+" does not have " + tickets.getFlightsClass ()+" class");
+
 			row = tickets.getFlights ()
 			             .getAirplane ()
 			             .getBusinessRow ();
-			minSeatsNum = (int) ((tickets.getFlights ()
-			                             .getAirplane ()
-			                             .getSeats () / tickets.getFlights ()
-			                                                   .getAirplane ()
-			                                                   .getRow () + tickets.getFlights ()
-			                                                                       .getAirplane ()
-			                                                                       .getComfortSeats () / tickets.getFlights ()
-			                                                                                                    .getAirplane ()
-			                                                                                                    .getComfortRow ()) + 3);
-			maxSeatsNum = (int) (seats / row) + minSeatsNum;
-		} else throw new EntityNotFoundException (" Class seats = " + tickets.getFlightsClass (), Tickets.class);
+			minSeatsNum = (tickets.getFlights ()
+			                      .getAirplane ()
+			                      .getSeats () / tickets.getFlights ()
+			                                            .getAirplane ()
+			                                            .getRow () + tickets.getFlights ()
+			                                                                .getAirplane ()
+			                                                                .getComfortSeats () / tickets.getFlights ()
+			                                                                                             .getAirplane ()
+			                                                                                             .getComfortRow () + 3);
+			maxSeatsNum = seats / row + minSeatsNum;
 
-		return getEmptySeat (row,minSeatsNum,maxSeatsNum,ticketRequest.getPlace (),tickets);
+		} else throw new EntityNotFoundException (" Class seats = " + tickets.getSeatsClass (), Tickets.class);
+
+		if (seats == null) {
+			throw new CustomException ("Airplane " + tickets.getFlights ()
+			                                                .getAirplane () + " does not have " + tickets.getSeatsClass () + " class");
+		}
+		return getEmptySeat (row, minSeatsNum, maxSeatsNum, ticketRequest.getPlace (), tickets);
 
 	}
 
-	String getEmptySeat (Long row, Integer minSeatsNum, Integer maxSeatsNum, String place, Tickets ticket) {
+	String getEmptySeat (Integer row, Integer minSeatsNum, Integer maxSeatsNum, String place, Tickets ticket) {
 
 		if (place != null) {
 			Integer numberSeat = Integer.valueOf (place.substring (0, place.length () - 1));
 			String charSeat = place.substring (place.length () - 1);
 			String placeCharacter = "ABCDEFGHIJKL";
 
-			if (numberSeat >= minSeatsNum && numberSeat <= maxSeatsNum && placeCharacter.substring (0, (int) (row - 1))
+			if (numberSeat >= minSeatsNum && numberSeat <= maxSeatsNum && placeCharacter.substring (0, row - 1)
 			                                                                            .contains (charSeat)) {
 
-				if (ticketsRepository.findTicketsByFlightsIdAndPlace (ticket.getFlights ().getId (), place).isPresent ()) {
+				if (ticketsRepository.findTicketsByFlightsIdAndPlace (ticket.getFlights ()
+				                                                            .getId (), place)
+				                     .isPresent ()) {
 
-					throw new EntityAlreadyExistException (Tickets.class, "place = " + place + ", Flights id = " + ticket.getFlights ().getId ());
+					throw new EntityAlreadyExistException (Tickets.class, "place = " + place + ", Flights id = " + ticket.getFlights ()
+					                                                                                                     .getId ());
 				}
 
 				return place;
 
 			} else
-				throw new ArgumentOfMethodNotValidException (Tickets.class,"Place " + place + ", class " + ticket.getFlightsClass ());
-		}
-		else {
+				throw new ArgumentOfMethodNotValidException (Tickets.class, "Place " + place + ", class " + ticket.getSeatsClass ());
+		} else {
 
-			List<String>placeInTicket=ticketsRepository.findPlacesByFlights (ticket.getFlights ().getId (), ticket.getFlightsClass ()).orElse (null);
+			List<String> placeInTicket = ticketsRepository.findPlacesByFlights (ticket.getFlights ()
+			                                                                          .getId (), ticket.getSeatsClass ())
+			                                              .orElse (null);
 
 			if (placeInTicket == null) {
 				return minSeatsNum.toString ()
@@ -155,7 +166,7 @@ public class TicketsServiceImpl implements TicketsService {
 			                                                                                           .getAirplane ()
 			                                                                                           .getBusinessSeats ()) {
 
-				throw new CustomException ("unable to create Ticket with class = " + ticket.getFlightsClass () + " (out of place)");
+				throw new CustomException ("unable to create Ticket with class = " + ticket.getSeatsClass () + " (out of place)");
 
 			} else {
 				String placeCharacter = "ABCDEFGHIJKL";
@@ -181,31 +192,33 @@ public class TicketsServiceImpl implements TicketsService {
 		boolean uniquePas = true;
 		boolean uniqueFlight = true;
 
-		if (ticketRequest.getId ()!=null){
+		if (ticketRequest.getId () != null) {
 			tickets = ticketsRepository.findById (Long.valueOf (ticketRequest.getId ()))
-			                                   .orElseThrow (() -> new EntityNotFoundException (Tickets.class, ticketRequest.getId ()));
+			                           .orElseThrow (() -> new EntityNotFoundException (Tickets.class, ticketRequest.getId ()));
 
-			uniquePas = tickets.getPassengersId ().getId ()!=Long.valueOf (ticketRequest.getPassengersId ());
-			uniqueFlight = tickets.getFlights ().getId ()!=Long.valueOf (ticketRequest.getFlightsID ());
+			uniquePas = tickets.getPassengersId ()
+			                   .getId () != Long.valueOf (ticketRequest.getPassengersId ());
+			uniqueFlight = tickets.getFlights ()
+			                      .getId () != Long.valueOf (ticketRequest.getFlightsID ());
 		}
 
-		tickets.setFlightsClass (ticketRequest.getFlightsClass ());
+		tickets.setSeatsClass (ticketRequest.getSeatsClass ());
 
-		if(uniqueFlight){
+		if (uniqueFlight) {
 			tickets.setFlights (findFlight (Long.valueOf (ticketRequest.getFlightsID ())));
 		}
 
-		if(uniquePas) {
+		if (uniquePas) {
 			tickets.setPassengersId (findPassengers (Long.valueOf (ticketRequest.getPassengersId ())));
 		}
 
-		if (uniquePas || uniqueFlight){
+		if (uniquePas || uniqueFlight) {
 			uniquePassengersAndFlights (tickets);
 		}
 
 
-		if(tickets.getPlace ()!=ticketRequest.getPlace ()){
-			tickets.setPlace (getPlaces (tickets,ticketRequest));
+		if (tickets.getPlace () != ticketRequest.getPlace ()) {
+			tickets.setPlace (getPlaces (tickets, ticketRequest));
 		}
 
 		tickets.setTotalPrice (costCalculation (tickets, ticketRequest.getDiscountsTitle ()));

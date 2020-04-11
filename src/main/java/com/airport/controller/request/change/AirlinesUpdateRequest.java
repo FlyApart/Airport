@@ -3,7 +3,6 @@ package com.airport.controller.request.change;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.hibernate.annotations.DynamicUpdate;
 
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -14,8 +13,6 @@ import javax.validation.constraints.Size;
 @EqualsAndHashCode
 @ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@DynamicUpdate
-@Builder
 public class AirlinesUpdateRequest {
 
 	@Size (min = 3, max = 50)
@@ -25,11 +22,11 @@ public class AirlinesUpdateRequest {
 	@Size(min = 3,max = 50)
 	String website;
 
-	@Size(min = 1, max = 25)
+	@Size(min = 1, max = 18)
 	@Pattern(regexp = "^[\\d]+", message = "example : 123")
 	String sumFleet;
 
-	@Size(min = 1, max = 50)
+	@Size(min = 1, max = 18)
 	@Pattern(regexp = "^[\\d]+", message = "example : 123")
 	String flightsCounts;
 

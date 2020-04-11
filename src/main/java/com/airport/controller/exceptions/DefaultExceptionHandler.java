@@ -28,13 +28,6 @@ public class DefaultExceptionHandler extends DefaultResponseEntityExceptionHandl
 		return new ResponseEntity<> (new ErrorMessage (e.getMessage ()), HttpStatus.CONFLICT);
 	}
 
-	@ExceptionHandler(ConversionException.class)
-	public ResponseEntity<ErrorMessage> handleConversionFailedException (ConversionException e) {
-		LOG.error (e.getMessage (), e);
-		return new ResponseEntity<> (new ErrorMessage (e.getMessage ()), HttpStatus.BAD_REQUEST);
-	}
-
-
 	@ExceptionHandler(AuthenticationException.class)
 	public ResponseEntity<ErrorMessage> handleAuthenticationException (AuthenticationException e) {
 		LOG.error (e.getMessage (), e);
@@ -48,8 +41,8 @@ public class DefaultExceptionHandler extends DefaultResponseEntityExceptionHandl
 		return new ResponseEntity<> (new ErrorMessage (e.getMessage ()), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
-	@ExceptionHandler(ArgumentOfMethodNotValidException.class)
-	public ResponseEntity<ErrorMessage> handleArgumentOfMethodNotValidException (ArgumentOfMethodNotValidException e) {
+	@ExceptionHandler({ArgumentOfMethodNotValidException.class, NumberFormatException.class,ConversionException.class})
+	public ResponseEntity<ErrorMessage> handleArgumentOfMethodNotValidException (RuntimeException e) {
 		LOG.error (e.getMessage (), e);
 		return new ResponseEntity<> (new ErrorMessage (e.getMessage ()),HttpStatus.BAD_REQUEST);
 	}
@@ -59,6 +52,5 @@ public class DefaultExceptionHandler extends DefaultResponseEntityExceptionHandl
 		LOG.error (e.getMessage (), e);
 		return new ResponseEntity<> (new ErrorMessage (e.getMessage ()),HttpStatus.NOT_ACCEPTABLE);
 	}
-
 
 }

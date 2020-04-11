@@ -3,7 +3,6 @@ package com.airport.controller.request.create;
 import com.airport.util.validation.FieldValid;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.hibernate.annotations.DynamicUpdate;
 
 import javax.validation.constraints.Pattern;
 
@@ -13,11 +12,10 @@ import javax.validation.constraints.Pattern;
 @EqualsAndHashCode
 @ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@DynamicUpdate
 public class CitiesSaveRequest {
 
 
-    @FieldValid
+    @FieldValid(min = 3)
     @Pattern(regexp = "^[a-zA-Z]{3,25}$", message = "example : Moscow")
     String name;
 

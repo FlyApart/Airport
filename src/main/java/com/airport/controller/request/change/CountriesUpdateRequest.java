@@ -3,7 +3,6 @@ package com.airport.controller.request.change;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.hibernate.annotations.DynamicUpdate;
 
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -14,16 +13,16 @@ import javax.validation.constraints.Size;
 @EqualsAndHashCode
 @ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@DynamicUpdate
 public class CountriesUpdateRequest {
 
     @JsonIgnore
     String id;
 
-    @Pattern(regexp = "^[a-zA-Z]{3,25}$", message = "example : Russia")
+    @Size(min = 3, max = 25)
+    @Pattern(regexp = "^[a-zA-Z ]{3,25}$", message = "example : Russia")
     String name;
 
-    @Size (max = 50)
+    @Size (min = 1,max = 18)
     @Pattern(regexp = "^[\\d]+$", message = "example : 123")
     String population;
 

@@ -3,7 +3,6 @@ package com.airport.controller.request.change;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.hibernate.annotations.DynamicUpdate;
 
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
@@ -16,8 +15,6 @@ import java.util.Date;
 @EqualsAndHashCode
 @ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@DynamicUpdate
-@Builder
 public class AirplanesUpdateRequest {
 
 
@@ -36,23 +33,23 @@ public class AirplanesUpdateRequest {
     @Pattern(regexp = "^[\\d]+", message = "example : 123")
     String row;
 
-    @Size(max = 3)
+    @Size(min = 1, max = 3)
     @Pattern(regexp = "^[\\d]+", message = "example : 123")
     String ComfortSeats;
 
-    @Size(min = 0,max = 2)
+    @Size(max = 2)
     @Pattern(regexp = "^[\\d]+", message = "example : 5")
     String ComfortRow;
 
-    @Size(max = 3)
+    @Size(min = 1, max = 3)
     @Pattern(regexp = "^[\\d]+", message = "example : 123")
     String businessSeats;
 
-    @Size(min = 0,max = 2)
+    @Size(max = 2)
     @Pattern(regexp = "^[\\d]+", message = "example : 5")
     String businessRow;
 
-    @Size(min = 1, max = 3)
+    @Size(min = 1, max = 18)
     @Pattern(regexp = "^[\\d]+", message = "example : 123")
     String flightDuration;
 

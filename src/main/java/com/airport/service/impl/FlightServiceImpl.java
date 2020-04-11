@@ -1,3 +1,4 @@
+/*
 package com.airport.service.impl;
 
 import com.airport.controller.request.change.FlightUpdateRequest;
@@ -56,3 +57,4 @@ public class FlightServiceImpl implements FlightService {
 		return flightsDao.update (flights);
 	}
 }
+*/

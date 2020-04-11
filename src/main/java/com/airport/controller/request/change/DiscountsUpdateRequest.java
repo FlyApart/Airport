@@ -3,7 +3,6 @@ package com.airport.controller.request.change;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.hibernate.annotations.DynamicUpdate;
 
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -15,8 +14,6 @@ import java.util.Set;
 @EqualsAndHashCode
 @ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@DynamicUpdate
-@Builder
 public class DiscountsUpdateRequest {
 
 	@JsonIgnore
@@ -26,8 +23,8 @@ public class DiscountsUpdateRequest {
 	@Pattern(regexp = "^[\\w]+", message = "example : AUL_125")
 	String title;
 
-	@Size (min = 4, max = 50)
-	@Pattern(regexp = "^[\\d]+\\.[\\d]+", message = "example : 123,45")
+	@Size (min = 3, max = 10)
+	@Pattern(regexp = "^[\\d]{1,7}\\.[\\d]{1,2}", message = "example : 123.45")
 	String cost;
 
 	Set<Long> flightsId;

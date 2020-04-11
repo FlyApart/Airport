@@ -3,7 +3,6 @@ package com.airport.controller.request.create;
 import com.airport.util.validation.FieldValid;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.hibernate.annotations.DynamicUpdate;
 
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
@@ -15,8 +14,6 @@ import java.util.Date;
 @EqualsAndHashCode
 @ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@DynamicUpdate
-@Builder
 public class AirplanesSaveRequest {
 
     @FieldValid(min = 3, max = 50)
@@ -47,7 +44,7 @@ public class AirplanesSaveRequest {
     @Pattern(regexp = "^[\\d]+", message = "example : 5")
     String businessRow;
 
-    @FieldValid(min = 1, max = 3)
+    @FieldValid(min = 1, max = 18)
     @Pattern(regexp = "^[\\d]+", message = "example : 123")
     String flightDuration;
 

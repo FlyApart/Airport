@@ -94,10 +94,7 @@ public class ApplicationStarter extends SpringBootServletInitializer {
     return application.sources(ApplicationStarter.class);
   }*/
 	//TODO
-	// add flyway
 	// add safe delete
-	// check field controller @PathVariable
-	// close password
 	// add role 1:12:15  26.03.2020
     // add lock annotation on update method 26.03.2020
 	// 30.03.2020
@@ -105,6 +102,7 @@ public class ApplicationStarter extends SpringBootServletInitializer {
 	// email verification
 	// max price
 	// fix tickets
+	//TODO fix max Long value in request
 
 
 }

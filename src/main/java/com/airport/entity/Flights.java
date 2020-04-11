@@ -5,8 +5,8 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Set;
 
 @Data
@@ -26,16 +26,16 @@ public class Flights {
 	String fightsNumber;
 
 	@Column(name = "departure_date", nullable = false)
-	Timestamp departureDate;
+	Date departureDate;
 
 	@Column(name = "arrive_date", nullable = false)
-	Timestamp arriveDate;
+	Date arriveDate;
 
 	@Column(nullable = false)
 	Double price;
 
 	@Column
-	Timestamp changed;
+	Date changed;
 
 	@OneToOne
 	@JoinColumn(name = "airplane_id", nullable = false)

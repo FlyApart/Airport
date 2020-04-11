@@ -10,8 +10,8 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode (exclude = {"id","country"})
-@ToString (exclude = "country")
+@EqualsAndHashCode (exclude = {"id","countries"})
+@ToString (exclude = "countries")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @DynamicUpdate
 @Entity
@@ -25,22 +25,22 @@ public class Airplanes {
 	String model;
 
 	@Column
-	Long seats;
+	Integer seats;
 
 	@Column(name = "number_of_row")
-	Long row;
+	Integer row;
 
 	@Column (name = "comfort_seats")
-	Long ComfortSeats;
+	Integer ComfortSeats;
 
 	@Column(name = "comfort_number_of_row")
-	Long ComfortRow;
+	Integer ComfortRow;
 
 	@Column (name = "business_seats")
-	Long businessSeats;
+	Integer businessSeats;
 
 	@Column(name = "business_number_of_row")
-	Long businessRow;
+	Integer businessRow;
 
 
 	@Column(name = "max_flight_duration")
@@ -48,7 +48,6 @@ public class Airplanes {
 
 	@Column
     Date built;
-
 
 	@OneToOne
 	@JoinColumn

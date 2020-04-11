@@ -1,6 +1,6 @@
 package com.airport.controller.request.create;
 
-import com.airport.entity.FlightsClass;
+import com.airport.entity.SeatsClass;
 import com.airport.util.validation.FieldValid;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
@@ -24,18 +24,15 @@ public class TicketsSaveUpdateRequest {
 	@JsonIgnore
 	String id;
 
-	@JsonIgnore
-	Double totalPrice;
-
 	@Pattern(regexp = "^[\\d]{1,2}[A-L]$", message = "example : 9L")
 	@Size(min = 1, max = 10)
 	String place;
 
-	@FieldValid (min = 1)
+	@FieldValid (min = 1, max = 18)
 	@Pattern(regexp = "^[\\d]+$", message = "example : 123")
 	String flightsID;
 
-	@FieldValid (min = 1)
+	@FieldValid (min = 1, max = 18)
 	@Pattern(regexp = "^[\\d]+$", message = "example : 123")
 	String passengersId;
 
@@ -44,6 +41,6 @@ public class TicketsSaveUpdateRequest {
 	String DiscountsTitle;
 
 	@NotNull
-	FlightsClass flightsClass;
+	SeatsClass seatsClass;
 }
 

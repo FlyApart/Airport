@@ -4,7 +4,6 @@ import com.airport.entity.PassportsTypes;
 import com.airport.util.validation.FieldValid;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.hibernate.annotations.DynamicUpdate;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -15,21 +14,20 @@ import javax.validation.constraints.Pattern;
 @EqualsAndHashCode
 @ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@DynamicUpdate
 public class PassportSaveRequest {
 
-	@FieldValid
+	@FieldValid(max = 18)
 	@Pattern(regexp = "^[\\d]+$", message = "example : 654676")
 	String series;
 
-	@FieldValid
+	@FieldValid(max = 18)
 	@Pattern(regexp = "^[\\d]+$", message = "example : 20212223")
 	String number;
 
 	@NotNull
 	PassportsTypes types;
 
-	@FieldValid (min = 1)
+	@FieldValid (min = 1,max = 18)
 	@Pattern(regexp = "^[\\d]+$", message = "example : 123")
 	String passengerId;
 

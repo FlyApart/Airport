@@ -29,7 +29,7 @@ public class Tickets {
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "class", nullable = false, length = 50)
-	FlightsClass flightsClass =FlightsClass.NORMAL;
+	SeatsClass seatsClass = SeatsClass.NORMAL;
 
 	@Column
 	Boolean reservation;
