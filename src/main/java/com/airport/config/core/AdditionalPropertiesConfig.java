@@ -25,9 +25,6 @@ public class AdditionalPropertiesConfig {
 	    private String ddl_auto;
     }
 
-
-
-
     @Bean(value = "jpaProperties")
     @Scope("singleton")
     @Primary

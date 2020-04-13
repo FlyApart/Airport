@@ -1,7 +1,12 @@
 package com.airport.controller.request.create;
 
 import com.airport.util.validation.FieldValid;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.FieldDefaults;
 
 @Data

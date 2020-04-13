@@ -2,7 +2,12 @@ package com.airport.controller.request.change;
 
 import com.airport.entity.PassportsTypes;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.FieldDefaults;
 
 import javax.validation.constraints.Pattern;

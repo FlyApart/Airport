@@ -1,6 +1,10 @@
 package com.airport.controller.exceptions;
 
 import com.airport.controller.messages.ErrorMessage;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureException;
+import io.jsonwebtoken.UnsupportedJwtException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
@@ -51,6 +55,16 @@ public class DefaultExceptionHandler extends DefaultResponseEntityExceptionHandl
 	public ResponseEntity<ErrorMessage> handleCustomException(CustomException e) {
 		LOG.error (e.getMessage (), e);
 		return new ResponseEntity<> (new ErrorMessage (e.getMessage ()),HttpStatus.NOT_ACCEPTABLE);
+	}
+	@ExceptionHandler({
+			UnsupportedJwtException.class,
+			MalformedJwtException.class,
+			SignatureException.class,
+			ExpiredJwtException.class,
+			IllegalArgumentException.class})
+	public ResponseEntity<ErrorMessage> handleParseClaimsException(Exception e) {
+		LOG.error (e.getMessage (), e);
+		return new ResponseEntity<> (new ErrorMessage (e+e.getMessage ()),HttpStatus.UNAUTHORIZED);
 	}
 
 }

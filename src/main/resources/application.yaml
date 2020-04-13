@@ -13,6 +13,11 @@ spring:
 ---
 logging:
   level:
-    ROOT: info
+    ROOT: debug
     org.springframework: info
     org.hibernate: info
+
+---
+jwt-token:
+  secret: secret
+  expire: 63000000

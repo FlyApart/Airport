@@ -3,10 +3,8 @@ package com.airport.repository.springdata;
 import com.airport.entity.Passengers;
 import com.airport.entity.Passports;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 import java.util.Set;
@@ -14,15 +12,10 @@ import java.util.Set;
 public interface PassengersRepository extends CrudRepository<Passengers, Long>, JpaRepository<Passengers, Long> {
 
     @Query("select p.passports from Passengers p  where p.id = :id")
-    Set<Passports> findPassportsById (@Param("id") Long id);
+    Set<Passports> findPassportsByPassportsId (Long id);//TODO rebase this in passportRepository
 
-    @Query("select p.passports from Passengers p  where p.id = :id")
-    Optional<Passports> findPassports (@Param("id") Long id);
-
-    @Modifying(flushAutomatically = true)
-    @Query(value = "insert into passengers (date_birth, changed, cities_id, created, login, name, password, surname) values (?, ?, ?, ?, ?, ?, ?, ?) AND " +
-            "insert into passports (number, series, types) values (?, ?, ?)",nativeQuery = true)
-    Passengers saveAndFlushPassengers (Passengers passengers);
+    @Query ("from Passengers p where p.login= :login")
+    Optional<Passengers> findByLogin (String login);
 
 // public Passengers findByLogin(String login);
     /*List<Passengers> findByNameAndSecondName (String name, String secondName);

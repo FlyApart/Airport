@@ -18,7 +18,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
@@ -71,7 +79,7 @@ public class PassportsController {
 	@DeleteMapping(value = "/passenger/{passengerId}")
 	public String DeletePassportByPassengersId (@PathVariable ("passengerId") String passengerId){
 
-		Set<Passports> passports = Optional.ofNullable (passengersRepository.findPassportsById(Long.valueOf (passengerId)))
+		Set<Passports> passports = Optional.ofNullable (passengersRepository.findPassportsByPassportsId(Long.valueOf (passengerId)))
 		                                                       .orElseThrow(() -> new EntityNotFoundException (Passports.class, passengerId));
 		passportsRepository.deletePassports (passports);
 		return passengerId;
@@ -79,7 +87,9 @@ public class PassportsController {
 
 	@PostMapping
 	@Transactional
-	public ResponseEntity<Passports> createPassport (@RequestBody @Valid PassportSaveRequest passportSaveRequest) {
+	public ResponseEntity<Passports> createPassport (@PathVariable String passengerId,
+	                                                 @RequestBody @Valid PassportSaveRequest passportSaveRequest) {
+		passportSaveRequest.setPassengerId (passengerId);
 		Passports passports = conversionService.convert (passportSaveRequest,Passports.class);
 		return new ResponseEntity<> (passportsRepository.saveAndFlush (passports), HttpStatus.CREATED);
 	}

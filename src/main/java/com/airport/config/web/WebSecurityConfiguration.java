@@ -14,6 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
@@ -23,10 +24,12 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
 
+
     @Autowired
-    public void configureAuthentication(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
+    public void configureAuthentication(AuthenticationManagerBuilder authenticationManagerBuilder, PasswordEncoder passwordEncoder) throws Exception {
         authenticationManagerBuilder
-                .userDetailsService(userDetailsService);
+                .userDetailsService(userDetailsService)
+                .passwordEncoder (passwordEncoder);
     }
 
     @Bean
@@ -34,6 +37,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
+
+
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
@@ -42,7 +47,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .exceptionHandling()
                 .and()
                 .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
                 .and()
 
                 .authorizeRequests()
@@ -51,15 +56,19 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/actuator/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/swagger-ui.html#").permitAll()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .antMatchers("/rest/**").permitAll()
-                .antMatchers("/admin/**").permitAll()
+
+                .antMatchers("/quest/**").permitAll()
+                .antMatchers("/authentication/**").permitAll()
+                .antMatchers("/registration/**").permitAll()
+                .antMatchers("/rest/**").hasAnyRole ("USER","ADMIN", "user")
+                .antMatchers("/admin/**").hasAnyRole ("ADMIN")
                 .anyRequest().authenticated();
     }
 
     @Override
-    public void configure(WebSecurity web) throws Exception {
+    public void configure(WebSecurity web){
         web.ignoring()
                 .antMatchers("/v2/api-docs", "/configuration/ui/**", "/swagger-resources/**",
-                            "/configuration/security/**", "/swagger-ui.html", "/webjars/**");
+                           /* "/configuration/security/**", */"/swagger-ui.html", "/webjars/**");
     }
 }

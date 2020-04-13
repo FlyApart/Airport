@@ -4,6 +4,7 @@ import com.airport.config.core.AdditionalPropertiesConfig;
 import com.airport.config.core.DatabaseConfig;
 import com.airport.config.core.JdbcTemplateConfig;
 import com.airport.config.swagger.SwaggerConfig;
+import com.airport.config.web.JwtConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -29,7 +30,7 @@ import javax.sql.DataSource;
 @EnableTransactionManagement(proxyTargetClass = true)
 @SpringBootApplication(scanBasePackages = {"com.airport"}, exclude = {JacksonAutoConfiguration.class, HibernateJpaAutoConfiguration.class})
 
-@Import({DatabaseConfig.class, JdbcTemplateConfig.class, SwaggerConfig.class, AdditionalPropertiesConfig.class})
+@Import({DatabaseConfig.class, JdbcTemplateConfig.class, SwaggerConfig.class, AdditionalPropertiesConfig.class, JwtConfiguration.class})
 
 //@EntityScan(basePackages = { "com.airline.entity" })
 public class ApplicationStarter extends SpringBootServletInitializer {

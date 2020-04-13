@@ -11,6 +11,7 @@
     <packaging>jar</packaging>
 
     <properties>
+        <jjwt.version>0.9.1</jjwt.version>
         <aspectj.version>1.6.11</aspectj.version>
         <dbcp-version>1.4</dbcp-version>
         <log4j.version>1.2.17</log4j.version>
@@ -20,9 +21,7 @@
         <jakarta.version>2.3.2</jakarta.version>
         <commons-lang3.version>3.8.1</commons-lang3.version>
 
-        <!--<flyway.user>databaseUser</flyway.user>
-        <flyway.password>databasePassword</flyway.password>
-        <flyway.schemas>schemaName</flyway.schemas>-->
+
     </properties>
 
     <parent>
@@ -55,18 +54,6 @@
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>2.22.2</version>
             </plugin>
-            <!--<plugin>
-                <groupId>org.flywaydb</groupId>
-                <artifactId>flyway-maven-plugin</artifactId>
-                &lt;!&ndash;<version>6.3.1</version>&ndash;&gt;
-                <configuration>
-                    <user>postgres</user>
-                    <password>good</password>
-                    <schemas>
-                        <schema>airport</schema>
-                    </schemas>
-                </configuration>
-            </plugin>-->
         </plugins>
     </build>
 
@@ -124,6 +111,15 @@
             <optional>true</optional>
         </dependency>
 
+
+        <!--security-->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>${jjwt.version}</version>
+        </dependency>
+
+
         <!-- Swagger -->
         <dependency>
             <groupId>io.springfox</groupId>
@@ -136,6 +132,13 @@
             <artifactId>springfox-swagger-ui</artifactId>
             <version>${swagger.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-bean-validators</artifactId>
+            <version>${swagger.version}</version>
+        </dependency>
+
 
 
         <!--Hibernate-->
@@ -156,7 +159,7 @@
         </dependency>
 
         <dependency>
-            <groupId>org.hibernate</groupId>
+            <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator</artifactId>
             <version>6.1.2.Final</version>
         </dependency>

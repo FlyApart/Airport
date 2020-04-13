@@ -3,7 +3,12 @@ package com.airport.controller.request.create;
 import com.airport.entity.SeatsClass;
 import com.airport.util.validation.FieldValid;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.FieldDefaults;
 
 import javax.validation.constraints.NotNull;

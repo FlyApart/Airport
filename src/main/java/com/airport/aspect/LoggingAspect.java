@@ -13,8 +13,8 @@ import org.springframework.util.StopWatch;
 public class LoggingAspect {
     private static final Logger LOGGER = Logger.getLogger(LoggingAspect.class);
 
-    @Around("execution(* com.airport.repository.*.*(..))")
-    public Object profile(ProceedingJoinPoint pjp) throws Throwable {
+    @Around("execution(* com.airport.controller.*.*(..))")
+    public Object controllers (ProceedingJoinPoint pjp) throws Throwable {
         StopWatch sw = new StopWatch();
         sw.start();
         LOGGER.info("Method " + pjp.getSignature().getName() + " start");
@@ -25,7 +25,4 @@ public class LoggingAspect {
         LOGGER.info("Method execution time: " + sw.getTotalTimeMillis() + " milliseconds.");
         return output;
     }
-
-
 }
-// with web add in dispatcher-servlet

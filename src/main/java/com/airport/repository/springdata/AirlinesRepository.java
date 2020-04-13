@@ -13,5 +13,5 @@ public interface AirlinesRepository extends CrudRepository<Airlines, Long>, JpaR
 
 	@Modifying
 	@Query("delete  from Airlines a where a = :airlines")
-	void deleteCities(Airlines airlines);
+	void deleteAirlines(Airlines airlines);
 }

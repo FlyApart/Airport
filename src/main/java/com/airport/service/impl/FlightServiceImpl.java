@@ -6,7 +6,7 @@ import com.airport.controller.request.create.FlightSaveRequest;
 import com.airport.entity.Flights;
 import com.airport.repository.hibernate.*;
 import com.airport.service.FlightService;
-import com.airport.util.converters.flights.ConvertersRequestFlights;
+import com.airport.controller.converters.flights.ConvertersRequestFlights;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

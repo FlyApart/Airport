@@ -81,13 +81,12 @@ values (1,1),
        (2,1),
        (2,2);
 
-/*insert into passengers_ticket (passenger_id, ticket_id)
-    values (1,1),
-           (1,2),
-           (2,4),
-           (3,3);*/
-/*insert into role
-(role,
- passengers_id)
- values ;
-*/
+insert into role (role, passengers_id)
+ values ('ADMIN', 1),
+        ('MODER', 2),
+        ('USER', 3),
+        ('USER', 4),
+        ('USER', 5),
+        ('USER', 6),
+        ('USER', 8),
+        ('USER', 7);
