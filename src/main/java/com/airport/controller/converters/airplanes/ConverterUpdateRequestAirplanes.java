@@ -4,12 +4,18 @@ import com.airport.controller.request.change.AirplanesUpdateRequest;
 import com.airport.entity.Airplanes;
 import com.airport.exceptions.ConversionException;
 import com.airport.exceptions.EntityNotFoundException;
+import com.airport.repository.springdata.AirplanesRepository;
+import com.airport.repository.springdata.CountriesRepository;
 import org.springframework.stereotype.Component;
 
 import static java.util.Optional.ofNullable;
 
 @Component
 public class ConverterUpdateRequestAirplanes extends ConverterRequestAirplanes<AirplanesUpdateRequest, Airplanes> {
+
+	public ConverterUpdateRequestAirplanes (CountriesRepository countriesRepository, AirplanesRepository airplanesRepository) {
+		super (countriesRepository, airplanesRepository);
+	}
 
 	@Override
 	public Airplanes convert (AirplanesUpdateRequest request) {

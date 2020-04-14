@@ -10,17 +10,7 @@ import lombok.ToString;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.DynamicUpdate;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Set;
@@ -63,6 +53,10 @@ public class Passengers {
 	@Column(name = "date_birth")
 	Date birthDate;
 
+	@Enumerated(EnumType.STRING)
+	@Column(name = "status", nullable = false, length = 50)
+	Status status = Status.ACTIVE;
+
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "cities_id")
 	Cities cities;
@@ -76,7 +70,10 @@ public class Passengers {
 	Set<Tickets> ticket = Collections.emptySet ();
 
 	@JsonManagedReference
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "passengerId")
-	private Role role;
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "passengers_roles",
+			joinColumns = {@JoinColumn(name = "passenger_id", referencedColumnName = "id")},
+			inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
+	Set<Role> role= Collections.emptySet ();
 
 }

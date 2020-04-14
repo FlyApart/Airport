@@ -5,16 +5,13 @@ import com.airport.config.core.DatabaseConfig;
 import com.airport.config.core.JdbcTemplateConfig;
 import com.airport.config.swagger.SwaggerConfig;
 import com.airport.config.web.JwtConfiguration;
-import com.github.benmanes.caffeine.cache.Caffeine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
-import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.cache.caffeine.CaffeineCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Import;
@@ -28,7 +25,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
-import java.util.concurrent.TimeUnit;
 
 @EnableSwagger2
 @EnableAspectJAutoProxy
@@ -51,7 +47,6 @@ public class ApplicationStarter extends SpringBootServletInitializer {
 
 		em.setDataSource (dataSource);
 		em.setPackagesToScan ("com.airport");
-		//em.setJpaProperties (getAdditionalProperties());
 		em.setJpaProperties (jpaProperties.getAdditionalProperties ());
 		JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter ();
 		em.setJpaVendorAdapter (vendorAdapter);
@@ -68,9 +63,7 @@ public class ApplicationStarter extends SpringBootServletInitializer {
 		return new BCryptPasswordEncoder ();
 	}
 
-
-
-	@Bean
+	/*@Bean
 	public CacheManager cacheManager () {
 		CaffeineCacheManager caffeineCacheManager = new CaffeineCacheManager ("passengerInfo");
 		caffeineCacheManager.setCaffeine (cacheRoles ());
@@ -84,7 +77,7 @@ public class ApplicationStarter extends SpringBootServletInitializer {
 		               .initialCapacity (100)
 		               .maximumSize (500)
 		               .recordStats ();
-	}
+	}*/
 
 	//TODO
 	// add safe delete

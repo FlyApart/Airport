@@ -5,17 +5,18 @@ import com.airport.controller.request.change.CitiesUpdateRequest;
 import com.airport.controller.request.create.CitiesSaveRequest;
 import com.airport.entity.Cities;
 import com.airport.entity.Countries;
-import com.airport.exceptions.ArgumentOfMethodNotValidException;
 import com.airport.exceptions.ConversionException;
 import com.airport.exceptions.EntityAlreadyExistException;
 import com.airport.exceptions.EntityNotFoundException;
+import com.airport.repository.springdata.CitiesRepository;
+import com.airport.repository.springdata.CountriesRepository;
 import lombok.RequiredArgsConstructor;
 
-import javax.persistence.NoResultException;
-
 @RequiredArgsConstructor
-// TODO add
 public abstract class ConverterRequestCities<S, T> extends EntityConverter<S, T> {
+
+	private final CitiesRepository citiesRepository;
+	private final CountriesRepository countriesRepository;
 
 	protected Cities doConvert (Cities cities, CitiesSaveRequest entity) {
 		cities.setName (entity.getName ());
@@ -28,30 +29,17 @@ public abstract class ConverterRequestCities<S, T> extends EntityConverter<S, T>
 	}
 
 	Countries findCountries (Class<?> sClass, String name) {
-		Countries countries;
-		try {
-			countries = entityManager.createQuery ("select c from Countries c where c.name=:name", Countries.class)
-			                         .setParameter ("name", name)
-			                         .getSingleResult ();
-		} catch (NumberFormatException e) {
-			throw new ConversionException (sClass, Cities.class, name, new ArgumentOfMethodNotValidException (Countries.class, name));
-		} catch (NoResultException e) {
-			throw new ConversionException (sClass, Cities.class, name, new EntityNotFoundException (" name = " + name, Countries.class));
-		}
-		return countries;
+		return countriesRepository.findByName (name)
+		                          .orElseThrow (() -> new ConversionException (sClass, Cities.class, name, new EntityNotFoundException (" name = " + name, Countries.class)));
 	}
 
 	void uniqueCitiesName (Class<?> sClass, String name) {
-		try {
-			entityManager.createQuery ("select c from Cities c where c.name =:name ", Cities.class)
-			             .setParameter ("name", name)
-			             .getSingleResult ();
-
-		} catch (NumberFormatException e) {
-			throw new ConversionException (sClass, Cities.class, name, new ArgumentOfMethodNotValidException (Cities.class, name));
-		} catch (NoResultException e) {
-			return;
+		boolean unique = citiesRepository.findByName (name)
+		                                   .isPresent ();
+		if (unique){
+			throw new ConversionException (sClass, Cities.class, name, new EntityAlreadyExistException (" name = " + name));
 		}
-		throw new ConversionException (sClass, Cities.class, name, new EntityAlreadyExistException (" name = " + name));
+		else
+			return;
 	}
 }

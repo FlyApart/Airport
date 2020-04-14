@@ -6,9 +6,13 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
+import java.util.Optional;
+
 
 public interface AirportsRepository extends CrudRepository<Airports, Long>, JpaRepository<Airports, Long> {
-	// public Airports findByTitle (String title);
+
+	Optional <Airports> findByTitle (String title);
+
 	@Modifying
 	@Query("delete  from Airports a where a = :airports")
 	void deleteAirports (Airports airports);

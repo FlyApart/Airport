@@ -15,7 +15,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity(debug = true)
@@ -50,14 +52,14 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure (HttpSecurity httpSecurity) throws Exception {
-		httpSecurity.csrf ()
-		            .disable ()
+		httpSecurity
+					.httpBasic ().disable ()
+					.csrf ().disable ()
 		            .exceptionHandling ()
 		            .and ()
-		            /*.sessionManagement()
-					.sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+		            .sessionManagement()
+					.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 					.and()
-	*/
 		            .authorizeRequests ()
 		            .antMatchers ("/v2/api-docs", "/configuration/ui/**", "/swagger-resources/**",
 				            "/configuration/security/**", "/swagger-ui.html", "/webjars/**").permitAll ()
@@ -72,7 +74,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 		            .antMatchers ("/admin/**").permitAll ()//.hasAnyRole ("ADMIN")
 		            .anyRequest ().authenticated ();
 
-		//httpSecurity.addFilterBefore (authenticateTokenFilterBean (authenticationManagerBean ()), UsernamePasswordAuthenticationFilter.class); //7.04 2.00
+		httpSecurity.addFilterBefore (authenticateTokenFilterBean (authenticationManagerBean ()), UsernamePasswordAuthenticationFilter.class);
 	}
 
 	@Override

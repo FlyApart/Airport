@@ -7,9 +7,12 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
+import java.util.Optional;
+
 
 public interface AirlinesRepository extends CrudRepository<Airlines, Long>, JpaRepository<Airlines, Long> {
-	Airlines findByName (String name);
+
+	Optional< Airlines> findByNameAndWebsite (String name, String website);
 
 	@Modifying
 	@Query("delete  from Airlines a where a = :airlines")

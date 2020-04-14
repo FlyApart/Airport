@@ -6,6 +6,7 @@ import com.airport.controller.request.change.PassportUpdateRequest;
 import com.airport.entity.Passengers;
 import com.airport.entity.Passports;
 import com.airport.exceptions.EntityNotFoundException;
+import com.airport.repository.springdata.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -20,10 +21,9 @@ public class ConverterUpdateRequestPassenger extends ConverterRequestPassengers<
 	@Autowired
 	private ConverterUpdateRequestPassports converterUpdateRequestPassports;
 
-	public ConverterUpdateRequestPassenger (BCryptPasswordEncoder passwordEncoder) {
-		super (passwordEncoder);
+	public ConverterUpdateRequestPassenger (BCryptPasswordEncoder passwordEncoder, RoleRepository roleRepository) {
+		super (passwordEncoder, roleRepository);
 	}
-
 
 	@Override
 	public Passengers convert (PassengerUpdateRequest request) {

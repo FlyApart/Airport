@@ -5,14 +5,18 @@ import com.airport.controller.request.change.AirlinesUpdateRequest;
 import com.airport.controller.request.create.AirlinesSaveRequest;
 import com.airport.entity.Airlines;
 import com.airport.entity.Countries;
-import com.airport.exceptions.ArgumentOfMethodNotValidException;
 import com.airport.exceptions.ConversionException;
 import com.airport.exceptions.EntityAlreadyExistException;
 import com.airport.exceptions.EntityNotFoundException;
+import com.airport.repository.springdata.AirlinesRepository;
+import com.airport.repository.springdata.CountriesRepository;
+import lombok.RequiredArgsConstructor;
 
-import javax.persistence.NoResultException;
-
+@RequiredArgsConstructor
 public abstract class ConverterRequestAirlines<S, T> extends EntityConverter<S, T> {
+
+	private final CountriesRepository countriesRepository;
+	private final AirlinesRepository airlinesRepository;
 
 	protected Airlines doConvert (Airlines airlines, AirlinesSaveRequest entity) {
 		airlines.setName (entity.getName ());
@@ -31,33 +35,22 @@ public abstract class ConverterRequestAirlines<S, T> extends EntityConverter<S, 
 	}
 
 	Countries findCountries (Class<?> sClass, String country) {
-		Countries countries;
-		try {
-			countries = entityManager.createQuery ("select c from Countries c where c.name=:name", Countries.class)
-			                         .setParameter ("name", country)
-			                         .getSingleResult ();
-		} catch (NumberFormatException e) {
-			throw new ConversionException (sClass, Airlines.class, country, new ArgumentOfMethodNotValidException (Countries.class, country));
-		} catch (NoResultException e) {
-			throw new ConversionException (sClass, Airlines.class, country, new EntityNotFoundException (" name = " + country, Countries.class));
-		}
-		return countries;
+		return countriesRepository.findByName (country)
+		                          .orElseThrow (() -> new ConversionException (sClass, Airlines.class, country, new EntityNotFoundException  (" name = " + country, Countries.class)));
 	}
 
 
 	void isUniqueAirlines (Class<?> sClass, String name, String website) {
-		try {
-			entityManager.createQuery ("select c from Airlines c where c.name =:name or c.website=:website", Airlines.class)
-			             .setParameter ("name", name)
-			             .setParameter ("website", website)
-			             .getSingleResult ();
 
-		} catch (NumberFormatException e) {
-			throw new ConversionException (sClass, Airlines.class, name.concat (" " + website), new ArgumentOfMethodNotValidException ("name = " + name + " or website = " + website));
-		} catch (NoResultException e) {
-			return;
+		boolean unique = airlinesRepository.findByNameAndWebsite (name, website)
+		                                    .isPresent ();
+		if (unique){
+			throw new ConversionException (sClass, Airlines.class, name.concat (" " + website),
+					new EntityAlreadyExistException (Airlines.class, "name = " + name + " or website = " + website));
 		}
-		throw new ConversionException (sClass, Airlines.class, name.concat (" " + website), new EntityAlreadyExistException (Airlines.class, "name = " + name + " or website = " + website));
+		else
+			return;
+
 
 	}
 }

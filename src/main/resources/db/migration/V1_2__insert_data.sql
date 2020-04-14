@@ -38,15 +38,15 @@ values (3500, 'PROMO_35'),
 
 
 insert into passengers
-(date_birth, changed, created, login, name, password, surname, cities_id)
-values ('13-05-1997', null, '30-03-2020', 'oglorn@mail.ru', 'Alex', '1234qwer', 'Zuev', '1'),
-       ('21-12-1996', null, '20-02-2020', 'dunya@mail.ru', 'Dima', 'rewq4321', 'Dunya', '2'),
-       ('21-12-1996', null, '20-02-2020', 'dunya2@mail.ru', 'Dima', 'rewq4321', 'Dunya', '2'),
-       ('21-12-1996', null, '20-02-2020', 'dunya3@mail.ru', 'Dima', 'rewq4321', 'Dunya', '2'),
-       ('21-12-1996', null, '20-02-2020', 'dunya4@mail.ru', 'Dima', 'rewq4321', 'Dunya', '2'),
-       ('06-04-1971', null, '17-01-2020', 'lelya@qmail.com', 'Olga', '1234qwer', 'Zinevich', '1'),
-       ('06-04-1971', null, '17-01-2020', 'lel2ya@qmail.com', 'Olga', '1234qwer', 'Zinevich', '1'),
-       ('06-04-1971', null, '17-01-2020', 'lel3ya@qmail.com', 'Olga', '1234qwer', 'Zinevich', '1');
+(date_birth, changed, created, login, name, password, surname, cities_id, status)
+values ('13-05-1997', null, '30-03-2020', 'oglorn@mail.ru', 'Alex', '1234qwer', 'Zuev', '1','ACTIVE'),
+       ('21-12-1996', null, '20-02-2020', 'dunya@mail.ru', 'Dima', 'rewq4321', 'Dunya', '2','ACTIVE'),
+       ('21-12-1996', null, '20-02-2020', 'dunya2@mail.ru', 'Dima', 'rewq4321', 'Dunya', '2','ACTIVE'),
+       ('21-12-1996', null, '20-02-2020', 'dunya3@mail.ru', 'Dima', 'rewq4321', 'Dunya', '2','ACTIVE'),
+       ('21-12-1996', null, '20-02-2020', 'dunya4@mail.ru', 'Dima', 'rewq4321', 'Dunya', '2','ACTIVE'),
+       ('06-04-1971', null, '17-01-2020', 'lelya@qmail.com', 'Olga', '1234qwer', 'Zinevich', '1','ACTIVE'),
+       ('06-04-1971', null, '17-01-2020', 'lel2ya@qmail.com', 'Olga', '1234qwer', 'Zinevich', '1','ACTIVE'),
+       ('06-04-1971', null, '17-01-2020', 'lel3ya@qmail.com', 'Olga', '1234qwer', 'Zinevich', '1','ACTIVE');
 
 insert into passports
 (number, series, types, passengers_id)
@@ -81,12 +81,15 @@ values (1,1),
        (2,1),
        (2,2);
 
-insert into role (role, passengers_id)
- values ('ADMIN', 1),
-        ('MODER', 2),
-        ('USER', 3),
-        ('USER', 4),
-        ('USER', 5),
-        ('USER', 6),
-        ('USER', 8),
-        ('USER', 7);
+insert into role (role)
+ values ('ADMIN'),
+        ('MODER'),
+        ('USER');
+
+insert into passengers_roles
+    (role_id,passenger_id)
+values (1,1),
+       (1,2),
+       (1,3),
+       (2,1),
+       (2,2);

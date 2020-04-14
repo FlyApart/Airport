@@ -133,6 +133,7 @@ create table passengers
     password   varchar(255) NOT NULL,
     surname    varchar(50)  NOT NULL,
     cities_id  int8,
+    status     varchar(50) NOT NULL,
     primary key (id)
 );
 
@@ -192,14 +193,21 @@ create table role
 (
     id            bigserial NOT NULL,
     role          varchar(50) NOT NULL,
-    passengers_id int8 NOT NULL,
     primary key (id)
 );
 
 create unique index role_id_uindex
     on role (id);
-create unique index role_passengers_id__uindex
-    on role (passengers_id);
+
+create table passengers_roles
+(
+    role_id       int8 NOT NULL,
+    passenger_id int8 NOT NULL,
+    primary key (role_id,passenger_id)
+);
+
+create unique index passengers_roles_uindex
+        on passengers_roles USING btree (role_id, passenger_id);
 
 
 alter table if exists airlines
@@ -246,10 +254,6 @@ alter table if exists passports
     add constraint passport_passengers_fk foreign key (passengers_id) references passengers
         on update cascade on delete cascade;
 
-alter table if exists role
-    add constraint role_passengers_fk foreign key (passengers_id) references passengers
-        on update cascade on delete cascade;
-
 alter table if exists tickets
     add constraint tickets_flights_fk foreign key (flights_id) references flights
         on update cascade on delete cascade;
@@ -260,4 +264,12 @@ alter table if exists tickets
 
 alter table if exists cities
     add constraint cities_country_fk foreign key (countries_id) references countries
-        on update cascade on delete cascade
+        on update cascade on delete cascade;
+
+alter table if exists passengers_roles
+    add constraint passengers_roles_role_fk foreign key (role_id) references role
+        on update cascade on delete cascade;
+
+alter table if exists passengers_roles
+    add constraint passengers_roles_passenger_fk foreign key (passenger_id) references passengers
+        on update cascade on delete cascade;

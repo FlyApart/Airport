@@ -71,6 +71,7 @@ public class Flights {
 
 	@JsonManagedReference
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-	@JoinTable(name = "flights_discounts", joinColumns = @JoinColumn(name = "flights_id"), inverseJoinColumns = @JoinColumn(name = "discounts_id"))
+	@JoinTable(name = "flights_discounts", joinColumns = @JoinColumn(name = "flights_id"),
+			inverseJoinColumns = @JoinColumn(name = "discounts_id"))
 	Set<Discounts> discount = Collections.emptySet ();
 }

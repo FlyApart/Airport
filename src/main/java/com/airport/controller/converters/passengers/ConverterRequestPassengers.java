@@ -6,28 +6,38 @@ import com.airport.controller.request.create.PassengerSaveRequest;
 import com.airport.entity.Cities;
 import com.airport.entity.Passengers;
 import com.airport.entity.Passports;
+import com.airport.entity.Role;
+import com.airport.entity.RoleName;
+import com.airport.entity.Status;
 import com.airport.exceptions.ArgumentOfMethodNotValidException;
 import com.airport.exceptions.ConversionException;
 import com.airport.exceptions.EntityAlreadyExistException;
 import com.airport.exceptions.EntityNotFoundException;
+import com.airport.repository.springdata.RoleRepository;
 import com.airport.util.ProjectDate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.NoResultException;
+import java.util.HashSet;
+import java.util.Set;
 
 @RequiredArgsConstructor
 public abstract class ConverterRequestPassengers<S, T> extends EntityConverter<S, T> {
 
 	private final BCryptPasswordEncoder passwordEncoder;
+	private final RoleRepository roleRepository;
+
 
 	protected Passengers doConvert (Passengers passengers, PassengerSaveRequest entity) {
+
 		passengers.setName (entity.getName ());
 		passengers.setSecondName (entity.getSecondName ());
 		passengers.setPassword (passwordEncoder.encode (entity.getPassword ()));
 		passengers.setBirthDate (entity.getBirthDate ());
 		passengers.setCreated (new ProjectDate ().getCurrentTime ());
 		passengers.setLogin (entity.getLogin ());
+		passengers.setStatus (Status.ACTIVE);
 		return passengers;
 	}
 
@@ -67,6 +77,13 @@ public abstract class ConverterRequestPassengers<S, T> extends EntityConverter<S
 			return;
 		}
 		throw new ConversionException (sClass, Passports.class, login, new EntityAlreadyExistException ("Passengers with login = " + login));
+	}
+
+	protected Set<Role> getRole (){
+		Set<Role> role= new HashSet<> ();
+		role.add (roleRepository.findByRole (RoleName.USER)
+		                        .orElseThrow (() -> new EntityNotFoundException ("Role name = "+RoleName.USER,Role.class)));
+		return role;
 	}
 
 }

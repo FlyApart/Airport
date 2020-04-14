@@ -11,7 +11,6 @@ import lombok.ToString;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.DynamicUpdate;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -21,8 +20,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -43,8 +44,12 @@ public class Role {
 	@Column(nullable = false, length = 50)
 	RoleName role;
 
+	/*@ManyToOne(mappedBy = "role_id", fetch = FetchType.EAGER)*/
 	@JsonBackReference
-	@OneToOne(fetch = FetchType.EAGER, targetEntity = Passengers.class, cascade = CascadeType.ALL)
-	@JoinColumn(unique = true, nullable = false, name = "passengers_id")
-	Passengers passengerId;//TODO add oneTOMany change userDetailService 3 18 00
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "passengers_roles",
+			joinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")},
+			inverseJoinColumns = {@JoinColumn(name = "passenger_id", referencedColumnName = "id")})
+	Set<Passengers> passenger;
+
 }

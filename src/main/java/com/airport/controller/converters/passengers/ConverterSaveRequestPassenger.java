@@ -5,6 +5,7 @@ import com.airport.controller.request.create.PassengerSaveRequest;
 import com.airport.controller.request.create.PassportSaveRequest;
 import com.airport.entity.Passengers;
 import com.airport.entity.Passports;
+import com.airport.repository.springdata.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -18,9 +19,11 @@ public class ConverterSaveRequestPassenger extends ConverterRequestPassengers<Pa
 	@Autowired
 	private ConverterSaveRequestPassports converterSaveRequestPassport;
 
-	public ConverterSaveRequestPassenger (BCryptPasswordEncoder passwordEncoder) {
-		super (passwordEncoder);
+	public ConverterSaveRequestPassenger (BCryptPasswordEncoder passwordEncoder, RoleRepository roleRepository) {
+		super (passwordEncoder, roleRepository);
 	}
+
+
 
 	@Override
 	public Passengers convert (PassengerSaveRequest request) {
@@ -36,6 +39,8 @@ public class ConverterSaveRequestPassenger extends ConverterRequestPassengers<Pa
 
 		passengers.setCities (findCity (request.getClass (), request.getCities ()));
 		isUniqueLogin (request.getClass (), request.getLogin ());
+
+		passengers.setRole (getRole ());
 
 		return doConvert (passengers, request);
 	}
