@@ -88,8 +88,8 @@ public class PassengersController {
 		return new ResponseEntity<> (passengersService.saveAndUpdate (passengers), HttpStatus.CREATED);
 	}
 
-	@GetMapping(value = "/delete/{id}")
-	public ResponseEntity<Passengers> safeDeletePassenger (@PathVariable Long id) {
+	@DeleteMapping(value = "/{id}")
+	public ResponseEntity<Passengers> safeDeletePassenger (@PathVariable String id) {
 		Passengers passengers = (passengersRepository.findById (Long.valueOf (id))).orElseThrow (() -> new EntityNotFoundException (Passengers.class, id));
 		passengers.setStatus (Status.DELETED);
 

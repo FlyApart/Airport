@@ -6,6 +6,7 @@ import com.airport.controller.request.create.PassengerSaveRequest;
 import com.airport.entity.Cities;
 import com.airport.entity.Passengers;
 import com.airport.entity.Passports;
+import com.airport.entity.Status;
 import com.airport.entity.Role;
 import com.airport.entity.RoleName;
 import com.airport.entity.Status;

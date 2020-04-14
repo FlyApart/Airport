@@ -44,7 +44,6 @@ public class Role {
 	@Column(nullable = false, length = 50)
 	RoleName role;
 
-	/*@ManyToOne(mappedBy = "role_id", fetch = FetchType.EAGER)*/
 	@JsonBackReference
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "passengers_roles",
