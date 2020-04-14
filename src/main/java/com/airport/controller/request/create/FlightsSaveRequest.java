@@ -40,7 +40,7 @@ public class FlightsSaveRequest {
 	@Pattern(regexp = "^[\\d]{1,7}\\.[\\d]{1,2}", message = "example : 123.45")
 	String price;
 
-	@FieldValid(min = 1,  max = 18)
+	@FieldValid(min = 1, max = 18)
 	@Pattern(regexp = "^[\\d]+$", message = "example : 123")
 	String airplaneID;
 

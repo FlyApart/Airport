@@ -26,20 +26,25 @@ public class AuthenticateTokenFilter extends UsernamePasswordAuthenticationFilte
 
 	@Override
 	public void doFilter (ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
+
 		HttpServletRequest httpServletRequest = (HttpServletRequest) req;
-		String authToken = httpServletRequest.getHeader (ApplicationHeaders.AUTH_TOKEN);
-		String username = tokenUtil.getUserFromToken (authToken);
 
-		if (username != null && SecurityContextHolder.getContext ()
-		                                             .getAuthentication () == null) {
-			UserDetails userDetails = userDetailsService.loadUserByUsername (username);
-			if (tokenUtil.validateToken (authToken, userDetails)) {
-				UsernamePasswordAuthenticationToken authenticationToken =
-						new UsernamePasswordAuthenticationToken (userDetails, null, userDetails.getAuthorities ());
+		String authToken = ((HttpServletRequest) req).getHeader (ApplicationHeaders.AUTH_TOKEN);
 
-				authenticationToken.setDetails (new WebAuthenticationDetailsSource ().buildDetails (httpServletRequest));
-				SecurityContextHolder.getContext ()
-				                     .setAuthentication (authenticationToken);
+		if (authToken != null) {
+
+			String username = tokenUtil.getUserFromToken (authToken);
+
+			if (username != null && SecurityContextHolder.getContext ()
+			                                             .getAuthentication () == null) {
+				UserDetails userDetails = userDetailsService.loadUserByUsername (username);
+				if (tokenUtil.validateToken (authToken, userDetails)) {
+					UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken (userDetails, null, userDetails.getAuthorities ());
+
+					authenticationToken.setDetails (new WebAuthenticationDetailsSource ().buildDetails (httpServletRequest));
+					SecurityContextHolder.getContext ()
+					                     .setAuthentication (authenticationToken);
+				}
 			}
 		}
 

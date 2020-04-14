@@ -1,7 +1,7 @@
 package com.airport.repository.hibernate.impl;
 
-import com.airport.controller.exceptions.EntityNotFoundException;
 import com.airport.entity.Passports;
+import com.airport.exceptions.EntityNotFoundException;
 import com.airport.repository.hibernate.PassportDao;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -24,8 +24,8 @@ public class PassportDaoImpl implements PassportDao {
 
 	@Override
 	public Passports findById (Long id) {
-	    Optional <Passports> passportsOptional = Optional.ofNullable(entityManager.find (Passports.class, id));
-	    return passportsOptional.orElseThrow(EntityNotFoundException::new);
+		Optional<Passports> passportsOptional = Optional.ofNullable (entityManager.find (Passports.class, id));
+		return passportsOptional.orElseThrow (EntityNotFoundException::new);
 	}
 
 	@Override
@@ -50,21 +50,20 @@ public class PassportDaoImpl implements PassportDao {
 
 	@Override
 	public List<Passports> findByPassengersId (Long passengersId) {
-        Optional <List<Passports>> passportsOptional = Optional.ofNullable(entityManager.createQuery ("select p from Passports p " +
-                "where p.passengersId.id =:passengersId", Passports.class).
-                setParameter("passengersId", passengersId).
-                getResultList());
-        return passportsOptional.orElseThrow(EntityNotFoundException::new);
+		Optional<List<Passports>> passportsOptional = Optional.ofNullable (entityManager.createQuery ("select p from Passports p " + "where p.passengersId.id =:passengersId", Passports.class)
+		                                                                                .
+				                                                                                setParameter ("passengersId", passengersId)
+		                                                                                .
+				                                                                                getResultList ());
+		return passportsOptional.orElseThrow (EntityNotFoundException::new);
 	}
 
 	@Override
 	public Passports findByTitleAndLongPassengersId (String title, Long passengersId) {
-		Optional<Passports> optionalPassports =  Optional.ofNullable(entityManager.createQuery ("select p from Passports p " +
-                "where p.title =:title and " +
-                "p.passengersId.id =:passengersId", Passports.class)
-                .setParameter("title", title)
-                .setParameter ("passengersId", passengersId)
-                .getSingleResult());
-		return optionalPassports.orElseThrow(EntityNotFoundException::new);
+		Optional<Passports> optionalPassports = Optional.ofNullable (entityManager.createQuery ("select p from Passports p " + "where p.title =:title and " + "p.passengersId.id =:passengersId", Passports.class)
+		                                                                          .setParameter ("title", title)
+		                                                                          .setParameter ("passengersId", passengersId)
+		                                                                          .getSingleResult ());
+		return optionalPassports.orElseThrow (EntityNotFoundException::new);
 	}
 }

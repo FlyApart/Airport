@@ -1,14 +1,14 @@
 package com.airport.controller.converters.discounts;
 
 import com.airport.controller.converters.EntityConverter;
-import com.airport.controller.exceptions.ArgumentOfMethodNotValidException;
-import com.airport.controller.exceptions.ConversionException;
-import com.airport.controller.exceptions.EntityAlreadyExistException;
-import com.airport.controller.exceptions.EntityNotFoundException;
 import com.airport.controller.request.change.DiscountsUpdateRequest;
 import com.airport.controller.request.create.DiscountsSaveRequest;
 import com.airport.entity.Discounts;
 import com.airport.entity.Flights;
+import com.airport.exceptions.ArgumentOfMethodNotValidException;
+import com.airport.exceptions.ConversionException;
+import com.airport.exceptions.EntityAlreadyExistException;
+import com.airport.exceptions.EntityNotFoundException;
 
 import javax.persistence.NoResultException;
 import java.util.HashSet;
@@ -32,15 +32,15 @@ public abstract class ConverterRequestDiscounts<S, T> extends EntityConverter<S,
 	Set<Flights> findFlights (Class<?> sClass, Set<Long> setFlights) {
 
 		List<Flights> flightsList = entityManager.createQuery ("from Flights f where f.id in (:id)", Flights.class)
-		                                .setParameter ("id", setFlights)
-		                                .getResultList ();
-		if (setFlights.size ()!=flightsList.size ()){
-			throw new ConversionException (sClass, Discounts.class, setFlights,
-					new EntityNotFoundException (Discounts.class, setFlights));
+		                                         .setParameter ("id", setFlights)
+		                                         .getResultList ();
+		if (setFlights.size () != flightsList.size ()) {
+			throw new ConversionException (sClass, Discounts.class, setFlights, new EntityNotFoundException (Discounts.class, setFlights));
 		}
 		return new HashSet<> (flightsList);
 
 	}
+
 	void uniqueDiscountsName (Class<?> sClass, String title) {
 		try {
 			entityManager.createQuery ("select c from Discounts c where c.title =:title ", Discounts.class)

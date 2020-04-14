@@ -1,8 +1,9 @@
 package com.airport.service.impl;
 
-import com.airport.controller.exceptions.EntityNotFoundException;
 import com.airport.entity.Passengers;
+import com.airport.exceptions.EntityNotFoundException;
 import com.airport.repository.springdata.PassengersRepository;
+import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@EqualsAndHashCode
 public class UserDetailsServiceImpl implements UserDetailsService {
 
 	private final PassengersRepository passengersRepository;
@@ -22,10 +24,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 			Passengers passengers = passengersRepository.findByLogin (login)
 			                                            .orElseThrow (() -> new EntityNotFoundException ("login " + login, Passengers.class));
 
-			return new org.springframework.security.core.userdetails.User (passengers.getLogin (), passengers.getPassword (),
+			return new org.springframework.security.core.userdetails.User (
+					passengers.getLogin (),
+					passengers.getPassword (),
 					AuthorityUtils.commaSeparatedStringToAuthorityList (passengers.getRole ()
 					                                                              .getRole ()
-			                                                                      .toString ()));
+					                                                              .toString ()));
 		} catch (Exception e) {
 			throw new UsernameNotFoundException ("Passenger with this login not found");
 		}

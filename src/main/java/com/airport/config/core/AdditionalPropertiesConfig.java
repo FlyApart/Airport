@@ -13,26 +13,33 @@ import java.util.Properties;
 @Data
 @NoArgsConstructor
 @Configuration
-@ConfigurationProperties ("spring.jpa")
+@ConfigurationProperties("spring.jpa")
 public class AdditionalPropertiesConfig {
 
 
 	private String show_sql;
-    private JpaHibernateConfig hibernate;
+	private JpaHibernateConfig hibernate;
 
 	@Data
-	 public static class  JpaHibernateConfig{
-	    private String ddl_auto;
-    }
+	public static class JpaHibernateConfig {
+		private String ddl_auto;
+		private String use_second_level_cache;
+		private String region_factory_class;
+		private String provider;
+	}
 
-    @Bean(value = "jpaProperties")
-    @Scope("singleton")
-    @Primary
-    public Properties getAdditionalProperties()  {
-    	Properties properties = new Properties ();
-		properties.put ("hibernate.show_sql",show_sql);
+
+	@Bean(value = "jpaProperties")
+	@Scope("singleton")
+	@Primary
+	public Properties getAdditionalProperties () {
+		Properties properties = new Properties ();
+		properties.put ("hibernate.show_sql", show_sql);
 		properties.put ("hibernate.hbm2ddl.auto", hibernate.ddl_auto);
+		properties.put ("hibernate.cache.use_second_level_cache", hibernate.use_second_level_cache);
+		properties.put ("hibernate.cache.region.factory_class", hibernate.region_factory_class);
+		properties.put ("hibernate.javax.cache.provider", hibernate.provider);
 
-	    return properties;
+		return properties;
 	}
 }

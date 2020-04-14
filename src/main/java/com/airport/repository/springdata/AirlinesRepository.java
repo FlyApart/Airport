@@ -8,10 +8,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 
-public interface AirlinesRepository extends CrudRepository<Airlines, Long>, JpaRepository<Airlines, Long>{
+public interface AirlinesRepository extends CrudRepository<Airlines, Long>, JpaRepository<Airlines, Long> {
 	Airlines findByName (String name);
 
 	@Modifying
 	@Query("delete  from Airlines a where a = :airlines")
-	void deleteAirlines(Airlines airlines);
+	void deleteAirlines (Airlines airlines);
 }

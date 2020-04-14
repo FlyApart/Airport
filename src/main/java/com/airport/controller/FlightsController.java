@@ -1,9 +1,9 @@
 package com.airport.controller;
 
-import com.airport.controller.exceptions.EntityNotFoundException;
 import com.airport.controller.request.change.FlightsUpdateRequest;
 import com.airport.controller.request.create.FlightsSaveRequest;
 import com.airport.entity.Flights;
+import com.airport.exceptions.EntityNotFoundException;
 import com.airport.repository.springdata.FlightsRepository;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -30,54 +30,54 @@ import java.util.Objects;
 
 
 @CrossOrigin
-	@RestController
-	@RequestMapping("/rest/flights")
-	@RequiredArgsConstructor
-	public class FlightsController {
+@RestController
+@RequestMapping("/rest/flights")
+@RequiredArgsConstructor
+public class FlightsController {
 
 
-		private final FlightsRepository flightsRepository;
-		private final ConversionService conversionService;
-		//private final FlightService flightService;
+	private final FlightsRepository flightsRepository;
+	private final ConversionService conversionService;
+	//private final FlightService flightService;
 
-		@ApiImplicitParams({@ApiImplicitParam(name = "page", dataType = "integer", paramType = "query", value = "Results page you want to retrieve (0..N)"),
-				@ApiImplicitParam(name = "size", dataType = "integer", paramType = "query", value = "Number of records per page."),
-				@ApiImplicitParam(name = "sort", allowMultiple = true, dataType = "string", paramType = "query",
-						value = "Sorting criteria in the format: property(, " + "\"asc or desc\"). " + "Default sort order is ascending. " + "Multiple sort criteria are supported.")})
-		@GetMapping
-		public ResponseEntity<Page<Flights>> findAll (@ApiIgnore Pageable pageable){
-			return new ResponseEntity <>(flightsRepository.findAll (pageable), HttpStatus.OK);
-		}
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "page", dataType = "integer", paramType = "query", value = "Results page you want to retrieve (0..N)"),
+			@ApiImplicitParam(name = "size", dataType = "integer", paramType = "query", value = "Number of records per page."),
+			@ApiImplicitParam(name = "sort", allowMultiple = true, dataType = "string", paramType = "query",
+					value = "Sorting criteria in the format: property(, " + "\"asc or desc\"). " + "Default sort order is ascending. " + "Multiple sort criteria are supported.")})
+	@GetMapping
+	public ResponseEntity<Page<Flights>> findAll (@ApiIgnore Pageable pageable) {
+		return new ResponseEntity<> (flightsRepository.findAll (pageable), HttpStatus.OK);
+	}
 
 
-		@GetMapping(value = "/{id}")
-		public ResponseEntity<Flights> findFlightById (@PathVariable String id) {
-			Flights flights = flightsRepository.findById (Long.valueOf (id))
-			                                            .orElseThrow (() -> new EntityNotFoundException (Flights.class, id));
-			return new ResponseEntity<> (flights, HttpStatus.OK);
-		}
+	@GetMapping(value = "/{id}")
+	public ResponseEntity<Flights> findFlightById (@PathVariable String id) {
+		Flights flights = flightsRepository.findById (Long.valueOf (id))
+		                                   .orElseThrow (() -> new EntityNotFoundException (Flights.class, id));
+		return new ResponseEntity<> (flights, HttpStatus.OK);
+	}
 
-		@DeleteMapping(value = "/{id}")
-		// @Transactional
-		public ResponseEntity<String> deleteFlight (@PathVariable String id) {
-			Flights flights = (flightsRepository.findById (Long.valueOf (id)))
-					                  .orElseThrow (() -> new EntityNotFoundException (Flights.class, id));
-			flightsRepository.delete (flights);
-			return new ResponseEntity<> (id, HttpStatus.OK);
-		}
+	@DeleteMapping(value = "/{id}")
+	// @Transactional
+	public ResponseEntity<String> deleteFlight (@PathVariable String id) {
+		Flights flights = (flightsRepository.findById (Long.valueOf (id))).orElseThrow (() -> new EntityNotFoundException (Flights.class, id));
+		flightsRepository.delete (flights);
+		return new ResponseEntity<> (id, HttpStatus.OK);
+	}
 
-		@Transactional
-		@PostMapping
-		public ResponseEntity<Flights> createFlight (@RequestBody @Valid FlightsSaveRequest flightsSaveRequest) {
-			return new ResponseEntity<> (flightsRepository.saveAndFlush (Objects.requireNonNull (conversionService.convert (flightsSaveRequest, Flights.class))), HttpStatus.CREATED);
+	@Transactional
+	@PostMapping
+	public ResponseEntity<Flights> createFlight (@RequestBody @Valid FlightsSaveRequest flightsSaveRequest) {
+		return new ResponseEntity<> (flightsRepository.saveAndFlush (Objects.requireNonNull (conversionService.convert (flightsSaveRequest, Flights.class))), HttpStatus.CREATED);
 
-		}
+	}
 
-		@PutMapping(value = "/{id}")
-		public ResponseEntity<Flights> updateFlight (@PathVariable String id, @RequestBody @Valid FlightsUpdateRequest flightsUpdateRequest) {
-			flightsUpdateRequest.setId (Long.valueOf (id));
-			return new ResponseEntity<> (flightsRepository.saveAndFlush (Objects.requireNonNull (conversionService.convert (flightsUpdateRequest, Flights.class))), HttpStatus.OK);
+	@PutMapping(value = "/{id}")
+	public ResponseEntity<Flights> updateFlight (@PathVariable String id, @RequestBody @Valid FlightsUpdateRequest flightsUpdateRequest) {
+		flightsUpdateRequest.setId (Long.valueOf (id));
+		return new ResponseEntity<> (flightsRepository.saveAndFlush (Objects.requireNonNull (conversionService.convert (flightsUpdateRequest, Flights.class))), HttpStatus.OK);
 
-		}
+	}
 }
 

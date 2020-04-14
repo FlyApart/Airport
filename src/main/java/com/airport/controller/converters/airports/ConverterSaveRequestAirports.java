@@ -10,11 +10,11 @@ public class ConverterSaveRequestAirports extends ConverterRequestAirports<Airpo
 	@Override
 	public Airports convert (AirportsSaveRequest request) {
 
-        Airports airports = new Airports ();
+		Airports airports = new Airports ();
 
-        airports.setCities(findCity(request.getClass (),request.getCities()));
+		airports.setCities (findCity (request.getClass (), request.getCities ()));
 
-        isUniqueAirports (request.getClass (), request.getTitle());
+		isUniqueAirports (request.getClass (), request.getTitle ());
 
 		return doConvert (airports, request);
 	}

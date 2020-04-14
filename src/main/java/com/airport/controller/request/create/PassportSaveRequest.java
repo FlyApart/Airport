@@ -33,8 +33,6 @@ public class PassportSaveRequest {
 	@NotNull
 	PassportsTypes types;
 
-	/*@FieldValid (min = 1,max = 18)
-	@Pattern(regexp = "^[\\d]+$", message = "example : 123")*/
 	@JsonIgnore
 	String passengerId;
 

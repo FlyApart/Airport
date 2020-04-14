@@ -1,14 +1,14 @@
 package com.airport.controller.converters.airlines;
 
 import com.airport.controller.converters.EntityConverter;
-import com.airport.controller.exceptions.ArgumentOfMethodNotValidException;
-import com.airport.controller.exceptions.ConversionException;
-import com.airport.controller.exceptions.EntityAlreadyExistException;
-import com.airport.controller.exceptions.EntityNotFoundException;
 import com.airport.controller.request.change.AirlinesUpdateRequest;
 import com.airport.controller.request.create.AirlinesSaveRequest;
 import com.airport.entity.Airlines;
 import com.airport.entity.Countries;
+import com.airport.exceptions.ArgumentOfMethodNotValidException;
+import com.airport.exceptions.ConversionException;
+import com.airport.exceptions.EntityAlreadyExistException;
+import com.airport.exceptions.EntityNotFoundException;
 
 import javax.persistence.NoResultException;
 
@@ -37,7 +37,7 @@ public abstract class ConverterRequestAirlines<S, T> extends EntityConverter<S, 
 			                         .setParameter ("name", country)
 			                         .getSingleResult ();
 		} catch (NumberFormatException e) {
-			throw new ConversionException (sClass, Airlines.class, country, new ArgumentOfMethodNotValidException (Countries.class,country));
+			throw new ConversionException (sClass, Airlines.class, country, new ArgumentOfMethodNotValidException (Countries.class, country));
 		} catch (NoResultException e) {
 			throw new ConversionException (sClass, Airlines.class, country, new EntityNotFoundException (" name = " + country, Countries.class));
 		}
@@ -45,7 +45,7 @@ public abstract class ConverterRequestAirlines<S, T> extends EntityConverter<S, 
 	}
 
 
-	void isUniqueAirlines(Class<?> sClass, String name, String website){
+	void isUniqueAirlines (Class<?> sClass, String name, String website) {
 		try {
 			entityManager.createQuery ("select c from Airlines c where c.name =:name or c.website=:website", Airlines.class)
 			             .setParameter ("name", name)
@@ -53,13 +53,11 @@ public abstract class ConverterRequestAirlines<S, T> extends EntityConverter<S, 
 			             .getSingleResult ();
 
 		} catch (NumberFormatException e) {
-			throw new ConversionException(sClass, Airlines.class, name.concat(" "+website),
-					new ArgumentOfMethodNotValidException ("name = " + name+" or website = "+website));
+			throw new ConversionException (sClass, Airlines.class, name.concat (" " + website), new ArgumentOfMethodNotValidException ("name = " + name + " or website = " + website));
 		} catch (NoResultException e) {
-		   return;
+			return;
 		}
-		throw new ConversionException(sClass, Airlines.class, name.concat(" "+website),
-				new EntityAlreadyExistException (Airlines.class,"name = " + name+" or website = "+website));
+		throw new ConversionException (sClass, Airlines.class, name.concat (" " + website), new EntityAlreadyExistException (Airlines.class, "name = " + name + " or website = " + website));
 
 	}
 }

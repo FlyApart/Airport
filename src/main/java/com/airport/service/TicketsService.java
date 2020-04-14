@@ -4,6 +4,6 @@ import com.airport.controller.request.create.TicketsSaveUpdateRequest;
 import com.airport.entity.Tickets;
 
 public interface TicketsService {
-	Tickets saveAndUpdate(TicketsSaveUpdateRequest ticket);
+	Tickets saveAndUpdate (TicketsSaveUpdateRequest ticket);
 
 }

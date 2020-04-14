@@ -1,10 +1,10 @@
 package com.airport.controller;
 
 
-import com.airport.controller.exceptions.EntityNotFoundException;
 import com.airport.controller.request.change.CountriesUpdateRequest;
 import com.airport.controller.request.create.CountriesSaveRequest;
 import com.airport.entity.Countries;
+import com.airport.exceptions.EntityNotFoundException;
 import com.airport.repository.springdata.CountriesRepository;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -33,33 +33,33 @@ import javax.validation.Valid;
 @RequestMapping(value = "/rest/countries")
 @RequiredArgsConstructor
 public class CountriesController {
-    
+
 	private final CountriesRepository countriesRepository;
 	private final ConversionService conversionService;
 
-	@ApiImplicitParams(
-			{@ApiImplicitParam(name = "page", dataType = "integer", paramType = "query", value = "Results page you want to retrieve (0..N)"),
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "page", dataType = "integer", paramType = "query", value = "Results page you want to retrieve (0..N)"),
 			@ApiImplicitParam(name = "size", dataType = "integer", paramType = "query", value = "Number of records per page."),
-			@ApiImplicitParam(name = "sort", allowMultiple = true, dataType = "string", paramType = "query", value = "Sorting criteria in the format: property(, " +
-					          "\"asc or desc\"). " + "Default sort order is ascending. " + "Multiple sort criteria are supported.")})
+			@ApiImplicitParam(name = "sort", allowMultiple = true, dataType = "string", paramType = "query",
+					value = "Sorting criteria in the format: property(, " + "\"asc or desc\"). " + "Default sort order is ascending. " + "Multiple sort criteria are supported.")})
 	@GetMapping
-	public ResponseEntity<Page<Countries>> findAllCountries(@ApiIgnore Pageable pageable) {
-		return new ResponseEntity<>(countriesRepository.findAll(pageable), HttpStatus.OK);
+	public ResponseEntity<Page<Countries>> findAllCountries (@ApiIgnore Pageable pageable) {
+		return new ResponseEntity<> (countriesRepository.findAll (pageable), HttpStatus.OK);
 	}
 
 	@GetMapping(value = "/{id}")
-	public ResponseEntity <Countries> findCountriesById (@PathVariable ("id") String id){
+	public ResponseEntity<Countries> findCountriesById (@PathVariable("id") String id) {
 		Countries countries = countriesRepository.findById (Long.valueOf (id))
-                .orElseThrow (() -> new EntityNotFoundException (Countries.class, id));
-		return new ResponseEntity<>(countries, HttpStatus.OK);
+		                                         .orElseThrow (() -> new EntityNotFoundException (Countries.class, id));
+		return new ResponseEntity<> (countries, HttpStatus.OK);
 	}
-	
+
 
 	@Transactional
 	@DeleteMapping(value = "/{id}")
-	public String DeleteCountries (@PathVariable ("id") String id){
+	public String DeleteCountries (@PathVariable("id") String id) {
 		Countries countries = countriesRepository.findById (Long.valueOf (id))
-		                                         .orElseThrow(() -> new EntityNotFoundException (Countries.class, id));
+		                                         .orElseThrow (() -> new EntityNotFoundException (Countries.class, id));
 		countriesRepository.deleteCountries (countries);
 		return id;
 	}
@@ -67,15 +67,14 @@ public class CountriesController {
 	@PostMapping
 	@Transactional
 	public ResponseEntity<Countries> createCountries (@RequestBody @Valid CountriesSaveRequest countriesSaveRequest) {
-		Countries countries = conversionService.convert (countriesSaveRequest,Countries.class);
+		Countries countries = conversionService.convert (countriesSaveRequest, Countries.class);
 		return new ResponseEntity<> (countriesRepository.saveAndFlush (countries), HttpStatus.CREATED);
 	}
 
-	@PutMapping (value = "/{id}")
+	@PutMapping(value = "/{id}")
 	@Transactional
-	public ResponseEntity<Countries> updateCountries (@PathVariable ("id") String id,
-                                                       @RequestBody @Valid CountriesUpdateRequest countriesUpdateRequest) {
-		countriesUpdateRequest.setId(id);
+	public ResponseEntity<Countries> updateCountries (@PathVariable("id") String id, @RequestBody @Valid CountriesUpdateRequest countriesUpdateRequest) {
+		countriesUpdateRequest.setId (id);
 		Countries countries = conversionService.convert (countriesUpdateRequest, Countries.class);
 		return new ResponseEntity<> (countriesRepository.saveAndFlush (countries), HttpStatus.CREATED);
 	}

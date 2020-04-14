@@ -21,7 +21,7 @@ import java.util.Set;
 @EqualsAndHashCode
 @ToString(callSuper = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class FlightsUpdateRequest{
+public class FlightsUpdateRequest {
 
 	@JsonIgnore
 	Long id;

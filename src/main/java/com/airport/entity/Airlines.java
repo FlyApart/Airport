@@ -23,17 +23,17 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@EqualsAndHashCode (exclude = {"id","flightsCounts","country"})
-@ToString (exclude = {"flightsCounts","country"})
+@EqualsAndHashCode(exclude = {"id", "flightsCounts", "countries"})
+@ToString(exclude = {"flightsCounts", "countries"})
 @DynamicUpdate
 @Entity
-@Table (name = "airlines")
+@Table(name = "airlines")
 public class Airlines {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
 
-	@Column (length = 50, nullable = false, unique = true)
+	@Column(length = 50, nullable = false, unique = true)
 	String name;
 
 	@Column(length = 50, nullable = false, unique = true)

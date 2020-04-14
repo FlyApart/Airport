@@ -1,7 +1,7 @@
 package com.airport.repository.hibernate.impl;
 
-import com.airport.controller.exceptions.EntityNotFoundException;
 import com.airport.entity.Passengers;
+import com.airport.exceptions.EntityNotFoundException;
 import com.airport.repository.hibernate.PassengerDao;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -24,11 +24,11 @@ public class PassengersDaoImpl implements PassengerDao {
 	}
 
 	@Override
-    // TODO get optional in all entities
+	// TODO get optional in all entities
 	public Passengers findById (Long id) {
 		//return entityManager.find (Passengers.class, id);
-        Optional <Passengers> passengersOptional = Optional.ofNullable(entityManager.find(Passengers.class, id));
-        return passengersOptional.orElseThrow(EntityNotFoundException::new);
+		Optional<Passengers> passengersOptional = Optional.ofNullable (entityManager.find (Passengers.class, id));
+		return passengersOptional.orElseThrow (EntityNotFoundException::new);
 	}
 
 	@Override

@@ -25,8 +25,7 @@ public class RoleRequest {
 	@JsonIgnore
 	Long id;
 
-	@NotNull
-	RoleName role;
+	@NotNull RoleName role;
 
 	@Size(min = 1, max = 18)
 	@Pattern(regexp = "^[\\d]+", message = "example : 123")

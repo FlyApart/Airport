@@ -1,6 +1,6 @@
-package com.airport.controller.exceptions;
+package com.airport.exceptions;
 
-import com.airport.controller.messages.ErrorMessage;
+import com.airport.exceptions.messages.ErrorMessage;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureException;
@@ -17,16 +17,15 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
 public class DefaultExceptionHandler extends DefaultResponseEntityExceptionHandler {
-    private static final Logger LOG = LogManager.getLogger (DefaultExceptionHandler.class);
+	private static final Logger LOG = LogManager.getLogger (DefaultExceptionHandler.class);
 
 	@ExceptionHandler(EntityNotFoundException.class)
-	public ResponseEntity<ErrorMessage> handleEntityNotFoundException(EntityNotFoundException e){
-		LOG.error(e.getMessage(), e);
-		return new ResponseEntity<>(new ErrorMessage(e.getMessage()),
-				HttpStatus.NOT_FOUND);
+	public ResponseEntity<ErrorMessage> handleEntityNotFoundException (EntityNotFoundException e) {
+		LOG.error (e.getMessage (), e);
+		return new ResponseEntity<> (new ErrorMessage (e.getMessage ()), HttpStatus.NOT_FOUND);
 	}
 
-    @ExceptionHandler(EntityAlreadyExistException.class)
+	@ExceptionHandler(EntityAlreadyExistException.class)
 	public ResponseEntity<ErrorMessage> handleEntityAlreadyExistException (EntityAlreadyExistException e) {
 		LOG.error (e.getMessage (), e);
 		return new ResponseEntity<> (new ErrorMessage (e.getMessage ()), HttpStatus.CONFLICT);
@@ -45,26 +44,22 @@ public class DefaultExceptionHandler extends DefaultResponseEntityExceptionHandl
 		return new ResponseEntity<> (new ErrorMessage (e.getMessage ()), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
-	@ExceptionHandler({ArgumentOfMethodNotValidException.class, NumberFormatException.class,ConversionException.class})
+	@ExceptionHandler({ArgumentOfMethodNotValidException.class, NumberFormatException.class, ConversionException.class})
 	public ResponseEntity<ErrorMessage> handleArgumentOfMethodNotValidException (RuntimeException e) {
 		LOG.error (e.getMessage (), e);
-		return new ResponseEntity<> (new ErrorMessage (e.getMessage ()),HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<> (new ErrorMessage (e.getMessage ()), HttpStatus.BAD_REQUEST);
 	}
 
 	@ExceptionHandler(CustomException.class)
-	public ResponseEntity<ErrorMessage> handleCustomException(CustomException e) {
+	public ResponseEntity<ErrorMessage> handleCustomException (CustomException e) {
 		LOG.error (e.getMessage (), e);
-		return new ResponseEntity<> (new ErrorMessage (e.getMessage ()),HttpStatus.NOT_ACCEPTABLE);
+		return new ResponseEntity<> (new ErrorMessage (e.getMessage ()), HttpStatus.NOT_ACCEPTABLE);
 	}
-	@ExceptionHandler({
-			UnsupportedJwtException.class,
-			MalformedJwtException.class,
-			SignatureException.class,
-			ExpiredJwtException.class,
-			IllegalArgumentException.class})
-	public ResponseEntity<ErrorMessage> handleParseClaimsException(Exception e) {
+
+	@ExceptionHandler({UnsupportedJwtException.class, MalformedJwtException.class, SignatureException.class, ExpiredJwtException.class, IllegalArgumentException.class})
+	public ResponseEntity<ErrorMessage> handleParseClaimsException (Exception e) {
 		LOG.error (e.getMessage (), e);
-		return new ResponseEntity<> (new ErrorMessage (e+e.getMessage ()),HttpStatus.UNAUTHORIZED);
+		return new ResponseEntity<> (new ErrorMessage (e + e.getMessage ()), HttpStatus.UNAUTHORIZED);
 	}
 
 }

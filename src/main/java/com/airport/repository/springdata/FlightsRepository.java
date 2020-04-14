@@ -11,6 +11,6 @@ import org.springframework.data.repository.CrudRepository;
 public interface FlightsRepository extends CrudRepository<Flights, Long>, JpaRepository<Flights, Long> {
 	@Modifying
 	@Query("delete  from Flights f where f = :flights")
-	void deleteFlights(Flights flights);
+	void deleteFlights (Flights flights);
 
 }

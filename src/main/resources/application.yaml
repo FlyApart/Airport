@@ -8,12 +8,15 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
+      use_second_level_cache: false
+      region_factory_class: net.sf.ehcache.hibernate.EhCacheRegionFactory
+      provider: org.ehcache.jsr107.EhcacheCachingProvider
     show-sql: true
 
 ---
 logging:
   level:
-    ROOT: debug
+    ROOT: info
     org.springframework: info
     org.hibernate: info
 

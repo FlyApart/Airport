@@ -65,9 +65,9 @@ private String getEnvFromToken (String token) {
 
 	private Claims getClaimsFromToken (String token) {
 		return Jwts.parser ()
-			             .setSigningKey (jwtConfiguration.getSecret ())
-			             .parseClaimsJwt (token)
-			             .getBody ();
+		           .setSigningKey (jwtConfiguration.getSecret ())
+		           .parseClaimsJwt (token)
+		           .getBody ();
 
 	}
 

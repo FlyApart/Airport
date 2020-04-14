@@ -15,12 +15,12 @@ import java.util.Optional;
 public interface TicketsRepository extends CrudRepository<Tickets, Long>, JpaRepository<Tickets, Long> {
 	@Modifying
 	@Query("delete  from Tickets t where t = :tickets")
-	void deleteTickets(Tickets tickets);
+	void deleteTickets (Tickets tickets);
 
 
 	@Query("select t.place from Tickets t where t.flights.id= :flightsId and t.seatsClass= :classSeat order by t.place asc ")
-    Optional<List<String>> findPlacesByFlights(Long flightsId, SeatsClass classSeat);
+	Optional<List<String>> findPlacesByFlights (Long flightsId, SeatsClass classSeat);
 
-    @Query("select t from Tickets t where t.flights.id= :flightsId and t.place= :place")
-    Optional<Tickets> findTicketsByFlightsIdAndPlace(Long flightsId, String place);
+	@Query("select t from Tickets t where t.flights.id= :flightsId and t.place= :place")
+	Optional<Tickets> findTicketsByFlightsIdAndPlace (Long flightsId, String place);
 }

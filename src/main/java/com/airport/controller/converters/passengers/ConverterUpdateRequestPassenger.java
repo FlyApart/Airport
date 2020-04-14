@@ -1,11 +1,11 @@
 package com.airport.controller.converters.passengers;
 
 import com.airport.controller.converters.passports.ConverterUpdateRequestPassports;
-import com.airport.controller.exceptions.EntityNotFoundException;
 import com.airport.controller.request.change.PassengerUpdateRequest;
 import com.airport.controller.request.change.PassportUpdateRequest;
 import com.airport.entity.Passengers;
 import com.airport.entity.Passports;
+import com.airport.exceptions.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -28,8 +28,7 @@ public class ConverterUpdateRequestPassenger extends ConverterRequestPassengers<
 	@Override
 	public Passengers convert (PassengerUpdateRequest request) {
 
-		Passengers passengers = ofNullable (entityManager.find (Passengers.class, Long.valueOf (request.getId ())))
-				                        .orElseThrow (() -> new EntityNotFoundException (Passengers.class, request.getId ()));
+		Passengers passengers = ofNullable (entityManager.find (Passengers.class, Long.valueOf (request.getId ()))).orElseThrow (() -> new EntityNotFoundException (Passengers.class, request.getId ()));
 
 
 		Set<Passports> passportsSet = new HashSet<> ();

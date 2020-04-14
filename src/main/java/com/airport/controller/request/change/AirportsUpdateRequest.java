@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.FieldDefaults;
 
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Data
@@ -22,10 +23,11 @@ public class AirportsUpdateRequest {
 	@JsonIgnore
 	String id;
 
-    @Size(min = 1, max = 50)
-    String title;
+	@Size(min = 1, max = 50)
+	String title;
 
-    @Size(min = 3, max = 50)
-    String cities;
+	@Size(min = 3, max = 50)
+	@Pattern(regexp = "^[a-zA-Z]{3,25}$", message = "example : Moscow")
+	String cities;
 
 }

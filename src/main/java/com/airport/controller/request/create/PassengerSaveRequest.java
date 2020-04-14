@@ -24,11 +24,9 @@ import java.util.Set;
 @EqualsAndHashCode
 @ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class PassengerSaveRequest{
+public class PassengerSaveRequest {
 
-	@FieldValid
-    @Email
-	String login;
+	@FieldValid @Email String login;
 
 	@FieldValid(min = 2)
 	@Pattern(regexp = "^[a-zA-Z ]{2,50}$", message = "example : Alex")
@@ -38,7 +36,7 @@ public class PassengerSaveRequest{
 	@Pattern(regexp = "^[a-zA-Z]{2,50}$", message = "example : Cruise")
 	String secondName;
 
-	@FieldValid (min = 6,max = 50)
+	@FieldValid(min = 6, max = 50)
 	@Pattern(regexp = "(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}", message = "example : Ar2%fd*")
 	String password;
 
@@ -46,10 +44,10 @@ public class PassengerSaveRequest{
 	@NotNull
 	Date birthDate;
 
-    @FieldValid(min = 3, max = 50)
-    String cities;
+	@FieldValid(min = 3, max = 50)
+	String cities;
 
 	@NotNull
-    @NotEmpty
+	@NotEmpty
 	Set<PassportSaveRequest> passportSaveRequest = Collections.emptySet ();
 }

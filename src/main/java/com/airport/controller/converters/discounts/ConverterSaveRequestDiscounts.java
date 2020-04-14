@@ -7,14 +7,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class ConverterSaveRequestDiscounts extends ConverterRequestDiscounts<DiscountsSaveRequest, Discounts> {
 
-  @Override
-  public Discounts convert(DiscountsSaveRequest request) {
-    Discounts discounts = new Discounts();
+	@Override
+	public Discounts convert (DiscountsSaveRequest request) {
+		Discounts discounts = new Discounts ();
 
-    discounts.setFlights (findFlights(request.getClass(), request.getFlightsId ()));
+		discounts.setFlights (findFlights (request.getClass (), request.getFlightsId ()));
 
-    uniqueDiscountsName(request.getClass(), request.getTitle ());
+		uniqueDiscountsName (request.getClass (), request.getTitle ());
 
-    return doConvert(discounts, request);
-  }
+		return doConvert (discounts, request);
+	}
 }

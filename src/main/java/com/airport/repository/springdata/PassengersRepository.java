@@ -9,17 +9,19 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.Optional;
 import java.util.Set;
 
+/*@CacheConfig(cacheNames = "passengerInfo")*/
 public interface PassengersRepository extends CrudRepository<Passengers, Long>, JpaRepository<Passengers, Long> {
 
-    @Query("select p.passports from Passengers p  where p.id = :id")
-    Set<Passports> findPassportsByPassportsId (Long id);//TODO rebase this in passportRepository
+	@Query("select p.passports from Passengers p  where p.id = :id")
+	Set<Passports> findPassportsByPassportsId (Long id);//TODO rebase this in passportRepository
 
-    @Query ("from Passengers p where p.login= :login")
-    Optional<Passengers> findByLogin (String login);
+	/*@Cacheable*/
+	@Query("from Passengers p where p.login= :login")
+	Optional<Passengers> findByLogin (String login);
 
-// public Passengers findByLogin(String login);
-    /*List<Passengers> findByNameAndSecondName (String name, String secondName);
-    *//*List<Passengers> findByUserNameAndUserSurnameAndLogin (String userName, String userSurname, String login);
+	// public Passengers findByLogin(String login);
+	/*List<Passengers> findByNameAndSecondName (String name, String secondName);
+	 *//*List<Passengers> findByUserNameAndUserSurnameAndLogin (String userName, String userSurname, String login);
     List<Passengers> findByUserNameAndUserSurnameAndLoginLike (String userName, String userSurname, String login);
     List<Passengers> findDistinctByUserNameLikeOrderByBirthDateAscUserIdDesc (String userName);*//*
 

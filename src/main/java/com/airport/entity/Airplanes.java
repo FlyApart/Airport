@@ -22,12 +22,12 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode (exclude = {"id","countries"})
-@ToString (exclude = "countries")
+@EqualsAndHashCode(exclude = {"id", "countries"})
+@ToString(exclude = "countries")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @DynamicUpdate
 @Entity
-@Table (name = "airplanes")
+@Table(name = "airplanes")
 public class Airplanes {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,13 +42,13 @@ public class Airplanes {
 	@Column(name = "number_of_row")
 	Integer row;
 
-	@Column (name = "comfort_seats")
+	@Column(name = "comfort_seats")
 	Integer ComfortSeats;
 
 	@Column(name = "comfort_number_of_row")
 	Integer ComfortRow;
 
-	@Column (name = "business_seats")
+	@Column(name = "business_seats")
 	Integer businessSeats;
 
 	@Column(name = "business_number_of_row")
@@ -59,7 +59,7 @@ public class Airplanes {
 	Long flightDuration;
 
 	@Column
-    Date built;
+	Date built;
 
 	@OneToOne
 	@JoinColumn

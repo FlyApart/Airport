@@ -24,7 +24,7 @@ public class AirlinesSaveRequest {
 	String name;
 
 	@Pattern(regexp = "^[\\w]+\\.[\\w]+", message = "example.com")
-	@FieldValid(min = 3,max = 50)
+	@FieldValid(min = 3, max = 50)
 	String website;
 
 	@FieldValid(min = 1, max = 18)

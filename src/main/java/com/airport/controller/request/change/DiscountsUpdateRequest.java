@@ -24,11 +24,11 @@ public class DiscountsUpdateRequest {
 	@JsonIgnore
 	String id;
 
-	@Size (min = 4, max = 50)
+	@Size(min = 4, max = 50)
 	@Pattern(regexp = "^[\\w]+", message = "example : AUL_125")
 	String title;
 
-	@Size (min = 3, max = 10)
+	@Size(min = 3, max = 10)
 	@Pattern(regexp = "^[\\d]{1,7}\\.[\\d]{1,2}", message = "example : 123.45")
 	String cost;
 

@@ -22,13 +22,14 @@ import javax.persistence.Table;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode (exclude = {"id","country"})
-@ToString (exclude = "country")
+@EqualsAndHashCode(exclude = {"id", "cities"})
+@ToString(exclude = "cities")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @DynamicUpdate
 @Entity
 @Table(name = "airports")
 public class Airports {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;

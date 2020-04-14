@@ -10,12 +10,12 @@ public class ConverterSaveRequestFlights extends ConverterRequestFlights<Flights
 	@Override
 	public Flights convert (FlightsSaveRequest request) {
 
-        Flights flights = new Flights ();
+		Flights flights = new Flights ();
 
-        flights.setAirlines (findAirline(request.getClass (),request.getAirlinesName ()));
-        flights.setAirplane (findAirplanes (request.getClass (),Long.valueOf (request.getAirplaneID ())));
-        flights.setArriveAirport (findAirport(request.getClass (),request.getArriveAirportTitle ()));
-        flights.setDepartureAirport (findAirport(request.getClass (),request.getDepartureAirportTitle ()));
+		flights.setAirlines (findAirline (request.getClass (), request.getAirlinesName ()));
+		flights.setAirplane (findAirplanes (request.getClass (), Long.valueOf (request.getAirplaneID ())));
+		flights.setArriveAirport (findAirport (request.getClass (), request.getArriveAirportTitle ()));
+		flights.setDepartureAirport (findAirport (request.getClass (), request.getDepartureAirportTitle ()));
 
 		return doConvert (flights, request);
 	}

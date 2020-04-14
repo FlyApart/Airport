@@ -34,8 +34,8 @@ public class ConverterSaveRequestPassenger extends ConverterRequestPassengers<Pa
 		}
 		passengers.setPassports (passportsSet);
 
-		passengers.setCities (findCity(request.getClass(),request.getCities()));
-        isUniqueLogin(request.getClass(), request.getLogin());
+		passengers.setCities (findCity (request.getClass (), request.getCities ()));
+		isUniqueLogin (request.getClass (), request.getLogin ());
 
 		return doConvert (passengers, request);
 	}

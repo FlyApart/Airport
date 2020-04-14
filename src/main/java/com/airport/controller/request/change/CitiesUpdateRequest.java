@@ -19,13 +19,13 @@ import javax.validation.constraints.Size;
 @ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CitiesUpdateRequest {
-    @JsonIgnore
-    String id;
+	@JsonIgnore
+	String id;
 
-    @Size (min = 3, max = 50)
-    @Pattern(regexp = "^[a-zA-Z]{3,25}$", message = "example : Moscow")
-    String name;
+	@Size(min = 3, max = 50)
+	@Pattern(regexp = "^[a-zA-Z]{3,25}$", message = "example : Moscow")
+	String name;
 
-    @Size(min = 3, max = 50)
-    String country;
+	@Size(min = 3, max = 50)
+	String country;
 }

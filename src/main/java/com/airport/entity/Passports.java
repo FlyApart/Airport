@@ -27,12 +27,12 @@ import javax.persistence.UniqueConstraint;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode (exclude = {"id","passengersId","types"})
-@ToString (exclude = {"id","types","passengersId"})
+@EqualsAndHashCode(exclude = {"id", "passengersId", "types"})
+@ToString(exclude = {"types", "passengersId"})
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @DynamicUpdate
 @Entity
-@Table (name = "passports", uniqueConstraints = @UniqueConstraint (columnNames = {"series", "number"}))
+@Table(name = "passports", uniqueConstraints = @UniqueConstraint(columnNames = {"series", "number"}))
 public class Passports {
 
 	@Id
@@ -40,10 +40,10 @@ public class Passports {
 	@Column(unique = true, nullable = false)
 	Long id;
 
-	@Column (name = "series", nullable = false)
+	@Column(name = "series", nullable = false)
 	Long series;
 
-	@Column (name = "number", nullable = false)
+	@Column(name = "number", nullable = false)
 	Long number;
 
 	@Enumerated(EnumType.STRING)
@@ -51,8 +51,8 @@ public class Passports {
 	PassportsTypes types = PassportsTypes.NOT_SELECTED;
 
 	@JsonBackReference
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Passengers.class, cascade = CascadeType.ALL)
-	@JoinColumn(nullable = false,name = "passengers_id")
+	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Passengers.class, cascade = CascadeType.ALL)
+	@JoinColumn(nullable = false, name = "passengers_id")
 	Passengers passengersId;
 
 }

@@ -1,15 +1,15 @@
 package com.airport.service.impl;
 
-import com.airport.controller.exceptions.ArgumentOfMethodNotValidException;
-import com.airport.controller.exceptions.CustomException;
-import com.airport.controller.exceptions.EntityAlreadyExistException;
-import com.airport.controller.exceptions.EntityNotFoundException;
 import com.airport.controller.request.create.TicketsSaveUpdateRequest;
 import com.airport.entity.Discounts;
 import com.airport.entity.Flights;
 import com.airport.entity.Passengers;
 import com.airport.entity.SeatsClass;
 import com.airport.entity.Tickets;
+import com.airport.exceptions.ArgumentOfMethodNotValidException;
+import com.airport.exceptions.CustomException;
+import com.airport.exceptions.EntityAlreadyExistException;
+import com.airport.exceptions.EntityNotFoundException;
 import com.airport.repository.springdata.FlightsRepository;
 import com.airport.repository.springdata.PassengersRepository;
 import com.airport.repository.springdata.TicketsRepository;

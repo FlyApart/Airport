@@ -1,9 +1,9 @@
 package com.airport.controller.converters.airlines;
 
-import com.airport.controller.exceptions.ConversionException;
-import com.airport.controller.exceptions.EntityNotFoundException;
 import com.airport.controller.request.change.AirlinesUpdateRequest;
 import com.airport.entity.Airlines;
+import com.airport.exceptions.ConversionException;
+import com.airport.exceptions.EntityNotFoundException;
 import org.springframework.stereotype.Component;
 
 import static java.util.Optional.ofNullable;
@@ -17,14 +17,11 @@ public class ConverterUpdateRequestAirlines extends ConverterRequestAirlines<Air
 	@Override
 	public Airlines convert (AirlinesUpdateRequest request) {
 
-	    Airlines airlines =
-                ofNullable (entityManager.find (Airlines.class, Long.valueOf (request.getId ())))
-                           .orElseThrow (() -> new ConversionException (AirlinesUpdateRequest.class, Airlines.class, request,
-                                   new EntityNotFoundException (Airlines.class, request.getId ())));
+		Airlines airlines = ofNullable (entityManager.find (Airlines.class, Long.valueOf (request.getId ()))).orElseThrow (() -> new ConversionException (AirlinesUpdateRequest.class, Airlines.class, request, new EntityNotFoundException (Airlines.class, request.getId ())));
 
 		isUniqueAirlines (request.getClass (), request.getName (), request.getWebsite ());
 
-		airlines.setCountries(findCountries(request.getClass(),request.getCountry()));
+		airlines.setCountries (findCountries (request.getClass (), request.getCountry ()));
 
 		return doConvert (airlines, request);
 	}

@@ -33,11 +33,11 @@ public class TicketsSaveUpdateRequest {
 	@Size(min = 1, max = 10)
 	String place;
 
-	@FieldValid (min = 1, max = 18)
+	@FieldValid(min = 1, max = 18)
 	@Pattern(regexp = "^[\\d]+$", message = "example : 123")
 	String flightsID;
 
-	@FieldValid (min = 1, max = 18)
+	@FieldValid(min = 1, max = 18)
 	@Pattern(regexp = "^[\\d]+$", message = "example : 123")
 	String passengersId;
 
@@ -45,7 +45,6 @@ public class TicketsSaveUpdateRequest {
 	@Pattern(regexp = "^[\\w]+", message = "example : AUL_125")
 	String DiscountsTitle;
 
-	@NotNull
-	SeatsClass seatsClass;
+	@NotNull SeatsClass seatsClass;
 }
 

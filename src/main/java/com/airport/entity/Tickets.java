@@ -26,8 +26,8 @@ import javax.persistence.Table;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode (exclude = {"id","flights","passengersId"})
-@ToString (exclude = {"flights","passengersId"})
+@EqualsAndHashCode(exclude = {"id", "flights", "passengersId"})
+@ToString(exclude = {"flights", "passengersId"})
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @DynamicUpdate
 @Entity
@@ -37,10 +37,10 @@ public class Tickets {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
 
-	@Column (nullable = false, length = 10)
+	@Column(nullable = false, length = 10)
 	String place;
 
-	@Column (name = "total_price", nullable = false)
+	@Column(name = "total_price", nullable = false)
 	Double totalPrice;
 
 	@Enumerated(EnumType.STRING)
@@ -52,12 +52,12 @@ public class Tickets {
 
 	@JsonBackReference
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn (nullable = false)
+	@JoinColumn(nullable = false)
 	Flights flights;
 
 	@JsonBackReference
-	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Passengers.class ,cascade = CascadeType.ALL)
-	@JoinColumn (name = "passengers_id",nullable = false)
+	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Passengers.class, cascade = CascadeType.ALL)
+	@JoinColumn(name = "passengers_id", nullable = false)
 	Passengers passengersId;
 
 }

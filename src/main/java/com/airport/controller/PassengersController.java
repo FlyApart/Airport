@@ -1,14 +1,16 @@
 package com.airport.controller;
 
-import com.airport.controller.exceptions.EntityNotFoundException;
 import com.airport.controller.request.change.PassengerUpdateRequest;
 import com.airport.controller.request.create.PassengerSaveRequest;
 import com.airport.entity.Passengers;
+import com.airport.exceptions.EntityNotFoundException;
 import com.airport.repository.springdata.PassengersRepository;
+import com.airport.security.util.PrincipalUtil;
 import com.airport.service.PassengersService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,11 +29,13 @@ import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 @CrossOrigin
 @RestController
 @RequestMapping("/rest/passengers")
 @RequiredArgsConstructor
+@Slf4j
 public class PassengersController {
 
 	private final PassengersRepository passengersRepository;
@@ -40,31 +44,36 @@ public class PassengersController {
 
 	private final ConversionService conversionService;
 
-
-	@ApiImplicitParams({@ApiImplicitParam(name = "page", dataType = "integer", paramType = "query", value = "Results page you want to retrieve (0..N)"),
-            @ApiImplicitParam(name = "size", dataType = "integer", paramType = "query", value = "Number of records per page."),
-            @ApiImplicitParam(name = "sort", allowMultiple = true, dataType = "string", paramType = "query",
-                    value = "Sorting criteria in the format: property(, " + "\"asc or desc\"). " + "Default sort order is ascending. " + "Multiple sort criteria are supported."),
-			@ApiImplicitParam(name = "JWT",value = "JWT",required = true, dataType = "string", paramType = "header")})
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "page", dataType = "integer", paramType = "query", value = "Results page you want to retrieve (0..N)"),
+			@ApiImplicitParam(name = "size", dataType = "integer", paramType = "query", value = "Number of records per page."),
+			@ApiImplicitParam(name = "sort", allowMultiple = true, dataType = "string", paramType = "query",
+					value = "Sorting criteria in the format: property(, " + "\"asc or desc\"). " + "Default sort order is ascending. " + "Multiple sort criteria are supported."),
+			@ApiImplicitParam(name = "JWT", value = "JWT", required = true, dataType = "string", paramType = "header")})
 	@GetMapping
 	public ResponseEntity<Page<Passengers>> getAllPassengers (@ApiIgnore Pageable pageable) {
 		passengersRepository.findAll ();
 		return new ResponseEntity<> (passengersRepository.findAll (pageable), HttpStatus.OK);
 	}
 
-
 	@ApiImplicitParams({
-			@ApiImplicitParam(name = "JWT", value = "JWT",
-					required = true, dataType = "string", paramType = "header") })
+			@ApiImplicitParam(name = "JWT", value = "JWT", required = true, dataType = "string", paramType = "header")})
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<Passengers> findPassengerById (@PathVariable String id) {
+	public ResponseEntity<Passengers> findPassengerById (@PathVariable String id, @ApiIgnore Principal principal) {
+
+		String passengerLogin = PrincipalUtil.getLogin (principal);
+		Passengers passengerAuth = passengersRepository.findByLogin (passengerLogin)
+		                                               .orElseThrow (() -> new EntityNotFoundException (Passengers.class, id));
+
 		Passengers passengers = passengersRepository.findById (Long.valueOf (id))
 		                                            .orElseThrow (() -> new EntityNotFoundException (Passengers.class, id));
+
+		log.info ("lalala test" + passengerAuth.getLogin ());
+
 		return new ResponseEntity<> (passengers, HttpStatus.OK);
 	}
 
 	@DeleteMapping(value = "/{id}")
-	// @Transactional
 	public ResponseEntity<String> deletePassenger (@PathVariable String id) {
 		Passengers passengers = (passengersRepository.findById (Long.valueOf (id))).orElseThrow (() -> new EntityNotFoundException (Passengers.class, id));
 		passengersRepository.delete (passengers);
@@ -78,7 +87,6 @@ public class PassengersController {
 		return new ResponseEntity<> (passengersService.saveAndUpdate (passengers), HttpStatus.CREATED);
 
 	}
-
 
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<Passengers> updatePassenger (@PathVariable String id, @RequestBody @Valid PassengerUpdateRequest passengerInfo) {

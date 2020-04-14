@@ -1,9 +1,9 @@
 package com.airport.controller.converters.flights;
 
-import com.airport.controller.exceptions.ConversionException;
-import com.airport.controller.exceptions.EntityNotFoundException;
 import com.airport.controller.request.change.FlightsUpdateRequest;
 import com.airport.entity.Flights;
+import com.airport.exceptions.ConversionException;
+import com.airport.exceptions.EntityNotFoundException;
 import org.springframework.stereotype.Component;
 
 import static java.util.Optional.ofNullable;

@@ -20,11 +20,11 @@ import javax.validation.constraints.Size;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class AirlinesUpdateRequest {
 
-	@Size (min = 3, max = 50)
+	@Size(min = 3, max = 50)
 	String name;
 
 	@Pattern(regexp = "^[\\w]+\\.[\\w]+", message = "example.com")
-	@Size(min = 3,max = 50)
+	@Size(min = 3, max = 50)
 	String website;
 
 	@Size(min = 1, max = 18)

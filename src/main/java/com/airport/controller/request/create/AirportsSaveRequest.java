@@ -17,10 +17,10 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class AirportsSaveRequest {
 
-    @FieldValid(min = 1)
-    String title;
+	@FieldValid(min = 1)
+	String title;
 
-    @FieldValid(min = 3)
-    String cities;
+	@FieldValid(min = 3)
+	String cities;
 
 }

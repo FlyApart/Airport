@@ -20,10 +20,10 @@ import javax.validation.constraints.Pattern;
 public class CitiesSaveRequest {
 
 
-    @FieldValid(min = 3)
-    @Pattern(regexp = "^[a-zA-Z]{3,25}$", message = "example : Moscow")
-    String name;
+	@FieldValid(min = 3)
+	@Pattern(regexp = "^[a-zA-Z]{3,25}$", message = "example : Moscow")
+	String name;
 
-    @FieldValid(min = 3, max = 50)
-    String country;
+	@FieldValid(min = 3, max = 50)
+	String country;
 }

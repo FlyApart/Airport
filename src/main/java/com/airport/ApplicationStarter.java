@@ -5,12 +5,16 @@ import com.airport.config.core.DatabaseConfig;
 import com.airport.config.core.JdbcTemplateConfig;
 import com.airport.config.swagger.SwaggerConfig;
 import com.airport.config.web.JwtConfiguration;
+import com.github.benmanes.caffeine.cache.Caffeine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cache.caffeine.CaffeineCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Import;
@@ -24,50 +28,22 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
+import java.util.concurrent.TimeUnit;
 
 @EnableSwagger2
 @EnableAspectJAutoProxy
 @EnableTransactionManagement(proxyTargetClass = true)
 @SpringBootApplication(scanBasePackages = {"com.airport"}, exclude = {JacksonAutoConfiguration.class, HibernateJpaAutoConfiguration.class})
-
+@EnableCaching
 @Import({DatabaseConfig.class, JdbcTemplateConfig.class, SwaggerConfig.class, AdditionalPropertiesConfig.class, JwtConfiguration.class})
-
-//@EntityScan(basePackages = { "com.airline.entity" })
 public class ApplicationStarter extends SpringBootServletInitializer {
+
+
 
 	public static void main (String[] args) {
 		SpringApplication.run (ApplicationStarter.class, args);
 	}
 
-/*	private Properties getAdditionalProperties() {
-		Properties properties = new Properties();
-		properties.put("hibernate.show_sql", "true");
-		properties.put("hibernate.hbm2ddl.auto", "validate");
-		properties.put("hibernate.archive.autodetection", "class, hbm");
-		properties.put("current_session_context_class", "org.springframework.orm.hibernate5.SpringSessionContext");
-		return properties;
-	}*/
-
-  /*  @Autowired
-    @Bean(name = "sessionFactory")
-    public SessionFactory getSessionFactory(DataSource dataSource) throws Exception {
-        LocalSessionFactoryBean factoryBean = new LocalSessionFactoryBean();
-        // Package contain entity classes
-        factoryBean.setPackagesToScan("com.airline");
-        factoryBean.setDataSource(dataSource);
-        factoryBean.setHibernateProperties(getAdditionalProperties());
-        factoryBean.afterPropertiesSet();
-        SessionFactory sf = factoryBean.getObject();
-        System.out.println("## getSessionFactory: " + sf);
-        return sf;
-    }*/
-
-    @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder (){
-        return new BCryptPasswordEncoder();
-    }
-
-	//Entity Manager
 	@Autowired
 	@Bean(name = "entityManagerFactory")
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory (DataSource dataSource, AdditionalPropertiesConfig jpaProperties) {
@@ -87,17 +63,33 @@ public class ApplicationStarter extends SpringBootServletInitializer {
 		return entityManagerFactory.createEntityManager ();
 	}
 
+	@Bean
+	public BCryptPasswordEncoder bCryptPasswordEncoder () {
+		return new BCryptPasswordEncoder ();
+	}
 
 
 
- /* @Override
-  protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-    return application.sources(ApplicationStarter.class);
-  }*/
+	@Bean
+	public CacheManager cacheManager () {
+		CaffeineCacheManager caffeineCacheManager = new CaffeineCacheManager ("passengerInfo");
+		caffeineCacheManager.setCaffeine (cacheRoles ());
+		return caffeineCacheManager;
+	}
+
+	public Caffeine<Object, Object> cacheRoles () {
+		return Caffeine.newBuilder ()
+		               .expireAfterAccess (10, TimeUnit.MINUTES)
+		               .weakKeys ()
+		               .initialCapacity (100)
+		               .maximumSize (500)
+		               .recordStats ();
+	}
+
 	//TODO
 	// add safe delete
 	// add role 1:12:15  26.03.2020
-    // add lock annotation on update method 26.03.2020
+	// add lock annotation on update method 26.03.2020
 	// 30.03.2020
 	// 50 min
 	// email verification
@@ -107,3 +99,5 @@ public class ApplicationStarter extends SpringBootServletInitializer {
 
 
 }
+
+

@@ -1,5 +1,8 @@
 package com.airport.config.web;
 
+import com.airport.security.filter.AuthenticateTokenFilter;
+import com.airport.security.util.TokenUtil;
+import com.airport.service.impl.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -12,63 +15,69 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity(debug = true)
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @RequiredArgsConstructor
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    private final UserDetailsService userDetailsService;
+	private final UserDetailsServiceImpl userDetailsService;
 
+	private final TokenUtil tokenUtil;
 
-    @Autowired
-    public void configureAuthentication(AuthenticationManagerBuilder authenticationManagerBuilder, PasswordEncoder passwordEncoder) throws Exception {
-        authenticationManagerBuilder
-                .userDetailsService(userDetailsService)
-                .passwordEncoder (passwordEncoder);
-    }
+	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @Bean
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
+	@Autowired
+	public void configureAuthentication (AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
+		authenticationManagerBuilder.userDetailsService (userDetailsService)
+		                            .passwordEncoder (bCryptPasswordEncoder);
+	}
 
+	@Bean
+	@Override
+	public AuthenticationManager authenticationManagerBean () throws Exception {
+		return super.authenticationManagerBean ();
+	}
 
-    @Override
-    protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity
-                .csrf()
-                .disable()
-                .exceptionHandling()
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
-                .and()
+	@Bean
+	public AuthenticateTokenFilter authenticateTokenFilterBean (AuthenticationManager authenticationManager) {
+		AuthenticateTokenFilter authenticateTokenFilter = new AuthenticateTokenFilter (tokenUtil, userDetailsService);
+		authenticateTokenFilter.setAuthenticationManager (authenticationManager);
+		return authenticateTokenFilter;
+	}
 
-                .authorizeRequests()
-                .antMatchers("/v2/api-docs", "/configuration/ui/**", "/swagger-resources/**",
-                             "/configuration/security/**", "/swagger-ui.html", "/webjars/**").permitAll()
-                .antMatchers("/actuator/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/swagger-ui.html#").permitAll()
-                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+	@Override
+	protected void configure (HttpSecurity httpSecurity) throws Exception {
+		httpSecurity.csrf ()
+		            .disable ()
+		            .exceptionHandling ()
+		            .and ()
+		            /*.sessionManagement()
+					.sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+					.and()
+	*/
+		            .authorizeRequests ()
+		            .antMatchers ("/v2/api-docs", "/configuration/ui/**", "/swagger-resources/**",
+				            "/configuration/security/**", "/swagger-ui.html", "/webjars/**").permitAll ()
+		            .antMatchers ("/actuator/**").permitAll ()
+		            .antMatchers (HttpMethod.GET, "/swagger-ui.html#").permitAll ()
+		            .antMatchers (HttpMethod.OPTIONS, "/**").permitAll ()
 
-                .antMatchers("/quest/**").permitAll()
-                .antMatchers("/authentication/**").permitAll()
-                .antMatchers("/registration/**").permitAll()
-                .antMatchers("/rest/**").hasAnyRole ("USER","ADMIN", "user")
-                .antMatchers("/admin/**").hasAnyRole ("ADMIN")
-                .anyRequest().authenticated();
-    }
+		            .antMatchers ("/quest/**").permitAll ()
+		            .antMatchers ("/authentication/**").permitAll ()
+		            .antMatchers ("/registration/**").permitAll ()
+		            .antMatchers ("/rest/**").permitAll ()//.hasAnyRole ("USER","ADMIN", "user","ROLE_USER")
+		            .antMatchers ("/admin/**").permitAll ()//.hasAnyRole ("ADMIN")
+		            .anyRequest ().authenticated ();
 
-    @Override
-    public void configure(WebSecurity web){
-        web.ignoring()
-                .antMatchers("/v2/api-docs", "/configuration/ui/**", "/swagger-resources/**",
-                           /* "/configuration/security/**", */"/swagger-ui.html", "/webjars/**");
-    }
+		//httpSecurity.addFilterBefore (authenticateTokenFilterBean (authenticationManagerBean ()), UsernamePasswordAuthenticationFilter.class); //7.04 2.00
+	}
+
+	@Override
+	public void configure (WebSecurity web) {
+		web.ignoring ()
+		   .antMatchers ("/v2/api-docs", "/configuration/ui/**", "/swagger-resources/**", "/configuration/security/**", "/swagger-ui.html", "/webjars/**");
+	}
 }

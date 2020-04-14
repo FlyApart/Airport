@@ -20,48 +20,50 @@ import java.util.Date;
 @EqualsAndHashCode
 @ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class AirplanesUpdateRequest {
+public class
+AirplanesUpdateRequest {
 
 
 	@JsonIgnore
 	String id;
 
-    @Size(min = 3, max = 50)
-    @Pattern(regexp = "^[\\w]+", message = "example : 12AA3")
-    String model;
 
-    @Size(min = 1, max = 3)
-    @Pattern(regexp = "^[\\d]+", message = "example : 123")
-    String seats;
+	@Size(min = 3, max = 50)
+	@Pattern(regexp = "^[\\w]+", message = "example : 12AA3")
+	String model;
 
-    @Size(min = 1, max = 2)
-    @Pattern(regexp = "^[\\d]+", message = "example : 123")
-    String row;
+	@Size(min = 1, max = 3)
+	@Pattern(regexp = "^[\\d]+", message = "example : 123")
+	String seats;
 
-    @Size(min = 1, max = 3)
-    @Pattern(regexp = "^[\\d]+", message = "example : 123")
-    String ComfortSeats;
+	@Size(min = 1, max = 2)
+	@Pattern(regexp = "^[\\d]+", message = "example : 123")
+	String row;
 
-    @Size(max = 2)
-    @Pattern(regexp = "^[\\d]+", message = "example : 5")
-    String ComfortRow;
+	@Size(min = 1, max = 3)
+	@Pattern(regexp = "^[\\d]+", message = "example : 123")
+	String ComfortSeats;
 
-    @Size(min = 1, max = 3)
-    @Pattern(regexp = "^[\\d]+", message = "example : 123")
-    String businessSeats;
+	@Size(max = 2)
+	@Pattern(regexp = "^[\\d]+", message = "example : 5")
+	String ComfortRow;
 
-    @Size(max = 2)
-    @Pattern(regexp = "^[\\d]+", message = "example : 5")
-    String businessRow;
+	@Size(min = 1, max = 3)
+	@Pattern(regexp = "^[\\d]+", message = "example : 123")
+	String businessSeats;
 
-    @Size(min = 1, max = 18)
-    @Pattern(regexp = "^[\\d]+", message = "example : 123")
-    String flightDuration;
+	@Size(max = 2)
+	@Pattern(regexp = "^[\\d]+", message = "example : 5")
+	String businessRow;
 
-    @Past
-    Date built;
+	@Size(min = 1, max = 18)
+	@Pattern(regexp = "^[\\d]+", message = "example : 123")
+	String flightDuration;
 
-    @Size(min = 3, max = 50)
-    String country;
+	@Past
+	Date built;
+
+	@Size(min = 3, max = 50)
+	String country;
 
 }

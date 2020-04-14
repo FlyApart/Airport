@@ -25,28 +25,27 @@ import java.util.Set;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class PassengerUpdateRequest {
 
-    @Size (min = 2,max = 50)
-    @Pattern(regexp = "^[a-zA-Z ]{2,50}$", message = "example : Alex")
+	@Size(min = 2, max = 50)
+	@Pattern(regexp = "^[a-zA-Z ]{2,50}$", message = "example : Alex")
 	String name;
 
-    @Size (min = 2,max = 50)
-    @Pattern(regexp = "^[a-zA-Z]{2,50}$", message = "example : Cruise")
+	@Size(min = 2, max = 50)
+	@Pattern(regexp = "^[a-zA-Z]{2,50}$", message = "example : Cruise")
 	String secondName;
 
-    @Size (min = 6,max = 50)
-    @Pattern(regexp = "(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}", message = "example : Ar2%fd*")
+	@Size(min = 6, max = 50)
+	@Pattern(regexp = "(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}", message = "example : Ar2%fd*")
 	String password;
 
-	@Past
-	@NotNull
+	@Past @NotNull
 	Date birthDate;
 
-	@Size (min = 3,max = 50)
+	@Size(min = 3, max = 50)
 	String cities;
 
-    Set<PassportUpdateRequest> passportUpdateRequest;
+	Set<PassportUpdateRequest> passportUpdateRequest;
 
-    Set<Long> tickets = Collections.emptySet ();
+	Set<Long> tickets = Collections.emptySet ();
 
 	@JsonIgnore
 	String id;

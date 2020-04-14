@@ -11,18 +11,20 @@ import org.springframework.util.StopWatch;
 @Aspect
 @Component
 public class LoggingAspect {
-    private static final Logger LOGGER = Logger.getLogger(LoggingAspect.class);
+	private static final Logger LOGGER = Logger.getLogger (LoggingAspect.class);
 
-    @Around("execution(* com.airport.controller.*.*(..))")
-    public Object controllers (ProceedingJoinPoint pjp) throws Throwable {
-        StopWatch sw = new StopWatch();
-        sw.start();
-        LOGGER.info("Method " + pjp.getSignature().getName() + " start");
-        Object output = pjp.proceed();
-        LOGGER.info("Method execution completed.");
-        sw.stop();
-        LOGGER.info("Method " + pjp.getSignature().getName() + " finished");
-        LOGGER.info("Method execution time: " + sw.getTotalTimeMillis() + " milliseconds.");
-        return output;
-    }
+	@Around("execution(* com.airport.controller.*.*(..))")
+	public Object controllers (ProceedingJoinPoint pjp) throws Throwable {
+		StopWatch sw = new StopWatch ();
+		sw.start ();
+		LOGGER.info ("Method " + pjp.getSignature ()
+		                            .getName () + " start");
+		Object output = pjp.proceed ();
+		LOGGER.info ("Method execution completed.");
+		sw.stop ();
+		LOGGER.info ("Method " + pjp.getSignature ()
+		                            .getName () + " finished");
+		LOGGER.info ("Method execution time: " + sw.getTotalTimeMillis () + " milliseconds.");
+		return output;
+	}
 }

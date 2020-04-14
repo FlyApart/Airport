@@ -1,10 +1,10 @@
 package com.airport.controller;
 
 
-import com.airport.controller.exceptions.EntityNotFoundException;
 import com.airport.controller.request.change.AirportsUpdateRequest;
 import com.airport.controller.request.create.AirportsSaveRequest;
 import com.airport.entity.Airports;
+import com.airport.exceptions.EntityNotFoundException;
 import com.airport.repository.springdata.AirportsRepository;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -33,34 +33,34 @@ import javax.validation.Valid;
 @RequestMapping(value = "/rest/airports")
 @RequiredArgsConstructor
 public class AirportsController {
-    
+
 	private final AirportsRepository airportsRepository;
 	private final ConversionService conversionService;
 
-	@ApiImplicitParams(
-			{@ApiImplicitParam(name = "page", dataType = "integer", paramType = "query", value = "Results page you want to retrieve (0..N)"),
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "page", dataType = "integer", paramType = "query", value = "Results page you want to retrieve (0..N)"),
 			@ApiImplicitParam(name = "size", dataType = "integer", paramType = "query", value = "Number of records per page."),
-			@ApiImplicitParam(name = "sort", allowMultiple = true, dataType = "string", paramType = "query", value = "Sorting criteria in the format: property(, " +
-					          "\"asc or desc\"). " + "Default sort order is ascending. " + "Multiple sort criteria are supported.")})
+			@ApiImplicitParam(name = "sort", allowMultiple = true, dataType = "string", paramType = "query",
+					value = "Sorting criteria in the format: property(, " + "\"asc or desc\"). " + "Default sort order is ascending. " + "Multiple sort criteria are supported.")})
 	@GetMapping
-	public ResponseEntity<Page<Airports>> findAllAirports(@ApiIgnore Pageable pageable) {
-		ResponseEntity <Page<Airports>> response = new ResponseEntity<>(airportsRepository.findAll(pageable), HttpStatus.OK);
+	public ResponseEntity<Page<Airports>> findAllAirports (@ApiIgnore Pageable pageable) {
+		ResponseEntity<Page<Airports>> response = new ResponseEntity<> (airportsRepository.findAll (pageable), HttpStatus.OK);
 		return response;
 	}
 
 	@GetMapping(value = "/{id}")
-	public ResponseEntity <Airports> findAirportsById (@PathVariable ("id") String id){
+	public ResponseEntity<Airports> findAirportsById (@PathVariable("id") String id) {
 		Airports airports = airportsRepository.findById (Long.valueOf (id))
-                .orElseThrow (() -> new EntityNotFoundException (Airports.class, id));
-		return new ResponseEntity<>(airports, HttpStatus.OK);
+		                                      .orElseThrow (() -> new EntityNotFoundException (Airports.class, id));
+		return new ResponseEntity<> (airports, HttpStatus.OK);
 	}
-	
+
 
 	@Transactional
 	@DeleteMapping(value = "/{id}")
-	public String DeleteAirports (@PathVariable ("id") String id){
+	public String DeleteAirports (@PathVariable("id") String id) {
 		Airports airports = airportsRepository.findById (Long.valueOf (id))
-		                                         .orElseThrow(() -> new EntityNotFoundException (Airports.class, id));
+		                                      .orElseThrow (() -> new EntityNotFoundException (Airports.class, id));
 		airportsRepository.deleteAirports (airports);
 		return id;
 	}
@@ -68,15 +68,14 @@ public class AirportsController {
 	@PostMapping
 	@Transactional
 	public ResponseEntity<Airports> createAirports (@RequestBody @Valid AirportsSaveRequest AirportsSaveRequest) {
-		Airports airports = conversionService.convert (AirportsSaveRequest,Airports.class);
+		Airports airports = conversionService.convert (AirportsSaveRequest, Airports.class);
 		return new ResponseEntity<> (airportsRepository.saveAndFlush (airports), HttpStatus.CREATED);
 	}
 
-	@PutMapping (value = "/{id}")
+	@PutMapping(value = "/{id}")
 	@Transactional
-	public ResponseEntity<Airports> updateAirports (@PathVariable ("id") String id,
-                                                       @RequestBody @Valid AirportsUpdateRequest AirportsUpdateRequest) {
-		AirportsUpdateRequest.setId(id);
+	public ResponseEntity<Airports> updateAirports (@PathVariable("id") String id, @RequestBody @Valid AirportsUpdateRequest AirportsUpdateRequest) {
+		AirportsUpdateRequest.setId (id);
 		Airports airports = conversionService.convert (AirportsUpdateRequest, Airports.class);
 		return new ResponseEntity<> (airportsRepository.saveAndFlush (airports), HttpStatus.CREATED);
 	}

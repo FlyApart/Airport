@@ -27,8 +27,8 @@ import javax.persistence.Table;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode (exclude = {"passengerId"})
-@ToString (exclude = {"passengerId"})
+@EqualsAndHashCode(exclude = {"passengerId"})
+@ToString(exclude = {"passengerId"})
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @DynamicUpdate
 @Entity
@@ -40,11 +40,11 @@ public class Role {
 	Long id;
 
 	@Enumerated(EnumType.STRING)
-	@Column (nullable = false,length = 50)
+	@Column(nullable = false, length = 50)
 	RoleName role;
 
 	@JsonBackReference
 	@OneToOne(fetch = FetchType.EAGER, targetEntity = Passengers.class, cascade = CascadeType.ALL)
-	@JoinColumn (unique = true,nullable = false, name = "passengers_id")
+	@JoinColumn(unique = true, nullable = false, name = "passengers_id")
 	Passengers passengerId;//TODO add oneTOMany change userDetailService 3 18 00
 }

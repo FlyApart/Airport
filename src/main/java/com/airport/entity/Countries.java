@@ -20,24 +20,24 @@ import javax.persistence.Table;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode (exclude = {"id"})
+@EqualsAndHashCode(exclude = {"id"})
 @ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @DynamicUpdate
 @Entity
 @Builder
-@Table (name = "countries")
+@Table(name = "countries")
 public class Countries {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
 
-	@Column ( length = 50, nullable = false, unique = true, name = "name")
+	@Column(length = 50, nullable = false, unique = true, name = "name")
 	String name;
 
 	@Column
 	Long population;
 
-	@Column (length = 50)
+	@Column(length = 50)
 	String location;
 }

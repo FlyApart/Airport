@@ -1,9 +1,9 @@
 package com.airport.controller;
 
 
-import com.airport.controller.exceptions.EntityNotFoundException;
 import com.airport.controller.request.RoleRequest;
 import com.airport.entity.Role;
+import com.airport.exceptions.EntityNotFoundException;
 import com.airport.repository.springdata.RoleRepository;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -29,25 +29,25 @@ import javax.validation.Valid;
 @RequestMapping(value = "/admin/role")
 @RequiredArgsConstructor
 public class RoleController {
-    
+
 	private final RoleRepository roleRepository;
 
-	@ApiImplicitParams(
-			{@ApiImplicitParam(name = "page", dataType = "integer", paramType = "query", value = "Results page you want to retrieve (0..N)"),
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "page", dataType = "integer", paramType = "query", value = "Results page you want to retrieve (0..N)"),
 			@ApiImplicitParam(name = "size", dataType = "integer", paramType = "query", value = "Number of records per page."),
-			@ApiImplicitParam(name = "sort", allowMultiple = true, dataType = "string", paramType = "query", value = "Sorting criteria in the format: property(, " +
-					          "\"asc or desc\"). " + "Default sort order is ascending. " + "Multiple sort criteria are supported.")})
+			@ApiImplicitParam(name = "sort", allowMultiple = true, dataType = "string", paramType = "query",
+					value = "Sorting criteria in the format: property(, " + "\"asc or desc\"). " + "Default sort order is ascending. " + "Multiple sort criteria are supported.")})
 	@GetMapping
-	public ResponseEntity<Page<Role>> findAllRole(@ApiIgnore Pageable pageable) {
-		ResponseEntity <Page< Role>> response = new ResponseEntity<>( roleRepository.findAll(pageable), HttpStatus.OK);
+	public ResponseEntity<Page<Role>> findAllRole (@ApiIgnore Pageable pageable) {
+		ResponseEntity<Page<Role>> response = new ResponseEntity<> (roleRepository.findAll (pageable), HttpStatus.OK);
 		return response;
 	}
 
 	@GetMapping(value = "/{id}")
-	public ResponseEntity <Role> findRoleById (@PathVariable ("id") String id){
-		 Role role =  roleRepository.findById (Long.valueOf (id))
-                .orElseThrow (() -> new EntityNotFoundException ( Role.class, id));
-		return new ResponseEntity<>( role, HttpStatus.OK);
+	public ResponseEntity<Role> findRoleById (@PathVariable("id") String id) {
+		Role role = roleRepository.findById (Long.valueOf (id))
+		                          .orElseThrow (() -> new EntityNotFoundException (Role.class, id));
+		return new ResponseEntity<> (role, HttpStatus.OK);
 	}
 
 	/*@PostMapping
@@ -57,17 +57,17 @@ public class RoleController {
 		return new ResponseEntity<> ( roleRepository.saveAndFlush (airlines), HttpStatus.CREATED);
 	}*/
 
-	@PutMapping (value = "/{id}")
+	@PutMapping(value = "/{id}")
 	@Transactional
-	public ResponseEntity< Role> updateRole (@PathVariable ("id") String id,
-                                                       @RequestBody @Valid RoleRequest roleRequest) {
-		Role  role =  roleRepository.findById (Long.valueOf (id))
-		                            .orElseThrow (() -> new EntityNotFoundException ( Role.class, id));
-		if (roleRequest.getPassengerId ()!= null && role.getPassengerId ().getId ()!= Long.valueOf (roleRequest.getPassengerId ())){
-			throw new EntityNotFoundException ( "id "+id+", passenger id = "+ roleRequest.getPassengerId (), Role.class);
+	public ResponseEntity<Role> updateRole (@PathVariable("id") String id, @RequestBody @Valid RoleRequest roleRequest) {
+		Role role = roleRepository.findById (Long.valueOf (id))
+		                          .orElseThrow (() -> new EntityNotFoundException (Role.class, id));
+		if (roleRequest.getPassengerId () != null && role.getPassengerId ()
+		                                                 .getId () != Long.valueOf (roleRequest.getPassengerId ())) {
+			throw new EntityNotFoundException ("id " + id + ", passenger id = " + roleRequest.getPassengerId (), Role.class);
 		}
 		role.setRole (roleRequest.getRole ());
-		return new ResponseEntity<> ( roleRepository.saveAndFlush (role), HttpStatus.CREATED);
+		return new ResponseEntity<> (roleRepository.saveAndFlush (role), HttpStatus.CREATED);
 	}
 
 

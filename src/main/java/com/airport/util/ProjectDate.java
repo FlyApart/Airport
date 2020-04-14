@@ -8,9 +8,9 @@ import java.util.Date;
 @Component
 public class ProjectDate {
 
-    public Date getCurrentTime() {
-    	return new Date ();
-    }
+	public Date getCurrentTime () {
+		return new Date ();
+	}
 
 	public Date generateTokenExpirationDate (Integer value) {
 		Calendar calendar = Calendar.getInstance ();

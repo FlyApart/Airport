@@ -23,8 +23,7 @@ import javax.validation.constraints.NotEmpty;
 @ApiModel(description = "Values for authentication")
 public class AuthenticationRequest {
 
-	@NotEmpty
-	@Email
+	@NotEmpty @Email
 	@ApiModelProperty(required = true, dataType = "String", notes = "login")
 	String login;
 

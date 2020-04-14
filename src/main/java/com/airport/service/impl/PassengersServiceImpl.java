@@ -24,12 +24,12 @@ public class PassengersServiceImpl implements PassengersService {
 
 
 	@Override
-    @Transactional
+	@Transactional
 	public Passengers saveAndUpdate (Passengers passenger) {
 		Role role = new Role ();
 		Set<Passports> passportsSet = passenger.getPassports ();
 		passenger.setPassports (null);
-		if (passenger.getRole ()==null){
+		if (passenger.getRole () == null) {
 			role.setRole (RoleName.USER);
 		}
 		Passengers thisPassenger = passengersRepository.saveAndFlush (passenger);
@@ -37,7 +37,7 @@ public class PassengersServiceImpl implements PassengersService {
 			passports.setPassengersId (thisPassenger);
 			passportsRepository.saveAndFlush (passports);
 		}
-		if (role.getRole ()!=null){
+		if (role.getRole () != null) {
 			role.setPassengerId (thisPassenger);
 			roleRepository.saveAndFlush (role);
 		}
@@ -45,11 +45,6 @@ public class PassengersServiceImpl implements PassengersService {
 		thisPassenger.setPassports (passportsSet);
 		return thisPassenger;
 	}
-
-
-
-
-
 
 
 }

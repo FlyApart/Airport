@@ -27,8 +27,8 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode (exclude = {"id","flights"})
-@ToString (exclude = {"flights"})
+@EqualsAndHashCode(exclude = {"id", "flights"})
+@ToString(exclude = {"flights"})
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @DynamicUpdate
 @Entity
@@ -38,7 +38,7 @@ public class Discounts {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
 
-	@Column ( length = 50, nullable = false, unique = true)
+	@Column(length = 50, nullable = false, unique = true)
 	String title;
 
 	@Column(nullable = false)
@@ -46,8 +46,6 @@ public class Discounts {
 
 	@JsonBackReference
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinTable (name = "flights_discounts",
-			joinColumns = @JoinColumn(name = "discounts_id"),
-			inverseJoinColumns = @JoinColumn(name = "flights_id"))
-	Set<Flights> flights = Collections.emptySet();
+	@JoinTable(name = "flights_discounts", joinColumns = @JoinColumn(name = "discounts_id"), inverseJoinColumns = @JoinColumn(name = "flights_id"))
+	Set<Flights> flights = Collections.emptySet ();
 }

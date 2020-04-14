@@ -32,27 +32,24 @@ public class AuthenticationController {
 
 	private final AuthenticationManager authenticationManager;
 
-	@ApiOperation (value = "Login passenger", notes = "Return Auth.Token")
+	@ApiOperation(value = "Login passenger", notes = "Return Auth.Token")
 	@PostMapping
-	public ResponseEntity <AuthResponse> login(@RequestBody @Valid AuthenticationRequest request){
+	public ResponseEntity<AuthResponse> login (@RequestBody @Valid AuthenticationRequest request) {
 
-		Authentication authenticate = authenticationManager.authenticate (new UsernamePasswordAuthenticationToken (
-				request.getLogin (),
-				request.getPassword ()
-		));
+		Authentication authenticate = authenticationManager.authenticate (new UsernamePasswordAuthenticationToken (request.getLogin (), request.getPassword ()));
 
-		SecurityContextHolder.getContext ().setAuthentication (authenticate);
+		SecurityContextHolder.getContext ()
+		                     .setAuthentication (authenticate);
 
 		String authToken = tokenUtil.generateToken (userDetailsService.loadUserByUsername (request.getLogin ()));
 
 		/*Passengers passenger = passengersRepository.findByLogin (request.getLogin ())
 		                    .orElseThrow (()-> new EntityNotFoundException ("login = "+request.getLogin (),Passengers.class));
 */
-		return ResponseEntity.ok (AuthResponse
-				                          .builder ()
-				                          //.id (passenger.getId ())
-				                          .login (request.getLogin ())
-				                          .authToken (authToken)
-		                                             .build ());
+		return ResponseEntity.ok (AuthResponse.builder ()
+		                                      //.id (passenger.getId ())
+		                                      .login (request.getLogin ())
+		                                      .authToken (authToken)
+		                                      .build ());
 	}
 }

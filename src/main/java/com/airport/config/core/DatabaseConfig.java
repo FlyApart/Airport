@@ -23,42 +23,40 @@ import static java.util.Optional.ofNullable;
 @ConfigurationProperties("spring.datasource")
 public class DatabaseConfig {
 
-    private static final Logger LOG = LogManager.getLogger (IllegalArgumentException.class);
+	private static final Logger LOG = LogManager.getLogger (IllegalArgumentException.class);
 
-    private String driverName;
+	private String driverName;
 
-    private String url;
+	private String url;
 
-    private String login;
+	private String login;
 
-    private String password;
+	private String password;
 
-    private String initialSize;
+	private String initialSize;
 
-    private String maxActive;
+	private String maxActive;
 
-    private Integer initialSizeDef = 0;
+	private Integer initialSizeDef = 0;
 
-    private Integer maxActiveDef = 5;
+	private Integer maxActiveDef = 5;
 
 
-    @Bean(value = "dataSource", destroyMethod = "close")
-    @Scope("singleton")
-    @Primary
-    public BasicDataSource getDatasource() {
-        BasicDataSource dataSource = new BasicDataSource();
-        dataSource.setDriverClassName(driverName);
-        dataSource.setPassword(password);
-        dataSource.setUrl(url);
-        dataSource.setUsername(login);
-        initialSizeDef = ofNullable(Integer.valueOf (Objects.requireNonNull(initialSize)))
-                                      .orElseThrow (IllegalArgumentException::new);
+	@Bean(value = "dataSource", destroyMethod = "close")
+	@Scope("singleton")
+	@Primary
+	public BasicDataSource getDatasource () {
+		BasicDataSource dataSource = new BasicDataSource ();
+		dataSource.setDriverClassName (driverName);
+		dataSource.setPassword (password);
+		dataSource.setUrl (url);
+		dataSource.setUsername (login);
+		initialSizeDef = ofNullable (Integer.valueOf (Objects.requireNonNull (initialSize))).orElseThrow (IllegalArgumentException::new);
 
-        maxActiveDef = ofNullable(Integer.valueOf (Objects.requireNonNull(maxActive)))
-                                         .orElseThrow (IllegalArgumentException::new);
+		maxActiveDef = ofNullable (Integer.valueOf (Objects.requireNonNull (maxActive))).orElseThrow (IllegalArgumentException::new);
 
-        dataSource.setMaxActive(maxActiveDef);
-        dataSource.setInitialSize (initialSizeDef);
-        return dataSource;
-    }
+		dataSource.setMaxActive (maxActiveDef);
+		dataSource.setInitialSize (initialSizeDef);
+		return dataSource;
+	}
 }

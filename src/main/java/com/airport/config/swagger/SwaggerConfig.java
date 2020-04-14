@@ -19,34 +19,34 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Import(springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration.class)
 public class SwaggerConfig {
 
-    public static final String AUTHORIZATION_HEADER = "Authorization";
+	public static final String AUTHORIZATION_HEADER = "Authorization";
 
-    public static final String DEFAULT_INCLUDE_PATTERN = "/api/.*";
+	public static final String DEFAULT_INCLUDE_PATTERN = "/api/.*";
 
-    private static final Logger LOG = LogManager.getLogger (SwaggerConfig.class);
+	private static final Logger LOG = LogManager.getLogger (SwaggerConfig.class);
 
-    @Bean
-    public Docket api() {
+	@Bean
+	public Docket api () {
 
-        LOG.debug ("Starting swagger");
+		LOG.debug ("Starting swagger");
 
-        return new Docket(DocumentationType.SWAGGER_2)
-                      // .host("http://localhost:8080")
-                .select()
-                .apis(RequestHandlerSelectors.any())
-                .paths(PathSelectors.any())
-                .build()
-                .apiInfo (apiInfo());
-    }
+		return new Docket (DocumentationType.SWAGGER_2)
+				       // .host("http://localhost:8080")
+				       .select ()
+				       .apis (RequestHandlerSelectors.any ())
+				       .paths (PathSelectors.any ())
+				       .build ()
+				       .apiInfo (apiInfo ());
+	}
 
-    private ApiInfo apiInfo() {
-        return new ApiInfoBuilder().title("REST API")
-                .description("HTP Test REST API")
-                .contact(new Contact("Zuev Alexandr", "", "oglorn@gmail.com"))
-                .license("Apache 2.0")
-                .licenseUrl("http://www.apache.org/licenses/LICENSE-2.0.html")
-                .version("1.0.0")
-                .build();
-    }
+	private ApiInfo apiInfo () {
+		return new ApiInfoBuilder ().title ("REST API")
+		                            .description ("HTP Test REST API")
+		                            .contact (new Contact ("Zuev Alexandr", "", "oglorn@gmail.com"))
+		                            .license ("Apache 2.0")
+		                            .licenseUrl ("http://www.apache.org/licenses/LICENSE-2.0.html")
+		                            .version ("1.0.0")
+		                            .build ();
+	}
 
 }
