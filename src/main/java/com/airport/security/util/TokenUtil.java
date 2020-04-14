@@ -41,28 +41,6 @@ public class TokenUtil {
 		return getClaimsFromToken (token).getExpiration ();
 	}
 
-/*		public String getAudienceFromToken (String token) {
-		String audience;
-		try {
-			final Claims claims = this.getClaimsFromToken (token);
-			audience = (String) claims.get ("audience");
-		} catch (Exception e) {
-			audience = null;
-		}
-		return audience;
-	}
-
-private String getEnvFromToken (String token) {
-		String env;
-		try {
-			final Claims claims = this.getClaimsFromToken (token);
-			env = (String) claims.get ("env");
-		} catch (Exception e) {
-			env = null;
-		}
-		return env;
-	}*/
-
 	private Claims getClaimsFromToken (String token) {
 		return Jwts.parser ()
 		           .setSigningKey (jwtConfiguration.getSecret ())
@@ -79,13 +57,6 @@ private String getEnvFromToken (String token) {
 	private Boolean isCreatedBeforeLastPasswordReset (Date created, Date lastPasswordReset) {
 		return (lastPasswordReset != null && created.before (lastPasswordReset));
 	}
-
-/*
-	private Boolean ignoreTokenExpiration (String token) {
-		String audience = this.getAudienceFromToken (token);
-		return (this.AUDIENCE_TABLET.equals (audience) || this.AUDIENCE_MOBILE.equals (audience));
-	}
-*/
 
 
 	private String generateToken (Map<String, Object> claims) {
@@ -115,13 +86,6 @@ private String getEnvFromToken (String token) {
 	}
 
 
-
-
-/*	private String getEncryptedEnv (EnvTokenMarker marker) {
-		return CryptService.encrypt (market.name ());
-	}*/
-
-
 	public Boolean canTokenBeRefreshed (String token, Date lastPasswordReset) {
 		final Date created = this.getCreatedDateFromToken (token);
 		return (!this.isCreatedBeforeLastPasswordReset (created, lastPasswordReset) && (!this.isTokenExpired (token)) /*|| this.ignoreTokenExpiration (token)*/);
@@ -142,12 +106,7 @@ private String getEnvFromToken (String token) {
 	public Boolean validateToken (String token, UserDetails userDetails) {
 
 		final String username = this.getUserFromToken (token);
-		//final Date created = this.getCreatedDateFromToken (token);
-		/*final String env = CryptService.decrypt (this.getEnvFromToken (token));*/
-		/*UserDetails user = userDetails;*/
 
-		return (username.equals (userDetails.getUsername ()));/*&& !(this.isCreatedBeforeLastPasswordReset (created, userDetails.getLastPasswordReset ())); && ENV_SECURITY.name ()
-		                                                             .eaquals (env)*/
+		return (username.equals (userDetails.getUsername ()));
 	}
 }
-//1 15 15

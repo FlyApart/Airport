@@ -3,6 +3,7 @@ package com.airport.controller;
 import com.airport.controller.request.change.PassengerUpdateRequest;
 import com.airport.controller.request.create.PassengerSaveRequest;
 import com.airport.entity.Passengers;
+import com.airport.entity.Status;
 import com.airport.exceptions.EntityNotFoundException;
 import com.airport.repository.springdata.PassengersRepository;
 import com.airport.security.util.PrincipalUtil;
@@ -85,7 +86,14 @@ public class PassengersController {
 	public ResponseEntity<Passengers> createPassenger (@RequestBody @Valid PassengerSaveRequest passengerInfo) {
 		Passengers passengers = conversionService.convert (passengerInfo, Passengers.class);
 		return new ResponseEntity<> (passengersService.saveAndUpdate (passengers), HttpStatus.CREATED);
+	}
 
+	@DeleteMapping(value = "/{id}")
+	public ResponseEntity<Passengers> safeDeletePassenger (@PathVariable String id) {
+		Passengers passengers = (passengersRepository.findById (Long.valueOf (id))).orElseThrow (() -> new EntityNotFoundException (Passengers.class, id));
+		passengers.setStatus (Status.DELETED);
+
+		return new ResponseEntity<> (passengersRepository.saveAndFlush (passengers), HttpStatus.OK);
 	}
 
 	@PutMapping(value = "/{id}")

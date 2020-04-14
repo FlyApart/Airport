@@ -1,7 +1,7 @@
 package com.airport.controller;
 
 
-import com.airport.controller.request.RoleRequest;
+import com.airport.entity.Passengers;
 import com.airport.entity.Role;
 import com.airport.exceptions.EntityNotFoundException;
 import com.airport.repository.springdata.RoleRepository;
@@ -12,17 +12,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
-
-import javax.validation.Valid;
 
 @CrossOrigin
 @RestController
@@ -50,25 +46,10 @@ public class RoleController {
 		return new ResponseEntity<> (role, HttpStatus.OK);
 	}
 
-	/*@PostMapping
-	@Transactional
-	public ResponseEntity< Role> createAirlines (@RequestBody @Valid  AirlinesSaveRequest  airlinesSaveRequest) {
-		 Role  airlines = conversionService.convert (airlinesSaveRequest, Role.class);
-		return new ResponseEntity<> ( roleRepository.saveAndFlush (airlines), HttpStatus.CREATED);
-	}*/
-
-	@PutMapping(value = "/{id}")
-	@Transactional
-	public ResponseEntity<Role> updateRole (@PathVariable("id") String id, @RequestBody @Valid RoleRequest roleRequest) {
-		Role role = roleRepository.findById (Long.valueOf (id))
-		                          .orElseThrow (() -> new EntityNotFoundException (Role.class, id));
-		if (roleRequest.getPassengerId () != null && role.getPassengerId ()
-		                                                 .getId () != Long.valueOf (roleRequest.getPassengerId ())) {
-			throw new EntityNotFoundException ("id " + id + ", passenger id = " + roleRequest.getPassengerId (), Role.class);
-		}
-		role.setRole (roleRequest.getRole ());
-		return new ResponseEntity<> (roleRepository.saveAndFlush (role), HttpStatus.CREATED);
+	@DeleteMapping(value = "/{id}")
+	public ResponseEntity<String> deletePassenger (@PathVariable String id) {
+		Role role = (roleRepository.findById (Long.valueOf (id))).orElseThrow (() -> new EntityNotFoundException (Passengers.class, id));
+		roleRepository.delete (role);
+		return new ResponseEntity<> (id, HttpStatus.OK);
 	}
-
-
 }

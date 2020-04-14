@@ -13,7 +13,7 @@ import java.util.Set;
 public interface PassengersRepository extends CrudRepository<Passengers, Long>, JpaRepository<Passengers, Long> {
 
 	@Query("select p.passports from Passengers p  where p.id = :id")
-	Set<Passports> findPassportsByPassportsId (Long id);//TODO rebase this in passportRepository
+	Set<Passports> findPassportsByPassportsId (Long id);
 
 	/*@Cacheable*/
 	@Query("from Passengers p where p.login= :login")

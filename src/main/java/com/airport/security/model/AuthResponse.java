@@ -19,5 +19,4 @@ public class AuthResponse {
 
 	private String authToken;
 
-	private Long id;
 }

@@ -1,9 +1,6 @@
 package com.airport.service.impl;
 
 import com.airport.entity.Passengers;
-import com.airport.entity.Passports;
-import com.airport.entity.Role;
-import com.airport.entity.RoleName;
 import com.airport.repository.springdata.PassengersRepository;
 import com.airport.repository.springdata.PassportsRepository;
 import com.airport.repository.springdata.RoleRepository;
@@ -11,8 +8,6 @@ import com.airport.service.PassengersService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -26,11 +21,12 @@ public class PassengersServiceImpl implements PassengersService {
 	@Override
 	@Transactional
 	public Passengers saveAndUpdate (Passengers passenger) {
-		Role role = new Role ();
+		/*Set<Role> role= Collections.emptySet ();
 		Set<Passports> passportsSet = passenger.getPassports ();
 		passenger.setPassports (null);
+
 		if (passenger.getRole () == null) {
-			role.setRole (RoleName.USER);
+			role.add (new Role (RoleName.USER));
 		}
 		Passengers thisPassenger = passengersRepository.saveAndFlush (passenger);
 		for (Passports passports : passportsSet) {
@@ -41,9 +37,10 @@ public class PassengersServiceImpl implements PassengersService {
 			role.setPassengerId (thisPassenger);
 			roleRepository.saveAndFlush (role);
 		}
-		thisPassenger.setRole (role);
+		thisPassenger.setRole ();
 		thisPassenger.setPassports (passportsSet);
-		return thisPassenger;
+		return thisPassenger;*/
+		return null;
 	}
 
 

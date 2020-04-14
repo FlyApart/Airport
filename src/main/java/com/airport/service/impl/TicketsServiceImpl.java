@@ -66,8 +66,6 @@ public class TicketsServiceImpl implements TicketsService {
 		}
 	}
 
-
-
 	String getPlaces (Tickets tickets, TicketsSaveUpdateRequest ticketRequest) {
 
 		Integer minSeatsNum;
@@ -186,9 +184,6 @@ public class TicketsServiceImpl implements TicketsService {
 		}
 	}
 
-
-
-
 	@Override
 	public Tickets saveAndUpdate (TicketsSaveUpdateRequest ticketRequest) {
 		Tickets tickets = new Tickets ();
@@ -227,7 +222,7 @@ public class TicketsServiceImpl implements TicketsService {
 
 		tickets.setTotalPrice (costCalculation (tickets, ticketRequest.getDiscountsTitle ()));
 
-		tickets.setReservation (false);//TODO fix this in service
+		tickets.setReservation (false);//TODO send email in service
 
 		return ticketsRepository.saveAndFlush (tickets);
 

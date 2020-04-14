@@ -6,6 +6,7 @@ import com.airport.controller.request.create.PassengerSaveRequest;
 import com.airport.entity.Cities;
 import com.airport.entity.Passengers;
 import com.airport.entity.Passports;
+import com.airport.entity.Status;
 import com.airport.exceptions.ArgumentOfMethodNotValidException;
 import com.airport.exceptions.ConversionException;
 import com.airport.exceptions.EntityAlreadyExistException;
@@ -28,6 +29,7 @@ public abstract class ConverterRequestPassengers<S, T> extends EntityConverter<S
 		passengers.setBirthDate (entity.getBirthDate ());
 		passengers.setCreated (new ProjectDate ().getCurrentTime ());
 		passengers.setLogin (entity.getLogin ());
+		passengers.setStatus (Status.ACTIVE);
 		return passengers;
 	}
 

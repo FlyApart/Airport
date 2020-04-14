@@ -1,6 +1,5 @@
 package com.airport.security.controller;
 
-import com.airport.repository.springdata.PassengersRepository;
 import com.airport.security.model.AuthResponse;
 import com.airport.security.model.AuthenticationRequest;
 import com.airport.security.util.TokenUtil;
@@ -24,8 +23,6 @@ import javax.validation.Valid;
 @RequestMapping("/authentication")
 public class AuthenticationController {
 
-	private final PassengersRepository passengersRepository;
-
 	private final TokenUtil tokenUtil;
 
 	private final UserDetailsService userDetailsService;
@@ -43,11 +40,7 @@ public class AuthenticationController {
 
 		String authToken = tokenUtil.generateToken (userDetailsService.loadUserByUsername (request.getLogin ()));
 
-		/*Passengers passenger = passengersRepository.findByLogin (request.getLogin ())
-		                    .orElseThrow (()-> new EntityNotFoundException ("login = "+request.getLogin (),Passengers.class));
-*/
 		return ResponseEntity.ok (AuthResponse.builder ()
-		                                      //.id (passenger.getId ())
 		                                      .login (request.getLogin ())
 		                                      .authToken (authToken)
 		                                      .build ());
