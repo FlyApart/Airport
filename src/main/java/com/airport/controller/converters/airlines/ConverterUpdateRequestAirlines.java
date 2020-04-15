@@ -1,33 +1,37 @@
 package com.airport.controller.converters.airlines;
 
 import com.airport.controller.request.change.AirlinesUpdateRequest;
-import com.airport.entity.Airlines;
-import com.airport.exceptions.ConversionException;
-import com.airport.exceptions.EntityNotFoundException;
+import com.airport.entity.Airline;
 import com.airport.repository.springdata.AirlinesRepository;
 import com.airport.repository.springdata.CountriesRepository;
 import org.springframework.stereotype.Component;
 
-import static java.util.Optional.ofNullable;
-
 @Component
-public class ConverterUpdateRequestAirlines extends ConverterRequestAirlines<AirlinesUpdateRequest, Airlines> {
-
-
+public class ConverterUpdateRequestAirlines extends ConverterRequestAirlines<AirlinesUpdateRequest, Airline> {
 
 	public ConverterUpdateRequestAirlines (CountriesRepository countriesRepository, AirlinesRepository airlinesRepository) {
 		super (countriesRepository, airlinesRepository);
 	}
 
 	@Override
-	public Airlines convert (AirlinesUpdateRequest request) {
+	public Airline convert (AirlinesUpdateRequest request) {
 
-		Airlines airlines = ofNullable (entityManager.find (Airlines.class, Long.valueOf (request.getId ()))).orElseThrow (() -> new ConversionException (AirlinesUpdateRequest.class, Airlines.class, request, new EntityNotFoundException (Airlines.class, request.getId ())));
+		Airline airline = findAirline(request.getClass (),Long.valueOf (request.getId ()));
 
-		isUniqueAirlines (request.getClass (), request.getName (), request.getWebsite ());
+		if (request.getName () != null && request.getWebsite () != null){
+			isUniqueAirlines (request.getClass (), request.getName (), request.getWebsite ());
+		}
+		else if (request.getName () != null){
+			isUniqueAirlines (request.getClass (), request.getName (), airline.getWebsite ());
+		}
+		else if (request.getWebsite () != null){
+			isUniqueAirlines (request.getClass (), airline.getName (), request.getWebsite ());
+		}
 
-		airlines.setCountries (findCountries (request.getClass (), request.getCountry ()));
+		if (request.getCountry ()!=null){
+			airline.setCountries (findCountries (request.getClass (), request.getCountry ()));
+		}
 
-		return doConvert (airlines, request);
+		return doConvert (airline, request);
 	}
 }

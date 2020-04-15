@@ -61,7 +61,7 @@ public class AirplanesController {
 	public String DeleteCities (@PathVariable("id") String id) {
 		Airplanes airplanes = airplanesRepository.findById (Long.valueOf (id))
 		                                         .orElseThrow (() -> new EntityNotFoundException (Airplanes.class, id));
-		airplanesRepository.deleteCities (airplanes);
+		airplanesRepository.delete (airplanes);
 		return id;
 	}
 

@@ -2,23 +2,31 @@ package com.airport.controller.converters.discounts;
 
 import com.airport.controller.request.change.DiscountsUpdateRequest;
 import com.airport.entity.Discounts;
-import com.airport.exceptions.ConversionException;
-import com.airport.exceptions.EntityNotFoundException;
+import com.airport.repository.springdata.DiscountsRepository;
+import com.airport.repository.springdata.FlightsRepository;
 import org.springframework.stereotype.Component;
-
-import static java.util.Optional.ofNullable;
 
 @Component
 public class ConverterUpdateRequestDiscounts extends ConverterRequestDiscounts<DiscountsUpdateRequest, Discounts> {
 
+
+	public ConverterUpdateRequestDiscounts (DiscountsRepository discountsRepository, FlightsRepository flightsRepository) {
+		super (discountsRepository, flightsRepository);
+	}
+
 	@Override
 	public Discounts convert (DiscountsUpdateRequest request) {
-		Discounts discounts = ofNullable (entityManager.find (Discounts.class, Long.valueOf (request.getId ()))).orElseThrow (() -> new ConversionException (DiscountsUpdateRequest.class, Discounts.class, request, new EntityNotFoundException (Discounts.class, request.getId ())));
-		if (request.getFlightsId () != null)
+
+		Discounts discounts = findDiscountsById(request.getClass (), Long.valueOf (request.getId ()));
+
+		if (request.getFlightsId () != null) {
 			discounts.setFlights (findFlights (request.getClass (), request.getFlightsId ()));
+		}
 
-		uniqueDiscountsName (request.getClass (), request.getTitle ());
-
+		if (request.getTitle () != null && !request.getTitle ()
+		                                           .equals (discounts.getTitle ())) {
+			uniqueDiscountsName (request.getClass (), request.getTitle ());
+		}
 
 		return doConvert (discounts, request);
 	}

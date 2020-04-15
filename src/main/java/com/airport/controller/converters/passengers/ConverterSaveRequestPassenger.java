@@ -3,8 +3,10 @@ package com.airport.controller.converters.passengers;
 import com.airport.controller.converters.passports.ConverterSaveRequestPassports;
 import com.airport.controller.request.create.PassengerSaveRequest;
 import com.airport.controller.request.create.PassportSaveRequest;
-import com.airport.entity.Passengers;
+import com.airport.entity.Passenger;
 import com.airport.entity.Passports;
+import com.airport.repository.springdata.CitiesRepository;
+import com.airport.repository.springdata.PassengersRepository;
 import com.airport.repository.springdata.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -14,35 +16,32 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Component
-public class ConverterSaveRequestPassenger extends ConverterRequestPassengers<PassengerSaveRequest, Passengers> {
+public class ConverterSaveRequestPassenger extends ConverterRequestPassengers<PassengerSaveRequest, Passenger> {
 
 	@Autowired
 	private ConverterSaveRequestPassports converterSaveRequestPassport;
 
-	public ConverterSaveRequestPassenger (BCryptPasswordEncoder passwordEncoder, RoleRepository roleRepository) {
-		super (passwordEncoder, roleRepository);
+	public ConverterSaveRequestPassenger (BCryptPasswordEncoder passwordEncoder, RoleRepository roleRepository, CitiesRepository citiesRepository, PassengersRepository passengersRepository) {
+		super (passwordEncoder, roleRepository, citiesRepository, passengersRepository);
 	}
 
-
-
 	@Override
-	public Passengers convert (PassengerSaveRequest request) {
+	public Passenger convert (PassengerSaveRequest request) {
 
-		Passengers passengers = new Passengers ();
+		Passenger passenger = new Passenger ();
 
 		Set<Passports> passportsSet = new HashSet<> ();
 		for (PassportSaveRequest p : request.getPassportSaveRequest ()) {
-			p.setPassengerId (null);
 			passportsSet.add (converterSaveRequestPassport.convert (p));
 		}
-		passengers.setPassports (passportsSet);
+		passenger.setPassports (passportsSet);
 
-		passengers.setCities (findCity (request.getClass (), request.getCities ()));
+		passenger.setCities (findCity (request.getClass (), request.getCity ()));
 		isUniqueLogin (request.getClass (), request.getLogin ());
 
-		passengers.setRole (getRole ());
+		passenger.setRole (getRole ());
 
-		return doConvert (passengers, request);
+		return doConvert (passenger, request);
 	}
 }
 

@@ -7,7 +7,6 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.FieldDefaults;
-import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -25,7 +24,6 @@ import java.util.Date;
 @EqualsAndHashCode(exclude = {"id", "countries"})
 @ToString(exclude = "countries")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@DynamicUpdate
 @Entity
 @Table(name = "airplanes")
 public class Airplanes {
@@ -53,7 +51,6 @@ public class Airplanes {
 
 	@Column(name = "business_number_of_row")
 	Integer businessRow;
-
 
 	@Column(name = "max_flight_duration")
 	Long flightDuration;

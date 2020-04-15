@@ -9,11 +9,9 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.FieldDefaults;
 
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import java.util.Collections;
 import java.util.Date;
 import java.util.Set;
 
@@ -37,15 +35,13 @@ public class PassengerUpdateRequest {
 	@Pattern(regexp = "(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}", message = "example : Ar2%fd*")
 	String password;
 
-	@Past @NotNull
+	@Past
 	Date birthDate;
 
 	@Size(min = 3, max = 50)
 	String cities;
 
 	Set<PassportUpdateRequest> passportUpdateRequest;
-
-	Set<Long> tickets = Collections.emptySet ();
 
 	@JsonIgnore
 	String id;

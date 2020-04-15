@@ -1,8 +1,8 @@
 package com.airport.repository.hibernate;
 
 
-import com.airport.entity.Passengers;
+import com.airport.entity.Passenger;
 
-public interface PassengerDao extends GenericDao<Passengers, Long> {
-	public Passengers findByLogin (String login);
+public interface PassengerDao extends GenericDao<Passenger, Long> {
+	public Passenger findByLogin (String login);
 }

@@ -1,6 +1,6 @@
 package com.airport.repository.hibernate.impl;
 
-import com.airport.entity.Airlines;
+import com.airport.entity.Airline;
 import com.airport.repository.hibernate.AirlineDao;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -16,14 +16,14 @@ public class AirlineDaoImpl implements AirlineDao {
 	private final EntityManager entityManager;
 
 	@Override
-	public List<Airlines> findAll () {
-		return entityManager.createQuery ("select a from Airlines a", Airlines.class)
+	public List<Airline> findAll () {
+		return entityManager.createQuery ("select a from Airline a", Airline.class)
 		                    .getResultList ();
 	}
 
 	@Override
-	public Airlines findById (Long id) {
-		return entityManager.find (Airlines.class, id);
+	public Airline findById (Long id) {
+		return entityManager.find (Airline.class, id);
 	}
 
 	@Override
@@ -32,23 +32,23 @@ public class AirlineDaoImpl implements AirlineDao {
 	}
 
 	@Override
-	public Airlines save (Airlines entity) {
+	public Airline save (Airline entity) {
 		entityManager.joinTransaction ();
 		entityManager.persist (entity);
-		return entityManager.find (Airlines.class, entity.getId ());
+		return entityManager.find (Airline.class, entity.getId ());
 	}
 
 	@Override
-	public Airlines update (Airlines entity) {
+	public Airline update (Airline entity) {
 		entityManager.joinTransaction ();
 		entityManager.persist (entity);
-		return entityManager.find (Airlines.class, entity.getId ());
+		return entityManager.find (Airline.class, entity.getId ());
 	}
 
 
 	@Override
-	public Airlines findByName (String name) {
-		TypedQuery<Airlines> query = entityManager.createQuery ("select a from Airlines a where a.name =:name", Airlines.class);
+	public Airline findByName (String name) {
+		TypedQuery<Airline> query = entityManager.createQuery ("select a from Airline a where a.name =:name", Airline.class);
 		query.setParameter ("name", name);
 		return query.getSingleResult ();
 	}

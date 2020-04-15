@@ -1,23 +1,31 @@
 package com.airport.controller.converters.flights;
 
 import com.airport.controller.request.change.FlightsUpdateRequest;
+import com.airport.entity.Discounts;
 import com.airport.entity.Flights;
-import com.airport.exceptions.ConversionException;
-import com.airport.exceptions.EntityNotFoundException;
+import com.airport.repository.springdata.AirlinesRepository;
+import com.airport.repository.springdata.AirplanesRepository;
+import com.airport.repository.springdata.AirportsRepository;
+import com.airport.repository.springdata.DiscountsRepository;
+import com.airport.repository.springdata.FlightsRepository;
 import org.springframework.stereotype.Component;
 
-import static java.util.Optional.ofNullable;
+import java.util.Set;
 
 @Component
 public class ConverterUpdateRequestFlights extends ConverterRequestFlights<FlightsUpdateRequest, Flights> {
 
+	public ConverterUpdateRequestFlights (FlightsRepository flightsRepository, AirportsRepository airportsRepository, AirplanesRepository airplanesRepository, AirlinesRepository airlinesRepository, DiscountsRepository discountsRepository) {
+		super (flightsRepository, airportsRepository, airplanesRepository, airlinesRepository, discountsRepository);
+	}
+
 	@Override
 	public Flights convert (FlightsUpdateRequest request) {
 
-		Flights flights = ofNullable (entityManager.find (Flights.class, Long.valueOf (request.getId ()))).orElseThrow (() -> new ConversionException (FlightsUpdateRequest.class, Flights.class, request, new EntityNotFoundException (Flights.class, request.getId ())));
+		Flights flights = findFlights (request.getClass (), request.getId());
 
 		if (request.getAirlinesName () != null) {
-			flights.setAirlines (findAirline (request.getClass (), request.getAirlinesName ()));
+			flights.setAirline (findAirline (request.getClass (), request.getAirlinesName ()));
 		}
 
 		if (request.getAirplaneID () != null) {
@@ -30,6 +38,19 @@ public class ConverterUpdateRequestFlights extends ConverterRequestFlights<Fligh
 
 		if (request.getDepartureAirportTitle () != null) {
 			flights.setDepartureAirport (findAirport (request.getClass (), request.getDepartureAirportTitle ()));
+		}
+
+		if (request.getFightsNumber () != null && !request.getFightsNumber ()
+		                                                 .equals (flights.getFightsNumber ())) {
+			uniqueFlightNumber (request.getClass (), flights.getFightsNumber ());
+		}
+
+		if (request.getDiscountId () != null ) {
+			Set<Long> discountId = request.getDiscountId ();
+			for (Discounts discounts : flights.getDiscount ()) {
+					discountId.add (discounts.getId ());
+			}
+			flights.setDiscount (findDiscounts (request.getClass (), discountId));
 		}
 
 		return doConvert (flights, request);

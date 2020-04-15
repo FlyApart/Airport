@@ -24,3 +24,5 @@ logging:
 jwt-token:
   secret: secret
   expire: 200000000
+---
+character_of_place: ABCDEFGHIJKL

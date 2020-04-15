@@ -4,8 +4,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.apache.commons.dbcp.BasicDataSource;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,8 +20,6 @@ import static java.util.Optional.ofNullable;
 @Configuration
 @ConfigurationProperties("spring.datasource")
 public class DatabaseConfig {
-
-	private static final Logger LOG = LogManager.getLogger (IllegalArgumentException.class);
 
 	private String driverName;
 

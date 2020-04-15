@@ -3,20 +3,24 @@ package com.airport.controller.converters.passports;
 import com.airport.controller.converters.EntityConverter;
 import com.airport.controller.request.change.PassportUpdateRequest;
 import com.airport.controller.request.create.PassportSaveRequest;
-import com.airport.entity.Passengers;
+import com.airport.entity.Passenger;
 import com.airport.entity.Passports;
 import com.airport.entity.PassportsTypes;
-import com.airport.exceptions.ArgumentOfMethodNotValidException;
 import com.airport.exceptions.ConversionException;
 import com.airport.exceptions.EntityAlreadyExistException;
 import com.airport.exceptions.EntityNotFoundException;
+import com.airport.repository.springdata.PassengersRepository;
+import com.airport.repository.springdata.PassportsRepository;
+import lombok.RequiredArgsConstructor;
 
-import javax.persistence.NoResultException;
-import java.util.Optional;
-
+@RequiredArgsConstructor
 public abstract class ConverterRequestPassports<S, T> extends EntityConverter<S, T> {
 
+	private final PassportsRepository passportsRepository;
+	private final PassengersRepository passengersRepository;
+
 	protected Passports doConvert (Passports passports, PassportSaveRequest entity) {
+
 		passports.setTypes (entity.getTypes ());
 		passports.setSeries (Long.valueOf (entity.getSeries ()));
 		passports.setNumber (Long.valueOf (entity.getNumber ()));
@@ -24,15 +28,24 @@ public abstract class ConverterRequestPassports<S, T> extends EntityConverter<S,
 	}
 
 	protected Passports doConvert (Passports passports, PassportUpdateRequest entity) {
-		if (entity.getNumber () != null) passports.setNumber (Long.valueOf (entity.getNumber ()));
-		if (entity.getTypes () != null) passports.setTypes (entity.getTypes ());
-		if (entity.getSeries () != null) passports.setSeries (Long.valueOf (entity.getSeries ()));
+		if (entity.getNumber () != null) {
+			passports.setNumber (Long.valueOf (entity.getNumber ()));
+		}
+
+		if (entity.getTypes () != null && !entity.getTypes ()
+		                                         .equals (PassportsTypes.NOT_SELECTED)) {
+			passports.setTypes (entity.getTypes ());
+		}
+
+		if (entity.getSeries () != null) {
+			passports.setSeries (Long.valueOf (entity.getSeries ()));
+		}
 
 		return passports;
 	}
 
-	protected Passports uniquePassengerIdAndTypes (Passengers passengers, PassportsTypes passportsTypes) {
-		for (Passports passport : passengers.getPassports ()) {
+	protected Passports uniquePassengerIdAndTypes (Passenger passenger, PassportsTypes passportsTypes) {
+		for (Passports passport : passenger.getPassports ()) {
 			if (passport.getTypes () == passportsTypes) {
 				return passport;
 			}
@@ -40,24 +53,24 @@ public abstract class ConverterRequestPassports<S, T> extends EntityConverter<S,
 		return null;
 	}
 
-	protected void isUniquePassportsNumberAndSeries (Class<?> sClass, String number, String series) {
+	protected void isUniquePassportsNumberAndSeries (Class<?> sClass, Long number, Long series) {
 
-		try {
-			entityManager.createQuery ("select p from Passports p where p.number =:number and p.series =:series", Passports.class)
-			             .setParameter ("number", Long.valueOf (number))
-			             .setParameter ("series", Long.valueOf (series))
-			             .getSingleResult ();
-		} catch (NumberFormatException e) {
-			throw new ConversionException (sClass, Passports.class, number.concat (" " + series), new ArgumentOfMethodNotValidException ("Passport with number = " + number + ", series = " + series));
-		} catch (NoResultException e) {
-			return;
+		boolean unique = passportsRepository.findByNumberAndSeries (number, series)
+		                                     .isPresent ();
+		if (unique){
+			throw new ConversionException (sClass, Passports.class, number +" "+ series,
+					new EntityAlreadyExistException ("Passport with number = " + number + ", series = " + series));
 		}
-		throw new ConversionException (sClass, Passports.class, number.concat (" " + series), new EntityAlreadyExistException ("Passport with number = " + number + ", series = " + series));
 	}
 
-	protected Passengers findByPassengerId (String passengerId) {
-		return Optional.ofNullable (entityManager.find (Passengers.class, Long.valueOf (passengerId)))
-		               .orElseThrow (() -> new ConversionException (PassportSaveRequest.class, Passports.class, passengerId, new EntityNotFoundException (Passengers.class, passengerId)));
+	protected Passenger findByPassengerId (Class<?> sClass, Long passengerId) {
+		return passengersRepository.findById (passengerId)
+		               .orElseThrow (() -> new ConversionException (sClass, Passports.class, passengerId, new EntityNotFoundException (Passenger.class, passengerId)));
+	}
+
+	protected Passports findById (Class<?> sClass, Long id) {
+        return passportsRepository.findById (id)
+                                  .orElseThrow (() -> new ConversionException (sClass, Passports.class, id, new EntityNotFoundException (Passports.class, id)));
 
 	}
 

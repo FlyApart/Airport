@@ -1,7 +1,7 @@
 package com.airport.controller;
 
 
-import com.airport.entity.Passengers;
+import com.airport.entity.Passenger;
 import com.airport.entity.Role;
 import com.airport.exceptions.EntityNotFoundException;
 import com.airport.repository.springdata.RoleRepository;
@@ -48,7 +48,7 @@ public class RoleController {
 
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<String> deletePassenger (@PathVariable String id) {
-		Role role = (roleRepository.findById (Long.valueOf (id))).orElseThrow (() -> new EntityNotFoundException (Passengers.class, id));
+		Role role = (roleRepository.findById (Long.valueOf (id))).orElseThrow (() -> new EntityNotFoundException (Passenger.class, id));
 		roleRepository.delete (role);
 		return new ResponseEntity<> (id, HttpStatus.OK);
 	}

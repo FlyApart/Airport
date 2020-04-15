@@ -1,6 +1,6 @@
 package com.airport.service.impl;
 
-import com.airport.entity.Passengers;
+import com.airport.entity.Passenger;
 import com.airport.entity.Passports;
 import com.airport.repository.springdata.PassengersRepository;
 import com.airport.repository.springdata.PassportsRepository;
@@ -24,14 +24,14 @@ public class PassengersServiceImpl implements PassengersService {
 
 	@Override
 	@Transactional
-	public Passengers saveAndUpdate (Passengers passenger) {
+	public Passenger saveAndUpdate (Passenger passenger) {
 
 		Set<Passports> passportsSet = passenger.getPassports ();
 		passenger.setPassports (null);
 
-		Passengers thisPassenger = passengersRepository.saveAndFlush (passenger);
+		Passenger thisPassenger = passengersRepository.saveAndFlush (passenger);
 		for (Passports passports : passportsSet) {
-			passports.setPassengersId (thisPassenger);
+			passports.setPassengerId (thisPassenger);
 			passportsRepository.saveAndFlush (passports);
 		}
 		thisPassenger.setPassports (passportsSet);

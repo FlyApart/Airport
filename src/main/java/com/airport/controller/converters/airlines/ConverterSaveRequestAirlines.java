@@ -1,13 +1,13 @@
 package com.airport.controller.converters.airlines;
 
 import com.airport.controller.request.create.AirlinesSaveRequest;
-import com.airport.entity.Airlines;
+import com.airport.entity.Airline;
 import com.airport.repository.springdata.AirlinesRepository;
 import com.airport.repository.springdata.CountriesRepository;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ConverterSaveRequestAirlines extends ConverterRequestAirlines<AirlinesSaveRequest, Airlines> {
+public class ConverterSaveRequestAirlines extends ConverterRequestAirlines<AirlinesSaveRequest, Airline> {
 
 
 	public ConverterSaveRequestAirlines (CountriesRepository countriesRepository, AirlinesRepository airlinesRepository) {
@@ -15,14 +15,14 @@ public class ConverterSaveRequestAirlines extends ConverterRequestAirlines<Airli
 	}
 
 	@Override
-	public Airlines convert (AirlinesSaveRequest request) {
+	public Airline convert (AirlinesSaveRequest request) {
 
-		Airlines airlines = new Airlines ();
+		Airline airline = new Airline ();
 
-		airlines.setCountries (findCountries (request.getClass (), request.getCountry ()));
+		airline.setCountries (findCountries (request.getClass (), request.getCountry ()));
 
 		isUniqueAirlines (request.getClass (), request.getName (), request.getWebsite ());
 
-		return doConvert (airlines, request);
+		return doConvert (airline, request);
 	}
 }

@@ -1,6 +1,6 @@
 package com.airport.security.model;
 
-import com.airport.entity.Passengers;
+import com.airport.entity.Passenger;
 import com.airport.entity.Role;
 import com.airport.entity.Status;
 import lombok.NoArgsConstructor;
@@ -15,15 +15,15 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public final class JwtPassengerFactory {
 
-    public static JwtPassenger create(Passengers passengers) {
+    public static JwtPassenger create(Passenger passenger) {
         return new JwtPassenger(
-                passengers.getId(),
-                passengers.getLogin (),
-                passengers.getName (),
-                passengers.getSecondName (),
-                passengers.getPassword(),
-                passengers.getStatus().equals(Status.ACTIVE),
-                mapToGrantedAuthorities(new HashSet<> (passengers.getRole ()))
+                passenger.getId(),
+                passenger.getLogin (),
+                passenger.getName (),
+                passenger.getSecondName (),
+                passenger.getPassword(),
+                passenger.getStatus().equals(Status.ACTIVE),
+                mapToGrantedAuthorities(new HashSet<> (passenger.getRole ()))
         );
     }
 

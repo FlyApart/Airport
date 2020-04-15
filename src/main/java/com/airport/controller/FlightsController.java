@@ -5,8 +5,10 @@ import com.airport.controller.request.create.FlightsSaveRequest;
 import com.airport.entity.Flights;
 import com.airport.exceptions.EntityNotFoundException;
 import com.airport.repository.springdata.FlightsRepository;
+import com.airport.service.FlightService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.Page;
@@ -26,6 +28,8 @@ import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -38,7 +42,7 @@ public class FlightsController {
 
 	private final FlightsRepository flightsRepository;
 	private final ConversionService conversionService;
-	//private final FlightService flightService;
+	private final FlightService flightService;
 
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "page", dataType = "integer", paramType = "query", value = "Results page you want to retrieve (0..N)"),
@@ -59,7 +63,7 @@ public class FlightsController {
 	}
 
 	@DeleteMapping(value = "/{id}")
-	// @Transactional
+	@Transactional
 	public ResponseEntity<String> deleteFlight (@PathVariable String id) {
 		Flights flights = (flightsRepository.findById (Long.valueOf (id))).orElseThrow (() -> new EntityNotFoundException (Flights.class, id));
 		flightsRepository.delete (flights);
@@ -69,15 +73,26 @@ public class FlightsController {
 	@Transactional
 	@PostMapping
 	public ResponseEntity<Flights> createFlight (@RequestBody @Valid FlightsSaveRequest flightsSaveRequest) {
-		return new ResponseEntity<> (flightsRepository.saveAndFlush (Objects.requireNonNull (conversionService.convert (flightsSaveRequest, Flights.class))), HttpStatus.CREATED);
+		Flights flights = Objects.requireNonNull (conversionService.convert (flightsSaveRequest, Flights.class));
+		return new ResponseEntity<> (flightsRepository.saveAndFlush (flights), HttpStatus.CREATED);
 
 	}
 
+	@Transactional
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<Flights> updateFlight (@PathVariable String id, @RequestBody @Valid FlightsUpdateRequest flightsUpdateRequest) {
 		flightsUpdateRequest.setId (Long.valueOf (id));
-		return new ResponseEntity<> (flightsRepository.saveAndFlush (Objects.requireNonNull (conversionService.convert (flightsUpdateRequest, Flights.class))), HttpStatus.OK);
+		Flights flights = Objects.requireNonNull (conversionService.convert (flightsUpdateRequest, Flights.class));
+		return new ResponseEntity<> (flightsRepository.saveAndFlush (flights), HttpStatus.OK);
+	}
 
+	@PutMapping(value = "/{id}/discounts")
+	@Transactional
+	public ResponseEntity<Flights> deleteDiscountsInFlight (@ApiParam (required = true, value = "Id of flight") @PathVariable String id,
+	                                                    @ApiParam(value = "Ids of discounts for delete",required = true,type = "long")
+	                                                    @RequestBody List<Long> discountId) {
+
+		return new ResponseEntity<> (flightService.deleteFlightDiscounts (id, new ArrayList<> (discountId)), HttpStatus.OK);
 	}
 }
 

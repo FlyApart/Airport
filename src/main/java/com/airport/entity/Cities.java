@@ -7,13 +7,9 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.FieldDefaults;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.springframework.cache.annotation.Cacheable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -40,7 +36,13 @@ public class Cities {
 	@Column(nullable = false, length = 50)
 	String name;
 
-	@OneToOne(fetch = FetchType.EAGER)
+	@Column(nullable = false)
+	Float longitude;
+
+	@Column(nullable = false)
+	Float latitude;
+
+	@OneToOne
 	@JoinColumn
 	Countries countries;
 

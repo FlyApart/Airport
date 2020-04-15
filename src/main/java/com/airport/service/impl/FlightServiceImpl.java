@@ -1,60 +1,37 @@
-/*
 package com.airport.service.impl;
 
-import com.airport.controller.request.change.FlightUpdateRequest;
-import com.airport.controller.request.create.FlightSaveRequest;
+import com.airport.entity.Discounts;
 import com.airport.entity.Flights;
-import com.airport.repository.hibernate.*;
+import com.airport.exceptions.EntityNotFoundException;
+import com.airport.repository.springdata.DiscountsRepository;
+import com.airport.repository.springdata.FlightsRepository;
 import com.airport.service.FlightService;
-import com.airport.controller.converters.flights.ConvertersRequestFlights;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class FlightServiceImpl implements FlightService {
 
+private final FlightsRepository flightsRepository;
 
-	private final FlightsDao flightsDao;
-
-	private final AirportDao airportDao;
-
-	private final AirplaneDao airplaneDao;
-
-	private final AirlineDao airlineDao;
-
-	private final DiscountDao discountDao;
-
-	private final ConvertersRequestFlights convertersRequestFlights;
+private final DiscountsRepository discountsRepository;
 
 	@Override
-	public Flights save (FlightSaveRequest entity) {
+	public Flights deleteFlightDiscounts (String id, List<Long> discountIds) {
 
-		Flights flights = convertersRequestFlights.convert (entity);
+		Flights flights = flightsRepository.findById (Long.valueOf (id))
+		                                   .orElseThrow (()-> new EntityNotFoundException (Flights.class, id));
 
-		flights.setAirplane (airplaneDao.findByModel (entity.getModelAirplane ()));
-		flights.setDepartureAirport (airportDao.findByTitle (entity.getDepartureAirport ()));
-		flights.setArriveAirport (airportDao.findByTitle (entity.getArriveAirport ()));
-		flights.setAirlines (airlineDao.findByName (entity.getAirlines ()));
-		flights.setDiscount (discountDao.findByIds (entity.getDiscount ()));
-		return flightsDao.save (flights);
-	}
+		List<Discounts> discountsList = discountsRepository.findByIds(new ArrayList<> (discountIds))
+		                                                   .orElseThrow (()-> new EntityNotFoundException (Discounts.class, discountIds));
+		flights.getDiscount ().removeAll (discountsList);
 
-
-	@Override
-	public Flights update (FlightUpdateRequest entity, Long id) {
-
-		Flights flights = convertersRequestFlights.convertUpdate (entity, flightsDao.findById (id));
-
-		flights.setAirplane (airplaneDao.findByModel (entity.getModelAirplane ()));
-		flights.setDepartureAirport (airportDao.findByTitle (entity.getDepartureAirport ()));
-		flights.setArriveAirport (airportDao.findByTitle (entity.getArriveAirport ()));
-		flights.setAirlines (airlineDao.findByName (entity.getAirlines ()));
-
-		flights.setDiscount (discountDao.findByIds (entity.getDiscount ()));
-		return flightsDao.update (flights);
+		return flightsRepository.saveAndFlush (flights);
 	}
 }
-*/
+
+

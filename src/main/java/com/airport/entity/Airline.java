@@ -7,11 +7,9 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.FieldDefaults;
-import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,12 +21,11 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@EqualsAndHashCode(exclude = {"id", "flightsCounts", "countries"})
-@ToString(exclude = {"flightsCounts", "countries"})
-@DynamicUpdate
+@EqualsAndHashCode(exclude = {"id", "countries"})
+@ToString(exclude = { "countries"})
 @Entity
-@Table(name = "airlines")
-public class Airlines {
+@Table(name = "airline")
+public class Airline {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
@@ -45,7 +42,7 @@ public class Airlines {
 	@Column(name = "flights_per_year")
 	Long flightsCounts;
 
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne
 	@JoinColumn
 	Countries countries;
 }

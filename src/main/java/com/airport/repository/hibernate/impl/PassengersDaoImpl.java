@@ -1,6 +1,6 @@
 package com.airport.repository.hibernate.impl;
 
-import com.airport.entity.Passengers;
+import com.airport.entity.Passenger;
 import com.airport.exceptions.EntityNotFoundException;
 import com.airport.repository.hibernate.PassengerDao;
 import lombok.RequiredArgsConstructor;
@@ -18,16 +18,16 @@ public class PassengersDaoImpl implements PassengerDao {
 	private final EntityManager entityManager;
 
 	@Override
-	public List<Passengers> findAll () {
-		return entityManager.createQuery ("select p from Passengers p", Passengers.class)
+	public List<Passenger> findAll () {
+		return entityManager.createQuery ("select p from Passenger p", Passenger.class)
 		                    .getResultList ();
 	}
 
 	@Override
 	// TODO get optional in all entities
-	public Passengers findById (Long id) {
+	public Passenger findById (Long id) {
 		//return entityManager.find (Passengers.class, id);
-		Optional<Passengers> passengersOptional = Optional.ofNullable (entityManager.find (Passengers.class, id));
+		Optional<Passenger> passengersOptional = Optional.ofNullable (entityManager.find (Passenger.class, id));
 		return passengersOptional.orElseThrow (EntityNotFoundException::new);
 	}
 
@@ -37,22 +37,22 @@ public class PassengersDaoImpl implements PassengerDao {
 	}
 
 	@Override
-	public Passengers save (Passengers entity) {
+	public Passenger save (Passenger entity) {
 		entityManager.joinTransaction ();
 		entityManager.persist (entity);
-		return entityManager.find (Passengers.class, entity.getId ());
+		return entityManager.find (Passenger.class, entity.getId ());
 	}
 
 	@Override
-	public Passengers update (Passengers entity) {
+	public Passenger update (Passenger entity) {
 		entityManager.joinTransaction ();
 		entityManager.persist (entity);
-		return entityManager.find (Passengers.class, entity.getId ());
+		return entityManager.find (Passenger.class, entity.getId ());
 	}
 
 	@Override
-	public Passengers findByLogin (String login) {
-		TypedQuery<Passengers> query = entityManager.createQuery ("select p from Passengers p where p.login = :login", Passengers.class);
+	public Passenger findByLogin (String login) {
+		TypedQuery<Passenger> query = entityManager.createQuery ("select p from Passenger p where p.login = :login", Passenger.class);
 		query.setParameter ("login", login);
 		return query.getSingleResult ();
 	}

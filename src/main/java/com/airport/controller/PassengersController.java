@@ -2,7 +2,7 @@ package com.airport.controller;
 
 import com.airport.controller.request.change.PassengerUpdateRequest;
 import com.airport.controller.request.create.PassengerSaveRequest;
-import com.airport.entity.Passengers;
+import com.airport.entity.Passenger;
 import com.airport.entity.Status;
 import com.airport.exceptions.EntityNotFoundException;
 import com.airport.repository.springdata.PassengersRepository;
@@ -52,7 +52,7 @@ public class PassengersController {
 					value = "Sorting criteria in the format: property(, " + "\"asc or desc\"). " + "Default sort order is ascending. " + "Multiple sort criteria are supported."),
 			@ApiImplicitParam(name = "JWT", value = "JWT", required = true, dataType = "string", paramType = "header")})
 	@GetMapping
-	public ResponseEntity<Page<Passengers>> getAllPassengers (@ApiIgnore Pageable pageable) {
+	public ResponseEntity<Page<Passenger>> getAllPassengers (@ApiIgnore Pageable pageable) {
 		passengersRepository.findAll ();
 		return new ResponseEntity<> (passengersRepository.findAll (pageable), HttpStatus.OK);
 	}
@@ -60,46 +60,47 @@ public class PassengersController {
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "JWT", value = "JWT", required = true, dataType = "string", paramType = "header")})
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<Passengers> findPassengerById (@PathVariable String id, @ApiIgnore Principal principal) {
+	public ResponseEntity<Passenger> findPassengerById (@PathVariable String id, @ApiIgnore Principal principal) {
 
 		String passengerLogin = PrincipalUtil.getLogin (principal);
-		Passengers passengerAuth = passengersRepository.findByLogin (passengerLogin)
-		                                               .orElseThrow (() -> new EntityNotFoundException (Passengers.class, id));
+		Passenger passengerAuth = passengersRepository.findByLogin (passengerLogin)
+		                                              .orElseThrow (() -> new EntityNotFoundException (Passenger.class, id));
 
-		Passengers passengers = passengersRepository.findById (Long.valueOf (id))
-		                                            .orElseThrow (() -> new EntityNotFoundException (Passengers.class, id));
+		Passenger passenger = passengersRepository.findById (Long.valueOf (id))
+		                                          .orElseThrow (() -> new EntityNotFoundException (Passenger.class, id));
 
 		log.info ("lalala test" + passengerAuth.getLogin ());
 
-		return new ResponseEntity<> (passengers, HttpStatus.OK);
+		return new ResponseEntity<> (passenger, HttpStatus.OK);
 	}
 
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<String> deletePassenger (@PathVariable String id) {
-		Passengers passengers = (passengersRepository.findById (Long.valueOf (id))).orElseThrow (() -> new EntityNotFoundException (Passengers.class, id));
-		passengersRepository.delete (passengers);
+		Passenger passenger = (passengersRepository.findById (Long.valueOf (id))).orElseThrow (() -> new EntityNotFoundException (Passenger.class, id));
+		passengersRepository.delete (passenger);
 		return new ResponseEntity<> (id, HttpStatus.OK);
 	}
 
 	@Transactional
 	@PostMapping
-	public ResponseEntity<Passengers> createPassenger (@RequestBody @Valid PassengerSaveRequest passengerInfo) {
-		Passengers passengers = conversionService.convert (passengerInfo, Passengers.class);
-		return new ResponseEntity<> (passengersService.saveAndUpdate (passengers), HttpStatus.CREATED);
+	public ResponseEntity<Passenger> createPassenger (@RequestBody @Valid PassengerSaveRequest passengerInfo) {
+		Passenger passenger = conversionService.convert (passengerInfo, Passenger.class);
+		return new ResponseEntity<> (passengersService.saveAndUpdate (passenger), HttpStatus.CREATED);
 	}
 
-	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<Passengers> safeDeletePassenger (@PathVariable String id) {
-		Passengers passengers = (passengersRepository.findById (Long.valueOf (id))).orElseThrow (() -> new EntityNotFoundException (Passengers.class, id));
-		passengers.setStatus (Status.DELETED);
+	@DeleteMapping(value = "/delete/{id}")
+	public ResponseEntity<Passenger> safeDeletePassenger (@PathVariable String id) {
+		Passenger passenger = (passengersRepository.findById (Long.valueOf (id))).orElseThrow (() -> new EntityNotFoundException (Passenger.class, id));
+		passenger.setStatus (Status.DELETED);
 
-		return new ResponseEntity<> (passengersRepository.saveAndFlush (passengers), HttpStatus.OK);
+		return new ResponseEntity<> (passengersRepository.saveAndFlush (passenger), HttpStatus.OK);
 	}
 
+	@Transactional
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<Passengers> updatePassenger (@PathVariable String id, @RequestBody @Valid PassengerUpdateRequest passengerInfo) {
+	public ResponseEntity<Passenger> updatePassenger (@PathVariable String id, @RequestBody @Valid PassengerUpdateRequest passengerInfo) {
 		passengerInfo.setId (id);
-		return new ResponseEntity<> (passengersService.saveAndUpdate (conversionService.convert (passengerInfo, Passengers.class)), HttpStatus.OK);
+		return new ResponseEntity<> (passengersService.saveAndUpdate (conversionService.convert (passengerInfo, Passenger.class)), HttpStatus.OK);
 
 	}
 }

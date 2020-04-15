@@ -16,10 +16,10 @@ import java.util.Properties;
 @ConfigurationProperties("spring.jpa")
 public class AdditionalPropertiesConfig {
 
-
 	private String show_sql;
 	private JpaHibernateConfig hibernate;
 
+//TODO
 	@Data
 	public static class JpaHibernateConfig {
 		private String ddl_auto;
@@ -27,7 +27,6 @@ public class AdditionalPropertiesConfig {
 		private String region_factory_class;
 		private String provider;
 	}
-
 
 	@Bean(value = "jpaProperties")
 	@Scope("singleton")

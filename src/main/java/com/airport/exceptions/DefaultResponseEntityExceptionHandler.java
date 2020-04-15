@@ -1,8 +1,6 @@
 package com.airport.exceptions;
 
 import com.airport.exceptions.messages.ErrorMessage;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.ConversionNotSupportedException;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpHeaders;
@@ -26,105 +24,136 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 public class DefaultResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
-	private static final Logger LOG = LogManager.getLogger (DefaultResponseEntityExceptionHandler.class);
-
 	public DefaultResponseEntityExceptionHandler () {
 		super ();
 	}
 
 	@Override
 	protected ResponseEntity<Object> handleHttpRequestMethodNotSupported (HttpRequestMethodNotSupportedException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+		return new ResponseEntity<> (new ErrorMessage (ex.getMessage ()), status);
+	}
+
+	@Override
+	protected ResponseEntity<Object> handleHttpMediaTypeNotSupported (HttpMediaTypeNotSupportedException ex,
+	                                                                  HttpHeaders headers,
+	                                                                  HttpStatus status,
+	                                                                  WebRequest request) {
+		return new ResponseEntity<> (new ErrorMessage (ex.getMessage ()), status);
+	}
+
+	@Override
+	protected ResponseEntity<Object> handleHttpMediaTypeNotAcceptable (HttpMediaTypeNotAcceptableException ex,
+	                                                                   HttpHeaders headers,
+	                                                                   HttpStatus status,
+	                                                                   WebRequest request) {
+		return new ResponseEntity<> (new ErrorMessage (ex.getMessage ()), status);
+	}
+
+	@Override
+	protected ResponseEntity<Object> handleMissingPathVariable (MissingPathVariableException ex,
+	                                                            HttpHeaders headers,
+	                                                            HttpStatus status,
+	                                                            WebRequest request) {
+		return new ResponseEntity<> (new ErrorMessage (ex.getMessage ()), status);
+	}
+
+	@Override
+	protected ResponseEntity<Object> handleMissingServletRequestParameter (MissingServletRequestParameterException ex,
+	                                                                       HttpHeaders headers,
+	                                                                       HttpStatus status,
+
+	                                                                       WebRequest request)
+	{
+
+
+		return new ResponseEntity<> (new ErrorMessage (ex.getMessage ()), status); }
+
+	@Override
+	protected ResponseEntity<Object> handleServletRequestBindingException (ServletRequestBindingException ex,
+	                                                                       HttpHeaders headers,
+	                                                                       HttpStatus status,
+	                                                                       WebRequest request) {
 
 		return new ResponseEntity<> (new ErrorMessage (ex.getMessage ()), status);
 	}
 
 	@Override
-	protected ResponseEntity<Object> handleHttpMediaTypeNotSupported (HttpMediaTypeNotSupportedException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+	protected ResponseEntity<Object> handleConversionNotSupported (ConversionNotSupportedException ex,
+	                                                               HttpHeaders headers,
+	                                                               HttpStatus status,
+	                                                               WebRequest request) {
 
 		return new ResponseEntity<> (new ErrorMessage (ex.getMessage ()), status);
 	}
 
 	@Override
-	protected ResponseEntity<Object> handleHttpMediaTypeNotAcceptable (HttpMediaTypeNotAcceptableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+	protected ResponseEntity<Object> handleTypeMismatch (TypeMismatchException ex, HttpHeaders headers,
+	                                                     HttpStatus status,
+	                                                     WebRequest request) {
 
+		return new
+				       ResponseEntity<>
+				       (new ErrorMessage (ex.getMessage ()), status);
+	}
+
+	@Override
+	protected ResponseEntity<Object> handleHttpMessageNotReadable (HttpMessageNotReadableException ex,
+	                                                               HttpHeaders headers,
+	                                                               HttpStatus status,
+	                                                               WebRequest request) {
 		return new ResponseEntity<> (new ErrorMessage (ex.getMessage ()), status);
 	}
 
 	@Override
-	protected ResponseEntity<Object> handleMissingPathVariable (MissingPathVariableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-
+	protected ResponseEntity<Object> handleHttpMessageNotWritable (HttpMessageNotWritableException ex,
+	                                                               HttpHeaders headers,
+	                                                               HttpStatus status,
+	                                                               WebRequest request) {
 		return new ResponseEntity<> (new ErrorMessage (ex.getMessage ()), status);
 	}
 
 	@Override
-	protected ResponseEntity<Object> handleMissingServletRequestParameter (MissingServletRequestParameterException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-
+	protected ResponseEntity<Object> handleMethodArgumentNotValid (MethodArgumentNotValidException ex,
+	                                                               HttpHeaders headers,
+	                                                               HttpStatus status,
+	                                                               WebRequest request) {
 		return new ResponseEntity<> (new ErrorMessage (ex.getMessage ()), status);
 	}
 
 	@Override
-	protected ResponseEntity<Object> handleServletRequestBindingException (ServletRequestBindingException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-
+	protected ResponseEntity<Object> handleMissingServletRequestPart (MissingServletRequestPartException ex,
+	                                                                  HttpHeaders headers,
+	                                                                  HttpStatus status,
+	                                                                  WebRequest request) {
 		return new ResponseEntity<> (new ErrorMessage (ex.getMessage ()), status);
 	}
 
 	@Override
-	protected ResponseEntity<Object> handleConversionNotSupported (ConversionNotSupportedException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-
+	protected ResponseEntity<Object> handleBindException (BindException ex,
+	                                                      HttpHeaders headers,
+	                                                      HttpStatus status,
+	                                                      WebRequest request) {
 		return new ResponseEntity<> (new ErrorMessage (ex.getMessage ()), status);
 	}
 
 	@Override
-	protected ResponseEntity<Object> handleTypeMismatch (TypeMismatchException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-
+	protected ResponseEntity<Object> handleNoHandlerFoundException (NoHandlerFoundException ex,
+	                                                                HttpHeaders headers,
+	                                                                HttpStatus status,
+	                                                                WebRequest request) {
 		return new ResponseEntity<> (new ErrorMessage (ex.getMessage ()), status);
 	}
 
 	@Override
-	protected ResponseEntity<Object> handleHttpMessageNotReadable (HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-
-		return new ResponseEntity<> (new ErrorMessage (ex.getMessage ()), status);
-	}
-
-	@Override
-	protected ResponseEntity<Object> handleHttpMessageNotWritable (HttpMessageNotWritableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-
-		return new ResponseEntity<> (new ErrorMessage (ex.getMessage ()), status);
-	}
-
-	@Override
-	protected ResponseEntity<Object> handleMethodArgumentNotValid (MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-
-		return new ResponseEntity<> (new ErrorMessage (ex.getMessage ()), status);
-	}
-
-	@Override
-	protected ResponseEntity<Object> handleMissingServletRequestPart (MissingServletRequestPartException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-
-		return new ResponseEntity<> (new ErrorMessage (ex.getMessage ()), status);
-	}
-
-	@Override
-	protected ResponseEntity<Object> handleBindException (BindException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-
-		return new ResponseEntity<> (new ErrorMessage (ex.getMessage ()), status);
-	}
-
-	@Override
-	protected ResponseEntity<Object> handleNoHandlerFoundException (NoHandlerFoundException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-
-		return new ResponseEntity<> (new ErrorMessage (ex.getMessage ()), status);
-	}
-
-	@Override
-	protected ResponseEntity<Object> handleAsyncRequestTimeoutException (AsyncRequestTimeoutException ex, HttpHeaders headers, HttpStatus status, WebRequest webRequest) {
-
+	protected ResponseEntity<Object> handleAsyncRequestTimeoutException (AsyncRequestTimeoutException ex,
+	                                                                     HttpHeaders headers,
+	                                                                     HttpStatus status,
+	                                                                     WebRequest webRequest) {
 		return new ResponseEntity<> (new ErrorMessage (ex.getMessage ()), status);
 	}
 
 	@Override
 	protected ResponseEntity<Object> handleExceptionInternal (Exception ex, Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
-
 		return new ResponseEntity<> (new ErrorMessage (ex.getMessage ()), status);
 	}
 }

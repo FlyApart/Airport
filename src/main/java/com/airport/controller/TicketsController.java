@@ -10,7 +10,9 @@ import com.airport.repository.springdata.TicketsRepository;
 import com.airport.service.TicketsService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -38,6 +40,7 @@ public class TicketsController {
 
 	private final TicketsRepository ticketsRepository;
 	private final TicketsService ticketsService;
+	private final ConversionService conversionService;
 
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "page", dataType = "integer", paramType = "query", value = "Results page you want to retrieve (0..N)"),
@@ -58,7 +61,8 @@ public class TicketsController {
 	}
 
 	@GetMapping(value = "/flights/{id}")
-	public ResponseEntity<List<String>> findTickets (@PathVariable("id") String id, SeatsClass seatsClass) {
+	public ResponseEntity<List<String>> findTickets (@PathVariable("id") String id,
+	                                                 @ApiParam("Class of place") SeatsClass seatsClass) {
 		List<String> reservationPlaces = ticketsRepository.findPlacesByFlights (Long.valueOf (id), seatsClass)
 		                                                  .orElseThrow (() -> new EntityNotFoundException ("id = " + id + ", seats class =" + seatsClass, Flights.class));
 		return new ResponseEntity<> (reservationPlaces, HttpStatus.OK);
@@ -77,14 +81,14 @@ public class TicketsController {
 	@PostMapping
 	@Transactional
 	public ResponseEntity<Tickets> createTickets (@RequestBody @Valid TicketsSaveUpdateRequest ticketsSaveUpdateRequest) {
-		return new ResponseEntity<> (ticketsService.saveAndUpdate (ticketsSaveUpdateRequest), HttpStatus.CREATED);
+		return new ResponseEntity<> (ticketsService.saveAndUpdate (conversionService.convert (ticketsSaveUpdateRequest, Tickets.class)), HttpStatus.CREATED);
 	}
 
 	@PutMapping(value = "/{id}")
 	@Transactional
 	public ResponseEntity<Tickets> updateTickets (@PathVariable("id") String id, @RequestBody @Valid TicketsSaveUpdateRequest ticketsSaveUpdateRequest) {
 		ticketsSaveUpdateRequest.setId (id);
-		return new ResponseEntity<> (ticketsService.saveAndUpdate (ticketsSaveUpdateRequest), HttpStatus.CREATED);
+		return new ResponseEntity<> (ticketsService.saveAndUpdate (conversionService.convert (ticketsSaveUpdateRequest, Tickets.class)), HttpStatus.CREATED);
 	}
 
 

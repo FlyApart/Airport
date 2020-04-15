@@ -9,7 +9,6 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.FieldDefaults;
-import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -31,7 +30,6 @@ import java.util.Set;
 @EqualsAndHashCode(exclude = {"passengerId"})
 @ToString(exclude = {"passengerId"})
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@DynamicUpdate
 @Entity
 @Table(name = "role")
 @Builder
@@ -49,6 +47,6 @@ public class Role {
 	@JoinTable(name = "passengers_roles",
 			joinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")},
 			inverseJoinColumns = {@JoinColumn(name = "passenger_id", referencedColumnName = "id")})
-	Set<Passengers> passenger;
+	Set<Passenger> passenger;
 
 }

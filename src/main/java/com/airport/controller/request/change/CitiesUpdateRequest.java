@@ -28,4 +28,10 @@ public class CitiesUpdateRequest {
 
 	@Size(min = 3, max = 50)
 	String country;
+
+	@Pattern(regexp = "^[\\d]{1,3}\\.[\\d]{2,4}$", message = "example : 155.2073")
+	String longitude;
+
+	@Pattern(regexp = "^[\\d]{1,3}\\.[\\d]{2,4}$", message = "example : 155.2073")
+	String latitude;
 }

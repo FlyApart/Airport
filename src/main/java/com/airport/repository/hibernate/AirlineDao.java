@@ -1,9 +1,9 @@
 package com.airport.repository.hibernate;
 
 
-import com.airport.entity.Airlines;
+import com.airport.entity.Airline;
 
 
-public interface AirlineDao extends GenericDao<Airlines, Long> {
-	public Airlines findByName (String name);
+public interface AirlineDao extends GenericDao<Airline, Long> {
+	public Airline findByName (String name);
 }

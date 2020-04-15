@@ -6,11 +6,17 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
+import java.util.List;
+import java.util.Optional;
+
 public interface DiscountsRepository extends CrudRepository<Discounts, Long>, JpaRepository<Discounts, Long> {
 
-	//Set<Discounts> findByIds(List<Long> discountIds);
+	Optional <Discounts> findByTitle (String title);
 
 	@Modifying
 	@Query("delete  from Discounts d where d = :discounts")
 	void deleteDiscounts (Discounts discounts);
+
+	@Query("select d from Discounts d where d.id in :ids")
+	Optional<List<Discounts>> findByIds (List<Long> ids);
 }

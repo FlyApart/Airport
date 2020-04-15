@@ -8,7 +8,6 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.FieldDefaults;
-import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -30,7 +29,6 @@ import java.util.Set;
 @EqualsAndHashCode(exclude = {"id", "flights"})
 @ToString(exclude = {"flights"})
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@DynamicUpdate
 @Entity
 @Table(name = "discounts")
 public class Discounts {
@@ -45,7 +43,9 @@ public class Discounts {
 	Double cost;
 
 	@JsonBackReference
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinTable(name = "flights_discounts", joinColumns = @JoinColumn(name = "discounts_id"), inverseJoinColumns = @JoinColumn(name = "flights_id"))
+	@ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+	@JoinTable(name = "flights_discounts",
+			joinColumns = @JoinColumn(name = "discounts_id"),
+			inverseJoinColumns = @JoinColumn(name = "flights_id"))
 	Set<Flights> flights = Collections.emptySet ();
 }

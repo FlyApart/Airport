@@ -45,6 +45,7 @@ public class TicketsSaveUpdateRequest {
 	@Pattern(regexp = "^[\\w]+", message = "example : AUL_125")
 	String DiscountsTitle;
 
-	@NotNull SeatsClass seatsClass;
+	@NotNull
+	SeatsClass seatsClass;
 }
 

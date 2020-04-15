@@ -14,6 +14,6 @@ public interface AirportsRepository extends CrudRepository<Airports, Long>, JpaR
 	Optional <Airports> findByTitle (String title);
 
 	@Modifying
-	@Query("delete  from Airports a where a = :airports")
+	@Query("delete from Airports a where a = :airports")
 	void deleteAirports (Airports airports);
 }

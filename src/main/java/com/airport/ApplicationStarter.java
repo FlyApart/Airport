@@ -31,10 +31,14 @@ import javax.sql.DataSource;
 @EnableTransactionManagement(proxyTargetClass = true)
 @SpringBootApplication(scanBasePackages = {"com.airport"}, exclude = {JacksonAutoConfiguration.class, HibernateJpaAutoConfiguration.class})
 @EnableCaching
-@Import({DatabaseConfig.class, JdbcTemplateConfig.class, SwaggerConfig.class, AdditionalPropertiesConfig.class, JwtConfiguration.class})
+@Import({
+		DatabaseConfig.class,
+		JdbcTemplateConfig.class,
+		SwaggerConfig.class,
+		AdditionalPropertiesConfig.class,
+		JwtConfiguration.class
+})
 public class ApplicationStarter extends SpringBootServletInitializer {
-
-
 
 	public static void main (String[] args) {
 		SpringApplication.run (ApplicationStarter.class, args);
@@ -81,14 +85,8 @@ public class ApplicationStarter extends SpringBootServletInitializer {
 
 	//TODO
 	// add safe delete
-	// add role 1:12:15  26.03.2020
-	// add lock annotation on update method 26.03.2020
-	// 30.03.2020
-	// 50 min
 	// email verification
-	// max price
-	// fix tickets
-	//TODO fix max Long value in request
+	// how to working btree
 
 
 }

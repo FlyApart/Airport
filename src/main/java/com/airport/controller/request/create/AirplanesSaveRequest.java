@@ -11,6 +11,7 @@ import lombok.experimental.FieldDefaults;
 
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 @Data
@@ -21,7 +22,7 @@ import java.util.Date;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class AirplanesSaveRequest {
 
-	@FieldValid(min = 3, max = 50)
+	@FieldValid(min = 3)
 	@Pattern(regexp = "^[\\w]+", message = "example : 12AA3")
 	String model;
 
@@ -33,19 +34,19 @@ public class AirplanesSaveRequest {
 	@Pattern(regexp = "^[\\d]+", message = "example : 123")
 	String row;
 
-	@FieldValid(min = 0, max = 3)
+	@Size(max = 3)
 	@Pattern(regexp = "^[\\d]+", message = "example : 123")
 	String ComfortSeats;
 
-	@FieldValid(min = 0, max = 2)
+	@Size(max = 2)
 	@Pattern(regexp = "^[\\d]+", message = "example : 5")
 	String ComfortRow;
 
-	@FieldValid(min = 0, max = 3)
+	@Size(max = 3)
 	@Pattern(regexp = "^[\\d]+", message = "example : 123")
 	String businessSeats;
 
-	@FieldValid(min = 0, max = 2)
+	@Size(max = 2)
 	@Pattern(regexp = "^[\\d]+", message = "example : 5")
 	String businessRow;
 
@@ -56,7 +57,7 @@ public class AirplanesSaveRequest {
 	@Past
 	Date built;
 
-	@FieldValid(min = 3, max = 50)
+	@FieldValid(min = 3)
 	String country;
 
 }

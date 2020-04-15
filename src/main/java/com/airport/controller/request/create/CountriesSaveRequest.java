@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.FieldDefaults;
 
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 @Data
@@ -27,8 +26,4 @@ public class CountriesSaveRequest {
 	@FieldValid(min = 1, max = 18)
 	@Pattern(regexp = "^[\\d]+$", message = "example : 123")
 	String population;
-
-	@Pattern(regexp = "^[\\d]{1,3}+\\.[\\d]{4,6}\\s[\\d]{1,3}\\.[\\d]{4,6}$", message = "example : 152.0157 155.2073")
-	@NotNull
-	String location;
 }

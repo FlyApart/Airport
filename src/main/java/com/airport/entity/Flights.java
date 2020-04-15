@@ -3,6 +3,7 @@ package com.airport.entity;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -25,12 +26,13 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Set;
 
+@Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@EqualsAndHashCode(exclude = {"discount", "id", "airplane", "departureAirport", "arriveAirport", "airlines"})
-@ToString(exclude = {"discount", "airplane", "departureAirport", "arriveAirport", "airlines"})
+@EqualsAndHashCode(exclude = {"discount", "id", "airplane", "departureAirport", "arriveAirport", "airline"})
+@ToString(exclude = {"discount", "airplane", "departureAirport", "arriveAirport", "airline"})
 @Entity
 @Table(name = "flights")
 public class Flights {
@@ -58,20 +60,21 @@ public class Flights {
 	Airplanes airplane;
 
 	@OneToOne
-	@JoinColumn(name = "departure_airport_id", nullable = false)
+	@JoinColumn(name = "departure_airport_id")
 	Airports departureAirport;
 
 	@OneToOne
-	@JoinColumn(name = "arrive_airport_id", nullable = false)
+	@JoinColumn(name = "arrive_airport_id")
 	Airports arriveAirport;
 
 	@OneToOne
 	@JoinColumn(name = "airline_id", nullable = false)
-	Airlines airlines;
+	Airline airline;
 
 	@JsonManagedReference
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-	@JoinTable(name = "flights_discounts", joinColumns = @JoinColumn(name = "flights_id"),
+	@ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+	@JoinTable(name = "flights_discounts",
+			joinColumns = @JoinColumn(name = "flights_id"),
 			inverseJoinColumns = @JoinColumn(name = "discounts_id"))
 	Set<Discounts> discount = Collections.emptySet ();
 }

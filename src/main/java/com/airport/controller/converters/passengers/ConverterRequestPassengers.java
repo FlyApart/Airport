@@ -4,22 +4,21 @@ import com.airport.controller.converters.EntityConverter;
 import com.airport.controller.request.change.PassengerUpdateRequest;
 import com.airport.controller.request.create.PassengerSaveRequest;
 import com.airport.entity.Cities;
-import com.airport.entity.Passengers;
+import com.airport.entity.Passenger;
 import com.airport.entity.Passports;
-import com.airport.entity.Status;
 import com.airport.entity.Role;
 import com.airport.entity.RoleName;
 import com.airport.entity.Status;
-import com.airport.exceptions.ArgumentOfMethodNotValidException;
 import com.airport.exceptions.ConversionException;
 import com.airport.exceptions.EntityAlreadyExistException;
 import com.airport.exceptions.EntityNotFoundException;
+import com.airport.repository.springdata.CitiesRepository;
+import com.airport.repository.springdata.PassengersRepository;
 import com.airport.repository.springdata.RoleRepository;
 import com.airport.util.ProjectDate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import javax.persistence.NoResultException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -28,56 +27,60 @@ public abstract class ConverterRequestPassengers<S, T> extends EntityConverter<S
 
 	private final BCryptPasswordEncoder passwordEncoder;
 	private final RoleRepository roleRepository;
+	private final CitiesRepository citiesRepository;
+	private final PassengersRepository passengersRepository;
 
 
-	protected Passengers doConvert (Passengers passengers, PassengerSaveRequest entity) {
+	protected Passenger doConvert (Passenger passenger, PassengerSaveRequest entity) {
 
-		passengers.setName (entity.getName ());
-		passengers.setSecondName (entity.getSecondName ());
-		passengers.setPassword (passwordEncoder.encode (entity.getPassword ()));
-		passengers.setBirthDate (entity.getBirthDate ());
-		passengers.setCreated (new ProjectDate ().getCurrentTime ());
-		passengers.setLogin (entity.getLogin ());
-		passengers.setStatus (Status.ACTIVE);
-		return passengers;
+		passenger.setName (entity.getName ());
+		passenger.setSecondName (entity.getSecondName ());
+		passenger.setPassword (passwordEncoder.encode (entity.getPassword ()));
+		passenger.setBirthDate (entity.getBirthDate ());
+		passenger.setCreated (new ProjectDate ().getCurrentTime ());
+		passenger.setLogin (entity.getLogin ());
+		passenger.setStatus (Status.ACTIVE);
+		return passenger;
 	}
 
-	protected Passengers doConvert (Passengers passengers, PassengerUpdateRequest entity) {
-		if (entity.getId () != null) passengers.setId (Long.valueOf (entity.getId ()));
-		if (entity.getName () != null) passengers.setName (entity.getName ());
-		if (entity.getSecondName () != null) passengers.setSecondName (entity.getSecondName ());
-		if (entity.getPassword () != null) passengers.setPassword (passwordEncoder.encode (entity.getPassword ()));
-		if (entity.getBirthDate () != null) passengers.setBirthDate (entity.getBirthDate ());
-		passengers.setChanged (new ProjectDate ().getCurrentTime ());
-		//passengers.setLogin (entity.getLogin ());
-		return passengers;
-	}
-
-	protected Cities findCity (Class<?> sClass, String city) {
-		Cities cities;
-		try {
-			cities = entityManager.createQuery ("select c from Cities c where c.name=:name", Cities.class)
-			                      .setParameter ("name", city)
-			                      .getSingleResult ();
-		} catch (NumberFormatException e) {
-			throw new ConversionException (sClass, Passengers.class, sClass, new ArgumentOfMethodNotValidException (city));
-		} catch (NoResultException e) {
-			throw new ConversionException (sClass, Passengers.class, sClass, new EntityNotFoundException ("City with name = " + city, Cities.class));
+	protected Passenger doConvert (Passenger passenger, PassengerUpdateRequest entity) {
+		if (entity.getId () != null) {
+			passenger.setId (Long.valueOf (entity.getId ()));
 		}
-		return cities;
+
+		if (entity.getName () != null) {
+			passenger.setName (entity.getName ());
+		}
+
+		if (entity.getSecondName () != null) {
+			passenger.setSecondName (entity.getSecondName ());
+		}
+
+		if (entity.getPassword () != null) {
+			passenger.setPassword (passwordEncoder.encode (entity.getPassword ()));
+		}
+
+		if (entity.getBirthDate () != null) {
+			passenger.setBirthDate (entity.getBirthDate ());
+		}
+
+		passenger.setChanged (new ProjectDate ().getCurrentTime ());
+
+		return passenger;
+	}
+
+	protected Cities findCity (Class<?> sClass, String name) {
+		return citiesRepository.findByName (name)
+		                       .orElseThrow (()-> new ConversionException (sClass, Passenger.class, name, new EntityNotFoundException ("City with name = " + name, Cities.class)));
 	}
 
 	protected void isUniqueLogin (Class<?> sClass, String login) {
-		try {
-			entityManager.createQuery ("select p from Passengers p where p.login =:login", Passengers.class)
-			             .setParameter ("login", login)
-			             .getSingleResult ();
-		} catch (NumberFormatException e) {
-			throw new ConversionException (sClass, Passports.class, login, new ArgumentOfMethodNotValidException ("Passengers with login = " + login));
-		} catch (NoResultException e) {
-			return;
+
+		boolean unique = passengersRepository.findByLogin (login)
+		                                     .isPresent ();
+		if (unique) {
+			throw new ConversionException (sClass, Passports.class, login, new EntityAlreadyExistException ("Passengers with login = " + login));
 		}
-		throw new ConversionException (sClass, Passports.class, login, new EntityAlreadyExistException ("Passengers with login = " + login));
 	}
 
 	protected Set<Role> getRole (){
@@ -87,4 +90,9 @@ public abstract class ConverterRequestPassengers<S, T> extends EntityConverter<S
 		return role;
 	}
 
+	protected Passenger findPassengerById (Class<?> sClass, Long id) {
+
+		return passengersRepository.findById (id)
+		                           .orElseThrow (()-> new ConversionException (sClass, Passenger.class, id, new EntityNotFoundException (Passenger.class,id)));
+	}
 }

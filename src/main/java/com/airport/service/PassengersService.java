@@ -1,8 +1,8 @@
 package com.airport.service;
 
-import com.airport.entity.Passengers;
+import com.airport.entity.Passenger;
 
 public interface PassengersService {
 
-	Passengers saveAndUpdate (Passengers passenger);
+	Passenger saveAndUpdate (Passenger passenger);
 }

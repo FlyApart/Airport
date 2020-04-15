@@ -19,12 +19,27 @@ public abstract class ConverterRequestCities<S, T> extends EntityConverter<S, T>
 	private final CountriesRepository countriesRepository;
 
 	protected Cities doConvert (Cities cities, CitiesSaveRequest entity) {
+
 		cities.setName (entity.getName ());
+		cities.setLatitude (Float.valueOf (entity.getLatitude ()));
+		cities.setLongitude (Float.valueOf (entity.getLongitude ()));
 		return cities;
 	}
 
 	protected Cities doConvert (Cities cities, CitiesUpdateRequest entity) {
-		if (entity.getName () != null) cities.setName (entity.getName ());
+
+		if (entity.getName () != null) {
+			cities.setName (entity.getName ());
+		}
+
+		if (entity.getLatitude () != null) {
+			cities.setLatitude (Float.valueOf (entity.getLatitude ()));
+		}
+
+		if (entity.getLongitude () != null) {
+			cities.setLongitude (Float.valueOf (entity.getLongitude ()));
+		}
+
 		return cities;
 	}
 
@@ -37,9 +52,12 @@ public abstract class ConverterRequestCities<S, T> extends EntityConverter<S, T>
 		boolean unique = citiesRepository.findByName (name)
 		                                   .isPresent ();
 		if (unique){
-			throw new ConversionException (sClass, Cities.class, name, new EntityAlreadyExistException (" name = " + name));
+			throw new ConversionException (sClass, Cities.class, name, new EntityAlreadyExistException (Cities.class," name = " + name));
 		}
-		else
-			return;
+	}
+
+	Cities findById (Class<?> sClass, Long id ){
+		return citiesRepository.findById (id)
+		                       .orElseThrow  (() -> new ConversionException (sClass, Cities.class, id, new EntityNotFoundException (Cities.class, id)));
 	}
 }

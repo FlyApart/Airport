@@ -34,7 +34,7 @@ public class PassportSaveRequest {
 	PassportsTypes types;
 
 	@JsonIgnore
-	String passengerId;
+	Long passengerId;
 
 
 }

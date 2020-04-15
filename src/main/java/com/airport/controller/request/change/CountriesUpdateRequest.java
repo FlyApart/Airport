@@ -31,7 +31,4 @@ public class CountriesUpdateRequest {
 	@Pattern(regexp = "^[\\d]+$", message = "example : 123")
 	String population;
 
-	@Pattern(regexp = "^[\\d]+\\.[\\d]{4,6} [\\d]+\\.[\\d]{4,6}", message = "example 52.0157 55.2073")
-	String location;
-
 }

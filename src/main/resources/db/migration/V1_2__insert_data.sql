@@ -1,16 +1,16 @@
 insert into countries
-    (location, name, population)
-values ('55°45′N 37°37′E', 'Russia', 146745098),
-       ('53°55′N 27°33′E', 'Belarus', 9491800),
-       ('51°30′N 0°7′W', 'England', 55977178);
+    (name, population)
+values ('Russia', 146745098),
+       ('Belarus', 9491800),
+       ('England', 55977178);
 
 insert into cities
-( name, countries_id)
-values ( 'Moscow', 1),
-       ( 'Minsk', 2),
-       ('London', 3);
+( name, countries_id, latitude, longitude)
+values ( 'Moscow', 1, 152.0157, 155.2073),
+       ( 'Minsk', 2, 34.1321, 54.1344),
+       ('London', 3, 67.3332, 78.3233);
 
-insert into airlines
+insert into airline
     (fleet, flights_per_year, name, website, countries_id)
 values (180, 18000, 'Ural Airline', 'ural.ru', 1),
        (50, 9000, 'Belavia', 'belavia.com', 2),
@@ -37,19 +37,19 @@ values (3500, 'PROMO_35'),
        (7000, 'PROMO_777');
 
 
-insert into passengers
+insert into passenger
 (date_birth, changed, created, login, name, password, surname, cities_id, status)
-values ('13-05-1997', null, '30-03-2020', 'oglorn@mail.ru', 'Alex', '1234qwer', 'Zuev', '1','ACTIVE'),
-       ('21-12-1996', null, '20-02-2020', 'dunya@mail.ru', 'Dima', 'rewq4321', 'Dunya', '2','ACTIVE'),
-       ('21-12-1996', null, '20-02-2020', 'dunya2@mail.ru', 'Dima', 'rewq4321', 'Dunya', '2','ACTIVE'),
-       ('21-12-1996', null, '20-02-2020', 'dunya3@mail.ru', 'Dima', 'rewq4321', 'Dunya', '2','ACTIVE'),
-       ('21-12-1996', null, '20-02-2020', 'dunya4@mail.ru', 'Dima', 'rewq4321', 'Dunya', '2','ACTIVE'),
-       ('06-04-1971', null, '17-01-2020', 'lelya@qmail.com', 'Olga', '1234qwer', 'Zinevich', '1','ACTIVE'),
-       ('06-04-1971', null, '17-01-2020', 'lel2ya@qmail.com', 'Olga', '1234qwer', 'Zinevich', '1','ACTIVE'),
-       ('06-04-1971', null, '17-01-2020', 'lel3ya@qmail.com', 'Olga', '1234qwer', 'Zinevich', '1','ACTIVE');
+values ('13-05-1997', null, '30-03-2020', 'oglorn@mail.ru', 'Alex', '$2y$12$KxfPSQWNH/5rDZSCSDy5AeDB65WK18klM7UpOF7qPBhk.upVaQK8G', 'Zuev', '1','ACTIVE'),
+       ('21-12-1996', null, '20-02-2020', 'dunya@mail.ru', 'Dima', '$2y$12$KxfPSQWNH/5rDZSCSDy5AeDB65WK18klM7UpOF7qPBhk.upVaQK8G', 'Dunya', '2','ACTIVE'),
+       ('21-12-1996', null, '20-02-2020', 'dunya2@mail.ru', 'Dima', '$2y$12$2XQv6j8KGC4RyM9aMccjKeUPvOjzXFsdiSYk8PnS78lUPIKmBWCuC', 'Dunya', '2','ACTIVE'),
+       ('21-12-1996', null, '20-02-2020', 'dunya3@mail.ru', 'Dima', '$2y$12$KxfPSQWNH/5rDZSCSDy5AeDB65WK18klM7UpOF7qPBhk.upVaQK8G', 'Dunya', '2','ACTIVE'),
+       ('21-12-1996', null, '20-02-2020', 'dunya4@mail.ru', 'Dima', '$2y$12$2XQv6j8KGC4RyM9aMccjKeUPvOjzXFsdiSYk8PnS78lUPIKmBWCuC', 'Dunya', '2','ACTIVE'),
+       ('06-04-1971', null, '17-01-2020', 'lelya@qmail.com', 'Olga', '$2y$12$2XQv6j8KGC4RyM9aMccjKeUPvOjzXFsdiSYk8PnS78lUPIKmBWCuC', 'Zinevich', '1','ACTIVE'),
+       ('06-04-1971', null, '17-01-2020', 'lel2ya@qmail.com', 'Olga', '$2y$12$KxfPSQWNH/5rDZSCSDy5AeDB65WK18klM7UpOF7qPBhk.upVaQK8G', 'Zinevich', '1','ACTIVE'),
+       ('06-04-1971', null, '17-01-2020', 'lel3ya@qmail.com', 'Olga', '$2y$12$2XQv6j8KGC4RyM9aMccjKeUPvOjzXFsdiSYk8PnS78lUPIKmBWCuC', 'Zinevich', '1','ACTIVE');
 
 insert into passports
-(number, series, types, passengers_id)
+(number, series, types, passenger_id)
 values (1234, 1234, 'CITIZEN', 1),
        (4321, 4321, 'FOREIGN', 1),
        (22221, 2222, 'CITIZEN', 2),
@@ -64,7 +64,7 @@ values ('2020-11-11 15:10:00', null, '2020-11-11 12:20:00', 'AOPRR133', 24000, 1
        ('2020-12-06 05:10:00', null, '2020-12-05 23:20:00', 'DHUE908', 20000, 2, 1, 3, 2);
 
 insert into tickets
-(place, reservation, total_price, flights_id, passengers_id,class)
+(place, reservation, total_price, flights_id, passenger_id,class)
 values ('1A', TRUE, 22000, 1, 1,'NORMAL'),
        ('43D', FALSE, 22000, 1,2,'COMFORT'),
        ('66C', TRUE, 22000, 1,3,'BUSINESS'),

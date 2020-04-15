@@ -5,7 +5,6 @@ import com.airport.controller.request.change.AirportsUpdateRequest;
 import com.airport.controller.request.create.AirportsSaveRequest;
 import com.airport.entity.Airports;
 import com.airport.entity.Cities;
-import com.airport.entity.Countries;
 import com.airport.exceptions.ConversionException;
 import com.airport.exceptions.EntityAlreadyExistException;
 import com.airport.exceptions.EntityNotFoundException;
@@ -25,13 +24,15 @@ public abstract class ConverterRequestAirports<S, T> extends EntityConverter<S, 
 	}
 
 	protected Airports doConvert (Airports airports, AirportsUpdateRequest entity) {
-		if (entity.getTitle () != null) airports.setTitle (entity.getTitle ());
+		if (entity.getTitle () != null) {
+			airports.setTitle (entity.getTitle ());
+		}
 		return airports;
 	}
 
 	Cities findCity (Class<?> sClass, String city) {
 		return citiesRepository.findByName (city)
-		                       .orElseThrow (() -> new ConversionException (sClass, Airports.class, city, new EntityNotFoundException (" Cities = " + city, Countries.class)));
+		                       .orElseThrow (() -> new ConversionException (sClass, Airports.class, city, new EntityNotFoundException (" name = " + city, Cities.class)));
 	}
 
 
@@ -41,7 +42,10 @@ public abstract class ConverterRequestAirports<S, T> extends EntityConverter<S, 
 		if (unique){
 			throw new ConversionException (sClass, Airports.class, title, new EntityAlreadyExistException (Airports.class, "title = " + title));
 		}
-		else
-			return;
+	}
+
+	Airports findById(Class<?> sClass,  Long id){
+		return airportsRepository.findById (id)
+		                         .orElseThrow (() -> new ConversionException (sClass, Airports.class, id, new EntityNotFoundException (Airports.class, id)));
 	}
 }

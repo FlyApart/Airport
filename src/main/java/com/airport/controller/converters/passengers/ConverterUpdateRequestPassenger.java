@@ -3,9 +3,10 @@ package com.airport.controller.converters.passengers;
 import com.airport.controller.converters.passports.ConverterUpdateRequestPassports;
 import com.airport.controller.request.change.PassengerUpdateRequest;
 import com.airport.controller.request.change.PassportUpdateRequest;
-import com.airport.entity.Passengers;
+import com.airport.entity.Passenger;
 import com.airport.entity.Passports;
-import com.airport.exceptions.EntityNotFoundException;
+import com.airport.repository.springdata.CitiesRepository;
+import com.airport.repository.springdata.PassengersRepository;
 import com.airport.repository.springdata.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -14,22 +15,19 @@ import org.springframework.stereotype.Component;
 import java.util.HashSet;
 import java.util.Set;
 
-import static java.util.Optional.ofNullable;
-
 @Component
-public class ConverterUpdateRequestPassenger extends ConverterRequestPassengers<PassengerUpdateRequest, Passengers> {
+public class ConverterUpdateRequestPassenger extends ConverterRequestPassengers<PassengerUpdateRequest, Passenger> {
 	@Autowired
 	private ConverterUpdateRequestPassports converterUpdateRequestPassports;
 
-	public ConverterUpdateRequestPassenger (BCryptPasswordEncoder passwordEncoder, RoleRepository roleRepository) {
-		super (passwordEncoder, roleRepository);
+	public ConverterUpdateRequestPassenger (BCryptPasswordEncoder passwordEncoder, RoleRepository roleRepository, CitiesRepository citiesRepository, PassengersRepository passengersRepository) {
+		super (passwordEncoder, roleRepository, citiesRepository, passengersRepository);
 	}
 
 	@Override
-	public Passengers convert (PassengerUpdateRequest request) {
+	public Passenger convert (PassengerUpdateRequest request) {
 
-		Passengers passengers = ofNullable (entityManager.find (Passengers.class, Long.valueOf (request.getId ()))).orElseThrow (() -> new EntityNotFoundException (Passengers.class, request.getId ()));
-
+		Passenger passenger = findPassengerById (request.getClass (),Long.valueOf (request.getId ()));
 
 		Set<Passports> passportsSet = new HashSet<> ();
 		if (request.getPassportUpdateRequest () != null) {
@@ -38,10 +36,13 @@ public class ConverterUpdateRequestPassenger extends ConverterRequestPassengers<
 				passportsSet.add (converterUpdateRequestPassports.convert (passportUpdateRequest));
 			}
 		}
-		passengers.setPassports (passportsSet);
+		passenger.setPassports (passportsSet);
 
-		if (request.getCities () != null) passengers.setCities (findCity (request.getClass (), request.getCities ()));
-		return doConvert (passengers, request);
+		if (request.getCities () != null) {
+			passenger.setCities (findCity (request.getClass (), request.getCities ()));
+		}
+
+		return doConvert (passenger, request);
 
 	}
 }

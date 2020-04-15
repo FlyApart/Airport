@@ -19,12 +19,12 @@ import javax.validation.constraints.Pattern;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class AirlinesSaveRequest {
 
-	@FieldValid(min = 3, max = 50)
+	@FieldValid(min = 3)
 	@Pattern(regexp = "^[a-zA-Z ]+", message = "example : Ural  Airlines")
 	String name;
 
 	@Pattern(regexp = "^[\\w]+\\.[\\w]+", message = "example.com")
-	@FieldValid(min = 3, max = 50)
+	@FieldValid(min = 3)
 	String website;
 
 	@FieldValid(min = 1, max = 18)
@@ -35,6 +35,6 @@ public class AirlinesSaveRequest {
 	@Pattern(regexp = "^[\\d]+", message = "example : 123")
 	String flightsCounts;
 
-	@FieldValid(min = 1, max = 50)
+	@FieldValid(min = 1)
 	String country;
 }

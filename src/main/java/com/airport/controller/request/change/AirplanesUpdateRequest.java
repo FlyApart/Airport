@@ -27,7 +27,6 @@ AirplanesUpdateRequest {
 	@JsonIgnore
 	String id;
 
-
 	@Size(min = 3, max = 50)
 	@Pattern(regexp = "^[\\w]+", message = "example : 12AA3")
 	String model;

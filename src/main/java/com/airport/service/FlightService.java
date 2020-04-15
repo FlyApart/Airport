@@ -1,8 +1,11 @@
 package com.airport.service;
 
-public interface FlightService {
-/*
-	Flights save (FlightSaveRequest request);
+import com.airport.entity.Flights;
 
-	Flights update (FlightUpdateRequest request, Long id);*/
+import java.util.List;
+
+public interface FlightService {
+
+	Flights deleteFlightDiscounts (String id, List<Long> discountIds);
+
 }

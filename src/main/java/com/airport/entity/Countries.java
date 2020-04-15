@@ -8,7 +8,6 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.FieldDefaults;
-import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,7 +22,6 @@ import javax.persistence.Table;
 @EqualsAndHashCode(exclude = {"id"})
 @ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@DynamicUpdate
 @Entity
 @Builder
 @Table(name = "countries")
@@ -37,7 +35,4 @@ public class Countries {
 
 	@Column
 	Long population;
-
-	@Column(length = 50)
-	String location;
 }

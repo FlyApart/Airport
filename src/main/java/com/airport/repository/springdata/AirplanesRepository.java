@@ -15,6 +15,6 @@ public interface AirplanesRepository extends CrudRepository<Airplanes, Long>, Jp
 
 	@Modifying
 	@Query("delete  from Airplanes a where a = :airplane")
-	void deleteCities (Airplanes airplane);
+	void deleteAirplane (Airplanes airplane);
 
 }

@@ -8,7 +8,6 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.FieldDefaults;
-import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -27,10 +26,9 @@ import javax.persistence.UniqueConstraint;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(exclude = {"id", "passengersId", "types"})
-@ToString(exclude = {"types", "passengersId"})
+@EqualsAndHashCode(exclude = {"id", "passengerId", "types"})
+@ToString(exclude = {"types", "passengerId"})
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@DynamicUpdate
 @Entity
 @Table(name = "passports", uniqueConstraints = @UniqueConstraint(columnNames = {"series", "number"}))
 public class Passports {
@@ -51,8 +49,8 @@ public class Passports {
 	PassportsTypes types = PassportsTypes.NOT_SELECTED;
 
 	@JsonBackReference
-	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Passengers.class, cascade = CascadeType.ALL)
-	@JoinColumn(nullable = false, name = "passengers_id")
-	Passengers passengersId;
+	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Passenger.class, cascade ={CascadeType.MERGE, CascadeType.REFRESH})
+	@JoinColumn(nullable = false, name = "passenger_id")
+	Passenger passengerId;
 
 }

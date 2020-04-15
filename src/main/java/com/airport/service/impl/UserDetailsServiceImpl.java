@@ -1,6 +1,6 @@
 package com.airport.service.impl;
 
-import com.airport.entity.Passengers;
+import com.airport.entity.Passenger;
 import com.airport.exceptions.EntityNotFoundException;
 import com.airport.repository.springdata.PassengersRepository;
 import com.airport.security.model.JwtPassengerFactory;
@@ -21,10 +21,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername (String login) throws UsernameNotFoundException {
 
-		Passengers passengers = passengersRepository.findByLogin (login)
-		                                            .orElseThrow (() -> new EntityNotFoundException ("login " + login, Passengers.class));
-		log.info("IN loadUserByUsername - user with username: {} successfully loaded", passengers);
-		return JwtPassengerFactory.create (passengers);
+		Passenger passenger = passengersRepository.findByLogin (login)
+		                                          .orElseThrow (() -> new EntityNotFoundException ("login " + login, Passenger.class));
+		log.info("IN loadUserByUsername - user with username: {} successfully loaded", passenger);
+		return JwtPassengerFactory.create (passenger);
 
 
 /*		try {

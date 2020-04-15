@@ -1,7 +1,7 @@
 package com.airport.controller;
 
 import com.airport.controller.request.create.PassengerSaveRequest;
-import com.airport.entity.Passengers;
+import com.airport.entity.Passenger;
 import com.airport.service.PassengersService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.ConversionService;
@@ -28,9 +28,9 @@ public class RegistrationController {
 
 	@Transactional
 	@PostMapping
-	public ResponseEntity<Passengers> createPassenger (@RequestBody @Valid PassengerSaveRequest passengerInfo) {
-		Passengers passengers = conversionService.convert (passengerInfo, Passengers.class);
-		return new ResponseEntity<> (passengersService.saveAndUpdate (passengers), HttpStatus.CREATED);
+	public ResponseEntity<Passenger> createPassenger (@RequestBody @Valid PassengerSaveRequest passengerInfo) {
+		Passenger passenger = conversionService.convert (passengerInfo, Passenger.class);
+		return new ResponseEntity<> (passengersService.saveAndUpdate (passenger), HttpStatus.CREATED);
 	}
 
 }

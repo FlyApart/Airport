@@ -36,7 +36,7 @@ public class PassengerSaveRequest {
 	@Pattern(regexp = "^[a-zA-Z]{2,50}$", message = "example : Cruise")
 	String secondName;
 
-	@FieldValid(min = 6, max = 50)
+	@FieldValid(min = 6)
 	@Pattern(regexp = "(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}", message = "example : Ar2%fd*")
 	String password;
 
@@ -44,8 +44,8 @@ public class PassengerSaveRequest {
 	@NotNull
 	Date birthDate;
 
-	@FieldValid(min = 3, max = 50)
-	String cities;
+	@FieldValid(min = 3)
+	String city;
 
 	@NotNull
 	@NotEmpty
