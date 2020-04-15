@@ -7,13 +7,16 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="Airport" />
+        <module name="common" />
+        <module name="web" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="Airport" options="-parameters" />
+      <module name="Airport" options="" />
+      <module name="common" options="-parameters" />
+      <module name="web" options="-parameters" />
     </option>
   </component>
 </project>
