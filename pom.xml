@@ -20,7 +20,6 @@
         <aspectj.version>1.6.11</aspectj.version>
         <dbcp-version>1.4</dbcp-version>
         <log4j.version>1.2.17</log4j.version>
-        <mysql.version>8.0.13</mysql.version>
         <swagger.version>2.9.2</swagger.version>
         <jackson.version>2.9.8</jackson.version>
         <jakarta.version>2.3.2</jakarta.version>
@@ -169,7 +168,6 @@
         </dependency>
 
 
-
         <!--Hibernate-->
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -202,11 +200,6 @@
 
 
         <!--DB-->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>${mysql.version}</version>
-        </dependency>
 
         <dependency>
             <groupId>org.postgresql</groupId>
@@ -240,7 +233,6 @@
             <artifactId>log4j</artifactId>
             <version>${log4j.version}</version>
         </dependency>
-
 
         <!--Flyway-->
         <dependency>
