@@ -27,9 +27,11 @@ public class TokenUtil {
 	private final ProjectDate projectDate;
 
 	private static final String CREATED_VALUE = "created";
-	private static final String ROLE = "role";
+
+	private static final String ROLES = "roles";
 
 	public String getUserFromToken (String token) {
+		String subject = getClaimsFromToken (token).getSubject ();
 		return getClaimsFromToken (token).getSubject ();
 	}
 
@@ -42,6 +44,11 @@ public class TokenUtil {
 	}
 
 	private Claims getClaimsFromToken (String token) {
+		Claims s = Jwts.parser ()
+		                  .setSigningKey (jwtConfiguration.getSecret ())
+		                  .parseClaimsJwt (token)
+		                  .getBody ();
+
 		return Jwts.parser ()
 		           .setSigningKey (jwtConfiguration.getSecret ())
 		           .parseClaimsJwt (token)
@@ -59,9 +66,9 @@ public class TokenUtil {
 
 
 	private String generateToken (Map<String, Object> claims) {
-		return Jwts.builder ()//TODO add header
+		return Jwts
+				   .builder ()
 		           .setClaims (claims)
-		           .setIssuedAt (new Date (System.currentTimeMillis ()))
 		           .setExpiration (projectDate.generateTokenExpirationDate (jwtConfiguration.getExpire ()))
 		           .signWith (SignatureAlgorithm.HS512, jwtConfiguration.getSecret ())
 		           .compact ();
@@ -71,7 +78,7 @@ public class TokenUtil {
 		Map<String, Object> claims = new HashMap<> ();
 		claims.put (SUBJECT, userDetails.getUsername ());
 		claims.put (CREATED_VALUE, projectDate.getCurrentTime ());
-		claims.put (ROLE, getEncryptedRole (userDetails));
+		claims.put (ROLES, getEncryptedRole (userDetails));
 		return generateToken (claims);
 	}
 
@@ -84,10 +91,9 @@ public class TokenUtil {
 		                  .collect (Collectors.toList ());
 	}
 
-
-	public Boolean canTokenBeRefreshed (String token, Date lastPasswordReset) {
+/*	public Boolean canTokenBeRefreshed (String token, Date lastPasswordReset) {
 		final Date created = this.getCreatedDateFromToken (token);
-		return (!this.isCreatedBeforeLastPasswordReset (created, lastPasswordReset) && (!this.isTokenExpired (token)) /*|| this.ignoreTokenExpiration (token)*/);
+		return (!this.isCreatedBeforeLastPasswordReset (created, lastPasswordReset) && (!this.isTokenExpired (token)) *//*|| this.ignoreTokenExpiration (token)*//*);
 	}
 
 	public String refreshToken (String token) {
@@ -100,12 +106,12 @@ public class TokenUtil {
 			refreshToken = null;
 		}
 		return refreshToken;
-	}
+	}*/
 
-	public Boolean validateToken (String token, UserDetails userDetails) {
+	public boolean validateToken (String token, UserDetails userDetails) {
 
-		final String username = this.getUserFromToken (token);
+		String usernameToken = getUserFromToken(token);
 
-		return (username.equals (userDetails.getUsername ()));
+		return usernameToken.equals (userDetails.getUsername ());
 	}
 }

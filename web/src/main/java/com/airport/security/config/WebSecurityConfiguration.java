@@ -1,7 +1,6 @@
 package com.airport.security.config;
 
 import com.airport.security.filter.AuthenticateTokenFilter;
-import com.airport.security.model.DetailsService;
 import com.airport.security.util.TokenUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +15,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -25,16 +25,15 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-	private final DetailsService userDetailsService;
+	private final UserDetailsService userDetailsService;
 
 	private final TokenUtil tokenUtil;
-
-	private final BCryptPasswordEncoder bCryptPasswordEncoder;
+	private final BCryptPasswordEncoder passwordEncoder;
 
 	@Autowired
 	public void configureAuthentication (AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
 		authenticationManagerBuilder.userDetailsService (userDetailsService)
-		                            .passwordEncoder (bCryptPasswordEncoder);
+		                            .passwordEncoder (passwordEncoder);
 	}
 
 	@Bean
@@ -53,7 +52,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure (HttpSecurity httpSecurity) throws Exception {
 		httpSecurity
-					.httpBasic ().disable ()
+					//.httpBasic ().disable ()
 					.csrf ().disable ()
 		            .exceptionHandling ()
 		            .and ()

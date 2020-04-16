@@ -1,12 +1,12 @@
 package com.airport.security.filter;
 
 import com.airport.security.ApplicationHeaders;
-import com.airport.security.model.DetailsService;
 import com.airport.security.util.TokenUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 
@@ -22,12 +22,13 @@ public class AuthenticateTokenFilter extends UsernamePasswordAuthenticationFilte
 
 	private final TokenUtil tokenUtil;
 
-	private final DetailsService userDetailsService;
+	private final UserDetailsService userDetailsService;
 
 	@Override
 	public void doFilter (ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
 
 		HttpServletRequest httpServletRequest = (HttpServletRequest) req;
+
 		String authToken = httpServletRequest.getHeader (ApplicationHeaders.AUTH_TOKEN);
 
 		if (authToken != null) {

@@ -17,7 +17,7 @@ import com.airport.repository.springdata.PassengersRepository;
 import com.airport.repository.springdata.RoleRepository;
 import com.airport.util.ProjectDate;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -25,7 +25,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 public abstract class ConverterRequestPassengers<S, T> extends EntityConverter<S, T> {
 
-	private final BCryptPasswordEncoder passwordEncoder;
+	private final PasswordEncoder passwordEncoder;
 	private final RoleRepository roleRepository;
 	private final CitiesRepository citiesRepository;
 	private final PassengersRepository passengersRepository;

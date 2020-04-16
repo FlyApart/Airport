@@ -44,6 +44,11 @@ public class ApplicationStarter extends SpringBootServletInitializer {
 		SpringApplication.run (ApplicationStarter.class, args);
 	}
 
+	@Bean
+	public BCryptPasswordEncoder passwordEncoder () {
+		return new BCryptPasswordEncoder ();
+	}
+
 	@Autowired
 	@Bean(name = "entityManagerFactory")
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory (DataSource dataSource, AdditionalPropertiesConfig jpaProperties) {
@@ -60,11 +65,6 @@ public class ApplicationStarter extends SpringBootServletInitializer {
 	@Bean(name = "entityManager")
 	public EntityManager getEntityManager (EntityManagerFactory entityManagerFactory) {
 		return entityManagerFactory.createEntityManager ();
-	}
-
-	@Bean
-	public BCryptPasswordEncoder bCryptPasswordEncoder () {
-		return new BCryptPasswordEncoder ();
 	}
 
 	/*@Bean
