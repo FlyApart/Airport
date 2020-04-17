@@ -1,3 +1,4 @@
+/*
 package com.airport.security.model;
 
 import com.airport.entity.Passenger;
@@ -34,3 +35,4 @@ public final class JwtPassengerFactory {
                 ).collect(Collectors.toList());
     }
 }
+*/

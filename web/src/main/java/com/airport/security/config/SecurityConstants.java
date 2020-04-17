@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 @Data
 @ConfigurationProperties("jwt-token")
 @Configuration
-public class JwtConfiguration {
+public class SecurityConstants {
 
 	private String secret;
 

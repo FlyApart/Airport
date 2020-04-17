@@ -1,3 +1,4 @@
+/*
 package com.airport.security.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -41,3 +42,4 @@ public class JwtPassenger implements UserDetails {
 		return true;
 	}
 }
+*/

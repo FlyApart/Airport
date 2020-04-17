@@ -50,7 +50,7 @@ public class PassengersController {
 			@ApiImplicitParam(name = "size", dataType = "integer", paramType = "query", value = "Number of records per page."),
 			@ApiImplicitParam(name = "sort", allowMultiple = true, dataType = "string", paramType = "query",
 					value = "Sorting criteria in the format: property(, " + "\"asc or desc\"). " + "Default sort order is ascending. " + "Multiple sort criteria are supported."),
-			@ApiImplicitParam(name = "JWT", value = "JWT", required = true, dataType = "string", paramType = "header")})
+			@ApiImplicitParam(name = "Auth-Token", value = "JWT", required = true, dataType = "string", paramType = "header")})
 	@GetMapping
 	public ResponseEntity<Page<Passenger>> getAllPassengers (@ApiIgnore Pageable pageable) {
 		passengersRepository.findAll ();
@@ -68,8 +68,6 @@ public class PassengersController {
 
 		Passenger passenger = passengersRepository.findById (Long.valueOf (id))
 		                                          .orElseThrow (() -> new EntityNotFoundException (Passenger.class, id));
-
-		log.info ("lalala test" + passengerAuth.getLogin ());
 
 		return new ResponseEntity<> (passenger, HttpStatus.OK);
 	}

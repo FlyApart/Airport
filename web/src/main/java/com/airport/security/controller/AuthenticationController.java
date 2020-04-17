@@ -1,26 +1,24 @@
 package com.airport.security.controller;
 
-import com.airport.security.model.AuthResponse;
-import com.airport.security.model.AuthenticationRequest;
+import com.airport.security.controller.request.AuthenticationRequest;
 import com.airport.security.util.TokenUtil;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/authentication")
+@RequestMapping("/login")
 public class AuthenticationController {
 
 	private final TokenUtil tokenUtil;
@@ -31,21 +29,8 @@ public class AuthenticationController {
 
 	@ApiOperation(value = "Login passenger", notes = "Return Auth.Token")
 	@PostMapping
-	public ResponseEntity<AuthResponse> login (@RequestBody @Valid AuthenticationRequest request) {
+	public ResponseEntity<String> login (@RequestBody @Valid AuthenticationRequest request, @ApiIgnore Principal principal) {
 
-		Authentication authenticate = authenticationManager.authenticate (
-				new UsernamePasswordAuthenticationToken (
-						request.getLogin (),
-						request.getPassword ()));
-
-		SecurityContextHolder.getContext ()
-		                     .setAuthentication (authenticate);
-
-		String authToken = tokenUtil.generateToken (userDetailsService.loadUserByUsername (request.getLogin ()));
-
-		return ResponseEntity.ok (AuthResponse.builder ()
-		                                      .login (request.getLogin ())
-		                                      .authToken (authToken)
-		                                      .build ());
+		return ResponseEntity.ok (principal.getName ());
 	}
 }

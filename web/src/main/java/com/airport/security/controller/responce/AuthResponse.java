@@ -1,4 +1,4 @@
-package com.airport.security.model;
+package com.airport.security.controller.responce;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

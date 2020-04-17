@@ -4,7 +4,7 @@ import com.airport.config.core.AdditionalPropertiesConfig;
 import com.airport.config.core.DatabaseConfig;
 import com.airport.config.core.JdbcTemplateConfig;
 import com.airport.config.swagger.SwaggerConfig;
-import com.airport.security.config.JwtConfiguration;
+import com.airport.security.config.SecurityConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -36,7 +36,7 @@ import javax.sql.DataSource;
 		JdbcTemplateConfig.class,
 		SwaggerConfig.class,
 		AdditionalPropertiesConfig.class,
-		JwtConfiguration.class
+		SecurityConstants.class
 })
 public class ApplicationStarter extends SpringBootServletInitializer {
 

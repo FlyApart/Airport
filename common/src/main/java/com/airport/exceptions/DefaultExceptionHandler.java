@@ -2,6 +2,7 @@ package com.airport.exceptions;
 
 import com.airport.exceptions.messages.ErrorMessage;
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
@@ -55,7 +56,18 @@ public class DefaultExceptionHandler extends DefaultResponseEntityExceptionHandl
 		return new ResponseEntity<> (new ErrorMessage (e.getMessage ()), HttpStatus.NOT_ACCEPTABLE);
 	}
 
-	@ExceptionHandler({UnsupportedJwtException.class, MalformedJwtException.class, SignatureException.class, ExpiredJwtException.class, IllegalArgumentException.class})
+	@ExceptionHandler(JwtException.class)
+	public ResponseEntity<ErrorMessage> handleCustomException (JwtException e) {
+		log.error (e.getMessage (), e);
+		return new ResponseEntity<> (new ErrorMessage (e.getMessage ()), HttpStatus.UNAUTHORIZED);
+	}
+
+	@ExceptionHandler({UnsupportedJwtException.class,
+			MalformedJwtException.class,
+			SignatureException.class,
+			ExpiredJwtException.class,
+			IllegalArgumentException.class,
+			MalformedJwtException.class})
 	public ResponseEntity<ErrorMessage> handleParseClaimsException (Exception e) {
 		log.error (e.getMessage (), e);
 		return new ResponseEntity<> (new ErrorMessage (e + e.getMessage ()), HttpStatus.UNAUTHORIZED);

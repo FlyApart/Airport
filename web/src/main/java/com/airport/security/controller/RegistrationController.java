@@ -1,4 +1,4 @@
-package com.airport.controller;
+package com.airport.security.controller;
 
 import com.airport.controller.request.create.PassengerSaveRequest;
 import com.airport.entity.Passenger;

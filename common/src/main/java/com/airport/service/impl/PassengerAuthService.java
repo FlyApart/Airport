@@ -1,4 +1,4 @@
-package com.airport.security.model;
+package com.airport.service.impl;
 
 import com.airport.entity.Passenger;
 import com.airport.entity.Role;
@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class DetailsService implements UserDetailsService {
+public class PassengerAuthService implements UserDetailsService {
 
 	private final PassengersRepository passengersRepository;
 
@@ -35,6 +35,7 @@ public class DetailsService implements UserDetailsService {
 					                                                             .stream ()
 					                                                             .map (Role::getRole)
 					                                                             .map (RoleName::toString)
+					                                                             .map (s -> s.replace (s, "ROLE_".concat (s)))
 					                                                             .collect (Collectors.joining (","))));
 	}
 }
