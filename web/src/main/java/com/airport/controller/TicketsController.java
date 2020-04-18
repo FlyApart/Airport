@@ -132,6 +132,14 @@ public class TicketsController {
 		return new ResponseEntity<> (ticketsService.saveAndUpdate (conversionService.convert (ticketsSaveUpdateRequest, Tickets.class)), HttpStatus.CREATED);
 	}
 
+
+	@ApiImplicitParam(name = "Auth-Token", value = "Auth-Token", required = true, dataType = "string", paramType = "header")
+	@GetMapping(value = "/reservation/{code}")
+	@Transactional (rollbackFor = Exception.class)
+	public ResponseEntity<String> reservation (@PathVariable String code) {
+		return ResponseEntity.ok(ticketsService.reservation (code));
+	}
+
 	@ApiOperation(value = "Update ticket by id")
 	@ApiResponses({
 			@ApiResponse(code = 201, message = "Request has succeeded"),

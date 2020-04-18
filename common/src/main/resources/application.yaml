@@ -12,6 +12,15 @@ spring:
       region_factory_class: net.sf.ehcache.hibernate.EhCacheRegionFactory
       provider: org.ehcache.jsr107.EhcacheCachingProvider
     show-sql: true
+  mail:
+    host: smtp.yandex.ru
+    username: oglorn@yandex.ru
+    password: 1234Qwer
+    port: 465
+    protocol: smtps
+    debug: true
+
+
 
 ---
 logging:

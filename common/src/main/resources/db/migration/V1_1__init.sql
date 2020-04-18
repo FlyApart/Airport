@@ -85,10 +85,10 @@ create unique index countries_name_uindex
 
 create table discounts
 (
-    id    bigserial   NOT NULL,
-    cost  float8      NOT NULL,
-    title varchar(50) NOT NULL,
-    status     varchar(50) NOT NULL,
+    id     bigserial   NOT NULL,
+    cost   float8      NOT NULL,
+    title  varchar(50) NOT NULL,
+    status varchar(50) NOT NULL,
     primary key (id)
 );
 
@@ -110,7 +110,7 @@ create table flights
     airplane_id          int8        NOT NULL,
     arrive_airport_id    int8        NOT NULL,
     departure_airport_id int8        NOT NULL,
-    status     varchar(50) NOT NULL,
+    status               varchar(50) NOT NULL,
     primary key (id)
 );
 
@@ -131,16 +131,17 @@ create unique index flights_discounts_uindex
 
 create table passenger
 (
-    id         bigserial    NOT NULL,
-    date_birth timestamp,
-    changed    timestamp,
-    created    timestamp,
-    login      varchar(50)  NOT NULL,
-    name       varchar(50)  NOT NULL,
-    password   varchar(255) NOT NULL,
-    surname    varchar(50)  NOT NULL,
-    cities_id  int8,
-    status     varchar(50)  NOT NULL,
+    id              bigserial    NOT NULL,
+    date_birth      timestamp,
+    changed         timestamp,
+    created         timestamp,
+    login           varchar(50)  NOT NULL,
+    name            varchar(50)  NOT NULL,
+    password        varchar(255) NOT NULL,
+    surname         varchar(50)  NOT NULL,
+    cities_id       int8,
+    status          varchar(50)  NOT NULL,
+    code_activation varchar(50),
     primary key (id)
 );
 
@@ -158,7 +159,7 @@ create table passports
     series       int8        NOT NULL,
     types        varchar(50) NOT NULL,
     passenger_id int8        NOT NULL,
-    status     varchar(50) NOT NULL,
+    status       varchar(50) NOT NULL,
     primary key (id)
 );
 
@@ -184,6 +185,7 @@ create table tickets
     flights_id   int8        not null,
     passenger_id int8        NOT NULL,
     class        varchar(50) NOT NULL,
+    code_activation varchar(50),
     primary key (id)
 );
 

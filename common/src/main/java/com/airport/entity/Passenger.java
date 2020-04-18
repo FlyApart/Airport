@@ -1,5 +1,6 @@
 package com.airport.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -55,7 +56,7 @@ public class Passenger {
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "status", nullable = false, length = 50)
-	Status status = Status.ACTIVE;
+	Status status = Status.NOT_ACTIVE;
 
 	@OneToOne
 	@JoinColumn(name = "cities_id")
@@ -75,5 +76,9 @@ public class Passenger {
 			joinColumns = {@JoinColumn(name = "passenger_id", referencedColumnName = "id")},
 			inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
 	Set<Role> role= Collections.emptySet ();
+
+	@JsonIgnore
+	@Column (name = "code_activation")
+	String activationCode;
 
 }

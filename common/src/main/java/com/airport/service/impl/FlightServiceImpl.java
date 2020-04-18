@@ -26,6 +26,8 @@ private final DiscountsRepository discountsRepository;
 		Flights flights = flightsRepository.findById (Long.valueOf (id))
 		                                   .orElseThrow (()-> new EntityNotFoundException (Flights.class, id));
 
+
+// TODO fix this!!!
 		List<Discounts> discountsList = discountsRepository.findByIds(new ArrayList<> (discountIds))
 		                                                   .orElseThrow (()-> new EntityNotFoundException (Discounts.class, discountIds));
 		flights.getDiscount ().removeAll (discountsList);

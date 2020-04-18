@@ -19,5 +19,6 @@ public interface TicketsRepository extends CrudRepository<Tickets, Long>, JpaRep
 	@Query("select t from Tickets t where t.flights.id= :flightsId and t.place= :place")
 	Optional<Tickets> findTicketsByFlightsIdAndPlace (Long flightsId, String place);
 
+	Optional<Tickets> findByActivationCode (String code);
 	//todo add count places
 }

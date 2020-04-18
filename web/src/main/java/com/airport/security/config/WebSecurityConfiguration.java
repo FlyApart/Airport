@@ -54,9 +54,10 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 		            .antMatchers ("/registration/**").permitAll ()
 
 					.antMatchers (HttpMethod.GET,"/rest/**").hasAnyRole ("USER","ADMIN", "MODER")
-					.antMatchers ("/rest/**").hasAnyRole ("ADMIN", "MODER")
-					.antMatchers ("/passenger/**").hasAnyRole ("USER","ADMIN", "MODER")
 
+					.antMatchers ("/rest/tickets/**","/rest/passenger/**").hasAnyRole ("USER","ADMIN", "MODER")
+
+					.antMatchers ("/rest/**").hasAnyRole ("ADMIN", "MODER")
 		            .antMatchers ("/admin/**").hasRole ("ADMIN")
 		            .anyRequest ().authenticated ()
 					.and ()

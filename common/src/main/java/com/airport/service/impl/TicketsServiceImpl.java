@@ -20,6 +20,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +30,7 @@ public class TicketsServiceImpl implements TicketsService {
 	private final FlightsRepository flightsRepository;
 	private final PassengersRepository passengersRepository;
 	private final TicketsRepository ticketsRepository;
+	private final MailSenderService mailSenderService;
 
 	@Value(value = "${character_of_place}")
 	private String PLACE;
@@ -216,9 +219,32 @@ public class TicketsServiceImpl implements TicketsService {
 		}
 		tickets.setTotalPrice (costCalculation (tickets, ticketRequest.getDiscount ()));
 
-		tickets.setReservation (false);//TODO send email in service
+		tickets.setActivationCode (UUID.randomUUID ().toString ());
+
+		String message = String.format ("Hello, %S! \n" +
+				                                "Visit next link http://localhost:8080//rest/tickets/reservation/%s",
+				tickets.getPassengerId ().getName (),
+				tickets.getActivationCode ()
+		);
+
+		mailSenderService.sendEmail (tickets.getPassengerId ().getLogin (),"Activation", message);
 
 		return ticketsRepository.saveAndFlush (tickets);
 
 	}
+
+	@Override
+	public String reservation (String code) {
+		Optional<Tickets> ticket = ticketsRepository.findByActivationCode(code);
+		if (ticket.isPresent ()){
+			ticket.get ().setReservation (true);
+			ticket.get ().setActivationCode (null);
+			ticketsRepository.flush ();
+			return String.format ("%s, thx for reservation ",
+					ticket.get ().getPassengerId ().getName ());
+		}
+		return "invalid activation code";
+	}
+
+
 }

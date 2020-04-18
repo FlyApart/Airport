@@ -1,6 +1,7 @@
 package com.airport.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -50,7 +51,7 @@ public class Tickets {
 	SeatsClass seatsClass = SeatsClass.NORMAL;
 
 	@Column
-	Boolean reservation;
+	Boolean reservation = false;
 
 	@JsonBackReference
 	@ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)
@@ -62,4 +63,7 @@ public class Tickets {
 	@JoinColumn(name = "passenger_id", nullable = false)
 	Passenger passengerId;
 
+	@JsonIgnore
+	@Column (name = "code_activation")
+	String activationCode;
 }

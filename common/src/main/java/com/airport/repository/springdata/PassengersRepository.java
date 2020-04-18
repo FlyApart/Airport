@@ -14,4 +14,5 @@ public interface PassengersRepository extends CrudRepository<Passenger, Long>, J
 	@Query("from Passenger p where p.login= :login")
 	Optional<Passenger> findByLogin (String login);
 
+	Optional<Passenger> findByActivationCode (String code);
 }

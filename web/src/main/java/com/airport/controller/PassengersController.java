@@ -35,7 +35,7 @@ import java.security.Principal;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/passenger")
+@RequestMapping("/rest/passenger")
 @RequiredArgsConstructor
 @Slf4j
 public class PassengersController {
