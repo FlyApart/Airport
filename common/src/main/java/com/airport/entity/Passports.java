@@ -53,4 +53,8 @@ public class Passports {
 	@JoinColumn(nullable = false, name = "passenger_id")
 	Passenger passengerId;
 
+	@Enumerated(EnumType.STRING)
+	@Column(name = "status", nullable = false, length = 50)
+	Status status = Status.ACTIVE;
+
 }

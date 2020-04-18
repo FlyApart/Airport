@@ -6,6 +6,7 @@ create table airline
     name             varchar(50) NOT NULL,
     website          varchar(50) NOT NULL,
     countries_id     int8,
+    status           varchar(50) NOT NULL,
     primary key (id)
 );
 
@@ -18,10 +19,11 @@ create unique index airline_name_site_uindex
 create table cities
 (
     id           bigserial   NOT NULL,
-    longitude    float4       NOT NULL,
+    longitude    float4      NOT NULL,
     latitude     float4      NOT NULL,
     name         varchar(50) NOT NULL,
     countries_id int8        NOT NULL,
+    status       varchar(50) NOT NULL,
     primary key (id)
 );
 
@@ -35,14 +37,14 @@ create table airplanes
     built                  timestamp,
     max_flight_duration    int8,
     model                  varchar(50) NOT NULL,
-    seats                  int4  NOT NULL,
-    number_of_row          int4  NOT NULL,
+    seats                  int4        NOT NULL,
+    number_of_row          int4        NOT NULL,
     business_seats         int4,
     business_number_of_row int4,
     comfort_seats          int4,
     comfort_number_of_row  int4,
     countries_id           int8,
-
+    status                 varchar(50) NOT NULL,
     primary key (id)
 );
 
@@ -56,6 +58,7 @@ create table airports
     id        bigserial   NOT NULL,
     title     varchar(75) NOT NULL,
     cities_id int8,
+    status    varchar(50) NOT NULL,
     primary key (id)
 );
 
@@ -70,6 +73,7 @@ create table countries
     id         bigserial   NOT NULL,
     name       varchar(50) NOT NULL,
     population int8,
+    status     varchar(50) NOT NULL,
     primary key (id)
 );
 
@@ -84,6 +88,7 @@ create table discounts
     id    bigserial   NOT NULL,
     cost  float8      NOT NULL,
     title varchar(50) NOT NULL,
+    status     varchar(50) NOT NULL,
     primary key (id)
 );
 
@@ -105,6 +110,7 @@ create table flights
     airplane_id          int8        NOT NULL,
     arrive_airport_id    int8        NOT NULL,
     departure_airport_id int8        NOT NULL,
+    status     varchar(50) NOT NULL,
     primary key (id)
 );
 
@@ -134,7 +140,7 @@ create table passenger
     password   varchar(255) NOT NULL,
     surname    varchar(50)  NOT NULL,
     cities_id  int8,
-    status     varchar(50) NOT NULL,
+    status     varchar(50)  NOT NULL,
     primary key (id)
 );
 
@@ -147,11 +153,12 @@ create unique index passengers_id_uindex
 
 create table passports
 (
-    id            bigserial   NOT NULL,
-    number        int8        NOT NULL,
-    series        int8        NOT NULL,
-    types         varchar(50) NOT NULL,
+    id           bigserial   NOT NULL,
+    number       int8        NOT NULL,
+    series       int8        NOT NULL,
+    types        varchar(50) NOT NULL,
     passenger_id int8        NOT NULL,
+    status     varchar(50) NOT NULL,
     primary key (id)
 );
 
@@ -170,13 +177,13 @@ create unique index passports_unique_types_uindex
 
 create table tickets
 (
-    id            bigserial   NOT NULL,
-    place         varchar(10) NOT NULL,
-    reservation   boolean,
-    total_price   float8      NOT NULL,
-    flights_id    int8        not null,
+    id           bigserial   NOT NULL,
+    place        varchar(10) NOT NULL,
+    reservation  boolean,
+    total_price  float8      NOT NULL,
+    flights_id   int8        not null,
     passenger_id int8        NOT NULL,
-    class         varchar(50) NOT NULL,
+    class        varchar(50) NOT NULL,
     primary key (id)
 );
 
@@ -192,8 +199,8 @@ create unique index tickets_flight_id_passenger_id_uindex
 
 create table role
 (
-    id            bigserial NOT NULL,
-    role          varchar(50) NOT NULL,
+    id   bigserial   NOT NULL,
+    role varchar(50) NOT NULL,
     primary key (id)
 );
 
@@ -202,13 +209,13 @@ create unique index role_id_uindex
 
 create table passengers_roles
 (
-    role_id       int8 NOT NULL,
+    role_id      int8 NOT NULL,
     passenger_id int8 NOT NULL,
-    primary key (role_id,passenger_id)
+    primary key (role_id, passenger_id)
 );
 
 create unique index passengers_roles_uindex
-        on passengers_roles USING btree (role_id, passenger_id);
+    on passengers_roles USING btree (role_id, passenger_id);
 
 
 alter table if exists airline
@@ -274,5 +281,3 @@ alter table if exists passengers_roles
 alter table if exists passengers_roles
     add constraint passengers_roles_passenger_fk foreign key (passenger_id) references passenger
         on update cascade on delete cascade;
-
-alter table role alter column role set default USER;

@@ -13,4 +13,8 @@ public class SecurityConstants {
 
 	private Integer expire;
 
+	private String prefix;
+
+	private String header;
+
 }

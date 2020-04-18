@@ -1,7 +1,6 @@
 package com.airport.controller;
 
 import com.airport.controller.request.change.PassengerUpdateRequest;
-import com.airport.controller.request.create.PassengerSaveRequest;
 import com.airport.entity.Passenger;
 import com.airport.entity.Status;
 import com.airport.exceptions.EntityNotFoundException;
@@ -10,6 +9,9 @@ import com.airport.security.util.PrincipalUtil;
 import com.airport.service.PassengersService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.convert.ConversionService;
@@ -22,7 +24,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,7 +35,7 @@ import java.security.Principal;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/rest/passengers")
+@RequestMapping("/passenger")
 @RequiredArgsConstructor
 @Slf4j
 public class PassengersController {
@@ -57,48 +58,73 @@ public class PassengersController {
 		return new ResponseEntity<> (passengersRepository.findAll (pageable), HttpStatus.OK);
 	}
 
-	@ApiImplicitParams({
-			@ApiImplicitParam(name = "Auth-Token", value = "Auth-Token", required = true, dataType = "string", paramType = "header")})
+	@ApiOperation(value = "Find passport by id")
+	@ApiResponses({
+			@ApiResponse(code = 201, message = "Request has succeeded"),
+			@ApiResponse(code = 400, message = "Invalid request"),
+			@ApiResponse(code = 403, message = "Access denied"),
+			@ApiResponse(code = 404, message = "Not found a current representation for the target"),
+			@ApiResponse(code = 500, message = "Error processing request")
+	})
+	@ApiImplicitParam(name = "Auth-Token", value = "Auth-Token", required = true, dataType = "string", paramType = "header")
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<Passenger> findPassengerById (@PathVariable String id, @ApiIgnore Principal principal) {
 
-		String passengerLogin = PrincipalUtil.getLogin (principal);
-		Passenger passengerAuth = passengersRepository.findByLogin (passengerLogin)
-		                                              .orElseThrow (() -> new EntityNotFoundException (Passenger.class, id));
 
 		Passenger passenger = passengersRepository.findById (Long.valueOf (id))
 		                                          .orElseThrow (() -> new EntityNotFoundException (Passenger.class, id));
-
-		return new ResponseEntity<> (passenger, HttpStatus.OK);
+		if (PrincipalUtil.getAccess (principal,Long.valueOf (id))){
+			return  ResponseEntity.ok (passenger);
+		}
+		return ResponseEntity.ok (new Passenger ());
 	}
 
-	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<String> deletePassenger (@PathVariable String id) {
-		Passenger passenger = (passengersRepository.findById (Long.valueOf (id))).orElseThrow (() -> new EntityNotFoundException (Passenger.class, id));
+	@ApiOperation(value = "Hard delete passenger by id")
+	@ApiResponses({
+			@ApiResponse(code = 201, message = "Request has succeeded"),
+			@ApiResponse(code = 400, message = "Invalid request"),
+			@ApiResponse(code = 403, message = "Access denied"),
+			@ApiResponse(code = 404, message = "Not found a current representation for the target"),
+			@ApiResponse(code = 500, message = "Error processing request")
+	})
+	@ApiImplicitParam(name = "Auth-Token", value = "Auth-Token", required = true, dataType = "string", paramType = "header")
+	@DeleteMapping(value = "/hardDelete/{id}")
+	public ResponseEntity<String> hardDeletePassenger (@PathVariable String id) {
+		Passenger passenger = (passengersRepository.findById (Long.valueOf (id)))
+				                      .orElseThrow (() -> new EntityNotFoundException (Passenger.class, id));
 		passengersRepository.delete (passenger);
 		return new ResponseEntity<> (id, HttpStatus.OK);
 	}
 
-	@Transactional
-	@PostMapping
-	public ResponseEntity<Passenger> createPassenger (@RequestBody @Valid PassengerSaveRequest passengerInfo) {
-		Passenger passenger = conversionService.convert (passengerInfo, Passenger.class);
-		return new ResponseEntity<> (passengersService.saveAndUpdate (passenger), HttpStatus.CREATED);
-	}
-
-	@DeleteMapping(value = "/delete/{id}")
+	@ApiOperation(value = "Safe delete passenger by id")
+	@ApiResponses({
+			@ApiResponse(code = 201, message = "Request has succeeded"),
+			@ApiResponse(code = 400, message = "Invalid request"),
+			@ApiResponse(code = 403, message = "Access denied"),
+			@ApiResponse(code = 404, message = "Not found a current representation for the target"),
+			@ApiResponse(code = 500, message = "Error processing request")
+	})
+	@ApiImplicitParam(name = "Auth-Token", value = "Auth-Token", required = true, dataType = "string", paramType = "header")
+	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Passenger> safeDeletePassenger (@PathVariable String id) {
 		Passenger passenger = (passengersRepository.findById (Long.valueOf (id))).orElseThrow (() -> new EntityNotFoundException (Passenger.class, id));
 		passenger.setStatus (Status.DELETED);
-
 		return new ResponseEntity<> (passengersRepository.saveAndFlush (passenger), HttpStatus.OK);
 	}
 
-	@Transactional
+	@ApiOperation(value = "Update passport by id")
+	@ApiResponses({
+			@ApiResponse(code = 201, message = "Request has succeeded"),
+			@ApiResponse(code = 400, message = "Invalid request"),
+			@ApiResponse(code = 403, message = "Access denied"),
+			@ApiResponse(code = 500, message = "Error processing request")
+	})
+	@ApiImplicitParam(name = "Auth-Token", value = "Auth-Token", required = true, dataType = "string", paramType = "header")
 	@PutMapping(value = "/{id}")
+	@Transactional (rollbackFor = Exception.class)
 	public ResponseEntity<Passenger> updatePassenger (@PathVariable String id, @RequestBody @Valid PassengerUpdateRequest passengerInfo) {
 		passengerInfo.setId (id);
-		return new ResponseEntity<> (passengersService.saveAndUpdate (conversionService.convert (passengerInfo, Passenger.class)), HttpStatus.OK);
+		return ResponseEntity.ok (passengersService.saveAndUpdate (conversionService.convert (passengerInfo, Passenger.class)));
 
 	}
 }

@@ -39,8 +39,8 @@ public class Role {
 	Long id;
 
 	@Enumerated(EnumType.STRING)
-	@Column(nullable = false, length = 50)
-	RoleName role;
+	@Column(name = "role", nullable = false, length = 50)
+	RoleName roleName;
 
 	@JsonBackReference
 	@ManyToMany(fetch = FetchType.EAGER)
@@ -48,5 +48,6 @@ public class Role {
 			joinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")},
 			inverseJoinColumns = {@JoinColumn(name = "passenger_id", referencedColumnName = "id")})
 	Set<Passenger> passenger;
+
 
 }

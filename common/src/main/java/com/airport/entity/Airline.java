@@ -10,6 +10,8 @@ import lombok.experimental.FieldDefaults;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -45,4 +47,8 @@ public class Airline {
 	@OneToOne
 	@JoinColumn
 	Countries countries;
+
+	@Enumerated(EnumType.STRING)
+	@Column(name = "status", nullable = false, length = 50)
+	Status status = Status.ACTIVE;
 }

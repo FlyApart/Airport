@@ -1,8 +1,9 @@
 package com.airport.security.filter;
 
 import com.airport.security.ApplicationHeaders;
+import com.airport.security.config.SecurityConstants;
+import com.airport.security.util.PassengerAuthService;
 import com.airport.security.util.TokenUtil;
-import com.airport.service.impl.PassengerAuthService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,15 +17,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
+public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
 	private final TokenUtil tokenUtil;
 
 	private final PassengerAuthService passengerAuthService;
 
-	public JWTAuthorizationFilter (AuthenticationManager authenticationManager,PassengerAuthService passengerAuthService,TokenUtil tokenUtil) {
+	private final SecurityConstants securityConstants;
+
+	public JwtAuthorizationFilter (AuthenticationManager authenticationManager, PassengerAuthService passengerAuthService, TokenUtil tokenUtil,SecurityConstants securityConstants) {
 		super (authenticationManager);
 		this.tokenUtil =tokenUtil;
+		this.securityConstants =securityConstants;
 		this.passengerAuthService = passengerAuthService;
 	}
 
@@ -32,7 +36,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 	protected void doFilterInternal (HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
 		String header = req.getHeader (ApplicationHeaders.AUTH_TOKEN);
 
-		if (header == null || !header.startsWith ("TOKEN_PREFIX ")) {
+		if (header == null || !header.startsWith (securityConstants.getPrefix ())) {
 			chain.doFilter (req, res);
 			return;
 		}

@@ -1,4 +1,3 @@
-/*
 package com.airport.security.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -15,14 +14,13 @@ import java.util.Collection;
 @Data
 public class JwtPassenger implements UserDetails {
 
-	private final Long id;
+	private final String password;
 	private final String username;
+	private final Collection<? extends GrantedAuthority> authorities;
+	private final Long id;
 	private final String name;
 	private final String secondName;
-	private final String password;
 	private final boolean enabled;
-	private final Collection<? extends GrantedAuthority> authorities;
-
 
 	@Override
 	@JsonIgnore
@@ -42,4 +40,3 @@ public class JwtPassenger implements UserDetails {
 		return true;
 	}
 }
-*/

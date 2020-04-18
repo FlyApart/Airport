@@ -8,7 +8,6 @@ import com.airport.entity.Passenger;
 import com.airport.entity.Passports;
 import com.airport.entity.Role;
 import com.airport.entity.RoleName;
-import com.airport.entity.Status;
 import com.airport.exceptions.ConversionException;
 import com.airport.exceptions.EntityAlreadyExistException;
 import com.airport.exceptions.EntityNotFoundException;
@@ -39,7 +38,6 @@ public abstract class ConverterRequestPassengers<S, T> extends EntityConverter<S
 		passenger.setBirthDate (entity.getBirthDate ());
 		passenger.setCreated (new ProjectDate ().getCurrentTime ());
 		passenger.setLogin (entity.getLogin ());
-		passenger.setStatus (Status.ACTIVE);
 		return passenger;
 	}
 
@@ -85,7 +83,7 @@ public abstract class ConverterRequestPassengers<S, T> extends EntityConverter<S
 
 	protected Set<Role> getRole (){
 		Set<Role> role= new HashSet<> ();
-		role.add (roleRepository.findByRole (RoleName.USER)
+		role.add (roleRepository.findByRoleName (RoleName.USER)
 		                        .orElseThrow (() -> new EntityNotFoundException ("Role name = "+RoleName.USER,Role.class)));
 		return role;
 	}

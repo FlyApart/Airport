@@ -3,13 +3,16 @@ package com.airport.controller;
 import com.airport.controller.request.change.FlightsUpdateRequest;
 import com.airport.controller.request.create.FlightsSaveRequest;
 import com.airport.entity.Flights;
+import com.airport.entity.Status;
 import com.airport.exceptions.EntityNotFoundException;
-import com.airport.repository.springdata.AirlinesRepository;
 import com.airport.repository.springdata.FlightsRepository;
 import com.airport.service.FlightService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.Page;
@@ -44,68 +47,124 @@ public class FlightsController {
 	private final FlightsRepository flightsRepository;
 	private final ConversionService conversionService;
 	private final FlightService flightService;
-	private final AirlinesRepository airlinesRepository;
 
+	@ApiOperation(value = "Find all flights")
+	@ApiResponses({
+			@ApiResponse(code = 201, message = "Request has succeeded"),
+			@ApiResponse(code = 400, message = "Invalid request"),
+			@ApiResponse(code = 403, message = "Access denied"),
+			@ApiResponse(code = 404, message = "Not found a current representation for the target"),
+			@ApiResponse(code = 500, message = "Error processing request")
+	})
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "page", dataType = "integer", paramType = "query", value = "Results page you want to retrieve (0..N)"),
 			@ApiImplicitParam(name = "size", dataType = "integer", paramType = "query", value = "Number of records per page."),
 			@ApiImplicitParam(name = "sort", allowMultiple = true, dataType = "string", paramType = "query",
-					value = "Sorting criteria in the format: property(, " + "\"asc or desc\"). " + "Default sort order is ascending. " + "Multiple sort criteria are supported.")})
+					value = "Sorting criteria in the format: property(, " + "\"asc or desc\"). " + "Default sort order is ascending. " + "Multiple sort criteria are supported."),
+			@ApiImplicitParam(name = "Auth-Token", value = "Auth-Token", required = true, dataType = "string", paramType = "header")})
 	@GetMapping
-	public ResponseEntity<Page<Flights>> findAll (@ApiIgnore Pageable pageable) {
+	public ResponseEntity<Page<Flights>> findAllFlight (@ApiIgnore Pageable pageable) {
 		return new ResponseEntity<> (flightsRepository.findAll (pageable), HttpStatus.OK);
 	}
 
-
+	@ApiOperation(value = "Find flight by id")
+	@ApiResponses({
+			@ApiResponse(code = 201, message = "Request has succeeded"),
+			@ApiResponse(code = 400, message = "Invalid request"),
+			@ApiResponse(code = 403, message = "Access denied"),
+			@ApiResponse(code = 404, message = "Not found a current representation for the target"),
+			@ApiResponse(code = 500, message = "Error processing request")
+	})
+	@ApiImplicitParam(name = "Auth-Token", value = "Auth-Token", required = true, dataType = "string", paramType = "header")
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<Flights> findFlightById (@PathVariable String id) {
 		Flights flights = flightsRepository.findById (Long.valueOf (id))
 		                                   .orElseThrow (() -> new EntityNotFoundException (Flights.class, id));
 		return new ResponseEntity<> (flights, HttpStatus.OK);
 	}
-//todo delete example
-	/*@GetMapping(value = "aaa")
-	public ResponseEntity<List<Flights>> findFlightById () {
-		List<Airline> airlines = new ArrayList<> ();
-		airlines.add (airlinesRepository.getOne (1L));
-		airlines.add (airlinesRepository.getOne (2L));
-		List<Flights> flights = flightsRepository.findByIdsJoinA (airlines)
-		                                   .orElseThrow (() -> new EntityNotFoundException ("",Flights.class));
-		return new ResponseEntity<> (flights, HttpStatus.OK);
-	}*/
 
-
-	@DeleteMapping(value = "/{id}")
-	@Transactional
-	public ResponseEntity<String> deleteFlight (@PathVariable String id) {
-		Flights flights = (flightsRepository.findById (Long.valueOf (id))).orElseThrow (() -> new EntityNotFoundException (Flights.class, id));
+	@ApiOperation(value = "Hard delete flight by id")
+	@ApiResponses({
+			@ApiResponse(code = 201, message = "Request has succeeded"),
+			@ApiResponse(code = 400, message = "Invalid request"),
+			@ApiResponse(code = 403, message = "Access denied"),
+			@ApiResponse(code = 404, message = "Not found a current representation for the target"),
+			@ApiResponse(code = 500, message = "Error processing request")
+	})
+	@ApiImplicitParam(name = "Auth-Token", value = "Auth-Token", required = true, dataType = "string", paramType = "header")
+	@DeleteMapping(value = "/hardDelete/{id}")
+	public String hardDeleteFlight (@PathVariable String id) {
+		Flights flights = (flightsRepository.findById (Long.valueOf (id)))
+				                  .orElseThrow (() -> new EntityNotFoundException (Flights.class, id));
 		flightsRepository.delete (flights);
-		return new ResponseEntity<> (id, HttpStatus.OK);
+		return id;
 	}
 
-	@Transactional
+	@ApiOperation(value = "Safe delete flight by id")
+	@ApiResponses({
+			@ApiResponse(code = 201, message = "Request has succeeded"),
+			@ApiResponse(code = 400, message = "Invalid request"),
+			@ApiResponse(code = 403, message = "Access denied"),
+			@ApiResponse(code = 404, message = "Not found a current representation for the target"),
+			@ApiResponse(code = 500, message = "Error processing request")
+	})
+	@ApiImplicitParam(name = "Auth-Token", value = "Auth-Token", required = true, dataType = "string", paramType = "header")
+	@DeleteMapping(value = "/{id}")
+	public ResponseEntity<Flights> safeDeleteFlight (@PathVariable String id) {
+		Flights flights = (flightsRepository.findById (Long.valueOf (id)))
+				                  .orElseThrow (() -> new EntityNotFoundException (Flights.class, id));
+		flights.setStatus (Status.DELETED);
+		return ResponseEntity.ok (flightsRepository.saveAndFlush (flights));
+	}
+
+	@ApiOperation(value = "Delete discounts on flights by id of flights")
+	@ApiResponses({
+			@ApiResponse(code = 201, message = "Request has succeeded"),
+			@ApiResponse(code = 400, message = "Invalid request"),
+			@ApiResponse(code = 403, message = "Access denied"),
+			@ApiResponse(code = 404, message = "Not found a current representation for the target"),
+			@ApiResponse(code = 500, message = "Error processing request")
+	})
+	@ApiImplicitParam(name = "Auth-Token", value = "Auth-Token", required = true, dataType = "string", paramType = "header")
+	@DeleteMapping(value = "/{id}/discounts/{ids}")
+	@Transactional (rollbackFor = Exception.class)
+	public ResponseEntity<Flights> deleteDiscountsInFlight (@ApiParam(required = true, value = "Id of flight") @PathVariable String id,
+	                                                        @ApiParam(value = "Ids of discounts for delete",required = true,type = "long")
+	                                                        @PathVariable List<Long> ids) {
+
+		return new ResponseEntity<> (flightService.deleteFlightDiscounts (id, new ArrayList<> (ids)), HttpStatus.OK);
+	}
+
+	@ApiOperation(value = "Save new flight")
+	@ApiResponses({
+			@ApiResponse(code = 201, message = "Request has succeeded"),
+			@ApiResponse(code = 400, message = "Invalid request"),
+			@ApiResponse(code = 403, message = "Access denied"),
+			@ApiResponse(code = 500, message = "Error processing request")
+	})
+	@ApiImplicitParam(name = "Auth-Token", value = "Auth-Token", required = true, dataType = "string", paramType = "header")
 	@PostMapping
+	@Transactional (rollbackFor = Exception.class)
 	public ResponseEntity<Flights> createFlight (@RequestBody @Valid FlightsSaveRequest flightsSaveRequest) {
 		Flights flights = Objects.requireNonNull (conversionService.convert (flightsSaveRequest, Flights.class));
 		return new ResponseEntity<> (flightsRepository.saveAndFlush (flights), HttpStatus.CREATED);
 
 	}
 
-	@Transactional
+	@ApiOperation(value = "Update flights by id")
+	@ApiResponses({
+			@ApiResponse(code = 201, message = "Request has succeeded"),
+			@ApiResponse(code = 400, message = "Invalid request"),
+			@ApiResponse(code = 403, message = "Access denied"),
+			@ApiResponse(code = 500, message = "Error processing request")
+	})
+	@ApiImplicitParam(name = "Auth-Token", value = "Auth-Token", required = true, dataType = "string", paramType = "header")
 	@PutMapping(value = "/{id}")
+	@Transactional (rollbackFor = Exception.class)
 	public ResponseEntity<Flights> updateFlight (@PathVariable String id, @RequestBody @Valid FlightsUpdateRequest flightsUpdateRequest) {
 		flightsUpdateRequest.setId (Long.valueOf (id));
 		Flights flights = Objects.requireNonNull (conversionService.convert (flightsUpdateRequest, Flights.class));
 		return new ResponseEntity<> (flightsRepository.saveAndFlush (flights), HttpStatus.OK);
-	}
-
-	@PutMapping(value = "/{id}/discounts")
-	@Transactional
-	public ResponseEntity<Flights> deleteDiscountsInFlight (@ApiParam (required = true, value = "Id of flight") @PathVariable String id,
-	                                                    @ApiParam(value = "Ids of discounts for delete",required = true,type = "long")
-	                                                    @RequestBody List<Long> discountId) {
-
-		return new ResponseEntity<> (flightService.deleteFlightDiscounts (id, new ArrayList<> (discountId)), HttpStatus.OK);
 	}
 }
 

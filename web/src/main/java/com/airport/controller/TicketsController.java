@@ -10,7 +10,10 @@ import com.airport.repository.springdata.TicketsRepository;
 import com.airport.service.TicketsService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.Page;
@@ -42,16 +45,35 @@ public class TicketsController {
 	private final TicketsService ticketsService;
 	private final ConversionService conversionService;
 
+	@ApiOperation(value = "Find all tickets")
+	@ApiResponses({
+			@ApiResponse(code = 201, message = "Request has succeeded"),
+			@ApiResponse(code = 400, message = "Invalid request"),
+			@ApiResponse(code = 403, message = "Access denied"),
+			@ApiResponse(code = 404, message = "Not found a current representation for the target"),
+			@ApiResponse(code = 500, message = "Error processing request")
+	})
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "page", dataType = "integer", paramType = "query", value = "Results page you want to retrieve (0..N)"),
 			@ApiImplicitParam(name = "size", dataType = "integer", paramType = "query", value = "Number of records per page."),
 			@ApiImplicitParam(name = "sort", allowMultiple = true, dataType = "string", paramType = "query",
-					value = "Sorting criteria in the format: property(, " + "\"asc or desc\"). " + "Default sort order is ascending. " + "Multiple sort criteria are supported.")})
+					value = "Sorting criteria in the format: property(, " + "\"asc or desc\"). " + "Default sort order is ascending. " + "Multiple sort criteria are supported."),
+			@ApiImplicitParam(name = "Auth-Token", value = "Auth-Token", required = true, dataType = "string", paramType = "header")})
 	@GetMapping
 	public ResponseEntity<Page<Tickets>> findAllTickets (@ApiIgnore Pageable pageable) {
 		return new ResponseEntity<> (ticketsRepository.findAll (pageable), HttpStatus.OK);
 	}
 
+
+	@ApiOperation(value = "Find ticket by id")
+	@ApiResponses({
+			@ApiResponse(code = 201, message = "Request has succeeded"),
+			@ApiResponse(code = 400, message = "Invalid request"),
+			@ApiResponse(code = 403, message = "Access denied"),
+			@ApiResponse(code = 404, message = "Not found a current representation for the target"),
+			@ApiResponse(code = 500, message = "Error processing request")
+	})
+	@ApiImplicitParam(name = "Auth-Token", value = "Auth-Token", required = true, dataType = "string", paramType = "header")
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<Tickets> findTicketsById (@PathVariable("id") String id) {
 		Tickets tickets = ticketsRepository.findById (Long.valueOf (id))
@@ -59,8 +81,18 @@ public class TicketsController {
 		return new ResponseEntity<> (tickets, HttpStatus.OK);
 	}
 
+	@ApiOperation(value = "Find booked places by id of flight and seats class")
+	@ApiResponses({
+			@ApiResponse(code = 201, message = "Request has succeeded"),
+			@ApiResponse(code = 400, message = "Invalid request"),
+			@ApiResponse(code = 403, message = "Access denied"),
+			@ApiResponse(code = 404, message = "Not found a current representation for the target"),
+			@ApiResponse(code = 500, message = "Error processing request")
+	})
+	@ApiImplicitParam(name = "Auth-Token", value = "Auth-Token", required = true, dataType = "string", paramType = "header")
+
 	@GetMapping(value = "/flights/{id}")
-	public ResponseEntity<List<String>> findTickets (@PathVariable("id") String id,
+	public ResponseEntity<List<String>> findTickets (@ApiParam("id of flight") @PathVariable("id") String id,
 	                                                 @ApiParam("Class of place") SeatsClass seatsClass) {
 		List<String> reservationPlaces = ticketsRepository.findPlacesByFlights (Long.valueOf (id), seatsClass)
 		                                                  .orElseThrow (() -> new EntityNotFoundException ("id = " + id + ", seats class =" + seatsClass, Flights.class));
@@ -68,23 +100,48 @@ public class TicketsController {
 	}
 
 
-	@Transactional
+	@ApiOperation(value = "Delete ticket by id")
+	@ApiResponses({
+			@ApiResponse(code = 201, message = "Request has succeeded"),
+			@ApiResponse(code = 400, message = "Invalid request"),
+			@ApiResponse(code = 403, message = "Access denied"),
+			@ApiResponse(code = 404, message = "Not found a current representation for the target"),
+			@ApiResponse(code = 500, message = "Error processing request")
+	})
+	@ApiImplicitParam(name = "Auth-Token", value = "Auth-Token", required = true, dataType = "string", paramType = "header")
 	@DeleteMapping(value = "/{id}")
+	//@Transactional
 	public String deleteTickets (@PathVariable("id") String id) {
 		Tickets tickets = ticketsRepository.findById (Long.valueOf (id))
 		                                   .orElseThrow (() -> new EntityNotFoundException (Tickets.class, id));
-		ticketsRepository.deleteTickets (tickets);
+		ticketsRepository.delete (tickets);
 		return id;
 	}
 
+	@ApiOperation(value = "Save new ticket")
+	@ApiResponses({
+			@ApiResponse(code = 201, message = "Request has succeeded"),
+			@ApiResponse(code = 400, message = "Invalid request"),
+			@ApiResponse(code = 403, message = "Access denied"),
+			@ApiResponse(code = 500, message = "Error processing request")
+	})
+	@ApiImplicitParam(name = "Auth-Token", value = "Auth-Token", required = true, dataType = "string", paramType = "header")
 	@PostMapping
-	@Transactional
+	@Transactional (rollbackFor = Exception.class)
 	public ResponseEntity<Tickets> createTickets (@RequestBody @Valid TicketsSaveUpdateRequest ticketsSaveUpdateRequest) {
 		return new ResponseEntity<> (ticketsService.saveAndUpdate (conversionService.convert (ticketsSaveUpdateRequest, Tickets.class)), HttpStatus.CREATED);
 	}
 
+	@ApiOperation(value = "Update ticket by id")
+	@ApiResponses({
+			@ApiResponse(code = 201, message = "Request has succeeded"),
+			@ApiResponse(code = 400, message = "Invalid request"),
+			@ApiResponse(code = 403, message = "Access denied"),
+			@ApiResponse(code = 500, message = "Error processing request")
+	})
+	@ApiImplicitParam(name = "Auth-Token", value = "Auth-Token", required = true, dataType = "string", paramType = "header")
 	@PutMapping(value = "/{id}")
-	@Transactional
+	@Transactional (rollbackFor = Exception.class)
 	public ResponseEntity<Tickets> updateTickets (@PathVariable("id") String id, @RequestBody @Valid TicketsSaveUpdateRequest ticketsSaveUpdateRequest) {
 		ticketsSaveUpdateRequest.setId (id);
 		return new ResponseEntity<> (ticketsService.saveAndUpdate (conversionService.convert (ticketsSaveUpdateRequest, Tickets.class)), HttpStatus.CREATED);

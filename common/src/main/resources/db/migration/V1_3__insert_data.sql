@@ -38,15 +38,15 @@ values (3500, 'PROMO_35'),
 
 
 insert into passenger
-(date_birth, changed, created, login, name, password, surname, cities_id, status)
-values ('13-05-1997', null, '30-03-2020', 'oglorn@mail.ru', 'Alex', '$2y$12$KxfPSQWNH/5rDZSCSDy5AeDB65WK18klM7UpOF7qPBhk.upVaQK8G', 'Zuev', '1','ACTIVE'),
-       ('21-12-1996', null, '20-02-2020', 'dunya@mail.ru', 'Dima', '$2y$12$KxfPSQWNH/5rDZSCSDy5AeDB65WK18klM7UpOF7qPBhk.upVaQK8G', 'Dunya', '2','ACTIVE'),
-       ('21-12-1996', null, '20-02-2020', 'dunya2@mail.ru', 'Dima', '$2y$12$2XQv6j8KGC4RyM9aMccjKeUPvOjzXFsdiSYk8PnS78lUPIKmBWCuC', 'Dunya', '2','ACTIVE'),
-       ('21-12-1996', null, '20-02-2020', 'dunya3@mail.ru', 'Dima', '$2y$12$KxfPSQWNH/5rDZSCSDy5AeDB65WK18klM7UpOF7qPBhk.upVaQK8G', 'Dunya', '2','ACTIVE'),
-       ('21-12-1996', null, '20-02-2020', 'dunya4@mail.ru', 'Dima', '$2y$12$2XQv6j8KGC4RyM9aMccjKeUPvOjzXFsdiSYk8PnS78lUPIKmBWCuC', 'Dunya', '2','ACTIVE'),
-       ('06-04-1971', null, '17-01-2020', 'lelya@qmail.com', 'Olga', '$2y$12$2XQv6j8KGC4RyM9aMccjKeUPvOjzXFsdiSYk8PnS78lUPIKmBWCuC', 'Zinevich', '1','ACTIVE'),
-       ('06-04-1971', null, '17-01-2020', 'lel2ya@qmail.com', 'Olga', '$2y$12$KxfPSQWNH/5rDZSCSDy5AeDB65WK18klM7UpOF7qPBhk.upVaQK8G', 'Zinevich', '1','ACTIVE'),
-       ('06-04-1971', null, '17-01-2020', 'lel3ya@qmail.com', 'Olga', '$2y$12$2XQv6j8KGC4RyM9aMccjKeUPvOjzXFsdiSYk8PnS78lUPIKmBWCuC', 'Zinevich', '1','ACTIVE');
+(date_birth, changed, created, login, name, password, surname, cities_id)
+values ('13-05-1997', null, '30-03-2020', 'oglorn@mail.ru', 'Alex', '$2y$12$KxfPSQWNH/5rDZSCSDy5AeDB65WK18klM7UpOF7qPBhk.upVaQK8G', 'Zuev', '1'),
+       ('21-12-1996', null, '20-02-2020', 'dunya@mail.ru', 'Dima', '$2y$12$KxfPSQWNH/5rDZSCSDy5AeDB65WK18klM7UpOF7qPBhk.upVaQK8G', 'Dunya', '2'),
+       ('21-12-1996', null, '20-02-2020', 'dunya2@mail.ru', 'Dima', '$2y$12$2XQv6j8KGC4RyM9aMccjKeUPvOjzXFsdiSYk8PnS78lUPIKmBWCuC', 'Dunya', '2'),
+       ('21-12-1996', null, '20-02-2020', 'dunya3@mail.ru', 'Dima', '$2y$12$KxfPSQWNH/5rDZSCSDy5AeDB65WK18klM7UpOF7qPBhk.upVaQK8G', 'Dunya', '2'),
+       ('21-12-1996', null, '20-02-2020', 'dunya4@mail.ru', 'Dima', '$2y$12$2XQv6j8KGC4RyM9aMccjKeUPvOjzXFsdiSYk8PnS78lUPIKmBWCuC', 'Dunya', '2'),
+       ('06-04-1971', null, '17-01-2020', 'lelya@qmail.com', 'Olga', '$2y$12$2XQv6j8KGC4RyM9aMccjKeUPvOjzXFsdiSYk8PnS78lUPIKmBWCuC', 'Zinevich', '1'),
+       ('06-04-1971', null, '17-01-2020', 'lel2ya@qmail.com', 'Olga', '$2y$12$KxfPSQWNH/5rDZSCSDy5AeDB65WK18klM7UpOF7qPBhk.upVaQK8G', 'Zinevich', '1'),
+       ('06-04-1971', null, '17-01-2020', 'lel3ya@qmail.com', 'Olga', '$2y$12$2XQv6j8KGC4RyM9aMccjKeUPvOjzXFsdiSYk8PnS78lUPIKmBWCuC', 'Zinevich', '1');
 
 insert into passports
 (number, series, types, passenger_id)

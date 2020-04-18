@@ -2,7 +2,6 @@ package com.airport.exceptions;
 
 import com.airport.exceptions.messages.ErrorMessage;
 import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
@@ -17,7 +16,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
 @Slf4j
-public class DefaultExceptionHandler extends DefaultResponseEntityExceptionHandler {
+public class DefaultExceptionHandler  extends DefaultResponseEntityExceptionHandler{
 
 	@ExceptionHandler(EntityNotFoundException.class)
 	public ResponseEntity<ErrorMessage> handleEntityNotFoundException (EntityNotFoundException e) {
@@ -56,8 +55,8 @@ public class DefaultExceptionHandler extends DefaultResponseEntityExceptionHandl
 		return new ResponseEntity<> (new ErrorMessage (e.getMessage ()), HttpStatus.NOT_ACCEPTABLE);
 	}
 
-	@ExceptionHandler(JwtException.class)
-	public ResponseEntity<ErrorMessage> handleCustomException (JwtException e) {
+	@ExceptionHandler(JwtAuthenticationException.class)
+	public ResponseEntity<ErrorMessage> handleJwtAuthenticationException (JwtAuthenticationException e) {
 		log.error (e.getMessage (), e);
 		return new ResponseEntity<> (new ErrorMessage (e.getMessage ()), HttpStatus.UNAUTHORIZED);
 	}

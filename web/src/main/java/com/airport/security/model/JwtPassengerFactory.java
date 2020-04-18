@@ -1,12 +1,12 @@
-/*
 package com.airport.security.model;
 
 import com.airport.entity.Passenger;
 import com.airport.entity.Role;
+import com.airport.entity.RoleName;
 import com.airport.entity.Status;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 
 import java.util.HashSet;
 import java.util.List;
@@ -16,23 +16,24 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public final class JwtPassengerFactory {
 
-    public static JwtPassenger create(Passenger passenger) {
-        return new JwtPassenger(
-                passenger.getId(),
+    public static JwtPassenger create (Passenger passenger) {
+        return new JwtPassenger (
+                passenger.getPassword (),
                 passenger.getLogin (),
+                mapToGrantedAuthorities (new HashSet<> (passenger.getRole ())),
+                passenger.getId (),
                 passenger.getName (),
                 passenger.getSecondName (),
-                passenger.getPassword(),
-                passenger.getStatus().equals(Status.ACTIVE),
-                mapToGrantedAuthorities(new HashSet<> (passenger.getRole ()))
-        );
+                passenger.getStatus ().equals (Status.ACTIVE));
+
     }
 
-    private static List<GrantedAuthority> mapToGrantedAuthorities(Set<Role> userRoles) {
-        return userRoles.stream()
-                .map(role ->
-                        new SimpleGrantedAuthority (role.getRole ().name ())
-                ).collect(Collectors.toList());
+    private static List<GrantedAuthority> mapToGrantedAuthorities (Set<Role> rolesPassenger) {
+        return AuthorityUtils.commaSeparatedStringToAuthorityList (rolesPassenger.stream ()
+                                                                                 .map (Role::getRoleName)
+                                                                                 .map (RoleName::toString)
+                                                                                 .map (s -> s.replace (s, "ROLE_".concat (s)))
+                                                                                 .collect (Collectors.joining (",")));
+
     }
 }
-*/

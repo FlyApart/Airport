@@ -13,6 +13,8 @@ import lombok.experimental.FieldDefaults;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -70,6 +72,10 @@ public class Flights {
 	@OneToOne
 	@JoinColumn(name = "airline_id", nullable = false)
 	Airline airline;
+
+	@Enumerated(EnumType.STRING)
+	@Column(name = "status", nullable = false, length = 50)
+	Status status = Status.ACTIVE;
 
 	@JsonManagedReference
 	@ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.REFRESH})

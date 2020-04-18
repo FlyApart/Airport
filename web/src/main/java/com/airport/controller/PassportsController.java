@@ -4,13 +4,17 @@ package com.airport.controller;
 
 import com.airport.controller.request.change.PassportUpdateRequest;
 import com.airport.controller.request.create.PassportSaveRequest;
-import com.airport.entity.Passenger;
 import com.airport.entity.Passports;
+import com.airport.entity.Status;
 import com.airport.exceptions.EntityNotFoundException;
 import com.airport.repository.springdata.PassengersRepository;
 import com.airport.repository.springdata.PassportsRepository;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.Page;
@@ -30,8 +34,8 @@ import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 @CrossOrigin
 @RestController
@@ -43,16 +47,34 @@ public class PassportsController {
 	private final PassengersRepository passengersRepository;
 	private final ConversionService conversionService;
 
+	@ApiOperation(value = "Find all passports")
+	@ApiResponses({
+			@ApiResponse(code = 201, message = "Request has succeeded"),
+			@ApiResponse(code = 400, message = "Invalid request"),
+			@ApiResponse(code = 403, message = "Access denied"),
+			@ApiResponse(code = 404, message = "Not found a current representation for the target"),
+			@ApiResponse(code = 500, message = "Error processing request")
+	})
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "page", dataType = "integer", paramType = "query", value = "Results page you want to retrieve (0..N)"),
 			@ApiImplicitParam(name = "size", dataType = "integer", paramType = "query", value = "Number of records per page."),
 			@ApiImplicitParam(name = "sort", allowMultiple = true, dataType = "string", paramType = "query",
-					value = "Sorting criteria in the format: property(, " + "\"asc or desc\"). " + "Default sort order is ascending. " + "Multiple sort criteria are supported.")})
+					value = "Sorting criteria in the format: property(, " + "\"asc or desc\"). " + "Default sort order is ascending. " + "Multiple sort criteria are supported."),
+			@ApiImplicitParam(name = "Auth-Token", value = "Auth-Token", required = true, dataType = "string", paramType = "header")})
 	@GetMapping
 	public ResponseEntity<Page<Passports>> findAllPassports (@ApiIgnore Pageable pageable) {
 		return new ResponseEntity<> (passportsRepository.findAll (pageable), HttpStatus.OK);
 	}
 
+	@ApiOperation(value = "Find passport by id")
+	@ApiResponses({
+			@ApiResponse(code = 201, message = "Request has succeeded"),
+			@ApiResponse(code = 400, message = "Invalid request"),
+			@ApiResponse(code = 403, message = "Access denied"),
+			@ApiResponse(code = 404, message = "Not found a current representation for the target"),
+			@ApiResponse(code = 500, message = "Error processing request")
+	})
+	@ApiImplicitParam(name = "Auth-Token", value = "Auth-Token", required = true, dataType = "string", paramType = "header")
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<Passports> findPassportById (@PathVariable("id") String id) {
 		Passports passports = passportsRepository.findById (Long.valueOf (id))
@@ -60,31 +82,83 @@ public class PassportsController {
 		return new ResponseEntity<> (passports, HttpStatus.OK);
 	}
 
-	@GetMapping(value = "/passenger/{passengerId}")
-	public ResponseEntity<Set<Passports>> findPassportsByPassengersId (@PathVariable("passengerId") String passengerId) {
-		Passenger passenger = passengersRepository.findById (Long.valueOf (passengerId))
-		                                          .orElseThrow (() -> new EntityNotFoundException (Passenger.class, passengerId));
-		return new ResponseEntity<> (passenger.getPassports (), HttpStatus.OK);
+	@ApiOperation(value = "Find passport by id of passenger")
+	@ApiResponses({
+			@ApiResponse(code = 201, message = "Request has succeeded"),
+			@ApiResponse(code = 400, message = "Invalid request"),
+			@ApiResponse(code = 403, message = "Access denied"),
+			@ApiResponse(code = 404, message = "Not found a current representation for the target"),
+			@ApiResponse(code = 500, message = "Error processing request")
+	})
+	@ApiImplicitParam(name = "Auth-Token", value = "Auth-Token", required = true, dataType = "string", paramType = "header")
+	@GetMapping(value = "/passenger/{id}")
+	public ResponseEntity<List<Passports>> findPassportsByPassengersId (@ApiParam(value = "Id of passenger") @PathVariable("id") String passengerId) {
+		List<Passports> passports =passportsRepository.selectPassportsByPassportsId (Long.valueOf (passengerId))
+		                                      .orElseThrow (() -> new EntityNotFoundException (Passports.class, passengerId));
+		return new ResponseEntity<> (passports, HttpStatus.OK);
 	}
 
-	@Transactional
-	@DeleteMapping(value = "/{id}")
-	public String deletePassport (@PathVariable("id") String id) {
+	@ApiOperation(value = "Hard delete passport by id")
+	@ApiResponses({
+			@ApiResponse(code = 201, message = "Request has succeeded"),
+			@ApiResponse(code = 400, message = "Invalid request"),
+			@ApiResponse(code = 403, message = "Access denied"),
+			@ApiResponse(code = 404, message = "Not found a current representation for the target"),
+			@ApiResponse(code = 500, message = "Error processing request")
+	})
+	@ApiImplicitParam(name = "Auth-Token", value = "Auth-Token", required = true, dataType = "string", paramType = "header")
+	@DeleteMapping(value = "/hardDelete/{id}")
+	public String hardDeletePassport (@PathVariable("id") String id) {
 		Passports passports = passportsRepository.findById (Long.valueOf (id))
 		                                         .orElseThrow (() -> new EntityNotFoundException (Passports.class, id));
 		passportsRepository.delete (passports);
 		return id;
 	}
 
-	@Transactional
-	@DeleteMapping(value = "/passenger/{passengerId}")
-	public String deletePassportByPassengersId (@PathVariable("passengerId") String passengerId) {
+	@ApiOperation(value = "Safe delete passport by id")
+	@ApiResponses({
+			@ApiResponse(code = 201, message = "Request has succeeded"),
+			@ApiResponse(code = 400, message = "Invalid request"),
+			@ApiResponse(code = 403, message = "Access denied"),
+			@ApiResponse(code = 404, message = "Not found a current representation for the target"),
+			@ApiResponse(code = 500, message = "Error processing request")
+	})
+	@ApiImplicitParam(name = "Auth-Token", value = "Auth-Token", required = true, dataType = "string", paramType = "header")
+	@DeleteMapping(value = "/{id}")
+	@Transactional (rollbackFor = Exception.class)
+	public ResponseEntity<Passports> safeDeletePassport (@PathVariable("id") String id) {
+		Passports passports = passportsRepository.findById (Long.valueOf (id))
+		                                         .orElseThrow (() -> new EntityNotFoundException (Passports.class, id));
+		passports.setStatus (Status.DELETED);
+		return ResponseEntity.ok (passportsRepository.saveAndFlush (passports));
+	}
+
+	@ApiOperation(value = "Delete all passports of passenger by passenger id ")
+	@ApiResponses({
+			@ApiResponse(code = 201, message = "Request has succeeded"),
+			@ApiResponse(code = 400, message = "Invalid request"),
+			@ApiResponse(code = 403, message = "Access denied"),
+			@ApiResponse(code = 404, message = "Not found a current representation for the target"),
+			@ApiResponse(code = 500, message = "Error processing request")
+	})
+	@ApiImplicitParam(name = "Auth-Token", value = "Auth-Token", required = true, dataType = "string", paramType = "header")
+	@Transactional (rollbackFor = Exception.class)
+	@DeleteMapping(value = "/passenger/{id}")
+	public String deletePassportByPassengersId (@PathVariable("id") String passengerId) {
 		passportsRepository.deletePassportsByPassportsId (Long.valueOf (passengerId));
 		return passengerId;
 	}
 
-	@PostMapping(value = "/passenger/{passengerId}")
-	@Transactional
+	@ApiOperation(value = "Save new passport")
+	@ApiResponses({
+			@ApiResponse(code = 201, message = "Request has succeeded"),
+			@ApiResponse(code = 400, message = "Invalid request"),
+			@ApiResponse(code = 403, message = "Access denied"),
+			@ApiResponse(code = 500, message = "Error processing request")
+	})
+	@ApiImplicitParam(name = "Auth-Token", value = "Auth-Token", required = true, dataType = "string", paramType = "header")
+	@PostMapping
+	@Transactional (rollbackFor = Exception.class)
 	public ResponseEntity<Passports> createPassport (@PathVariable String passengerId,
 	                                                 @RequestBody @Valid PassportSaveRequest passportSaveRequest) {
 		passportSaveRequest.setPassengerId (Long.valueOf (passengerId));
@@ -92,8 +166,16 @@ public class PassportsController {
 				conversionService.convert (passportSaveRequest, Passports.class))), HttpStatus.CREATED);
 	}
 
+	@ApiOperation(value = "Update passport by id")
+	@ApiResponses({
+			@ApiResponse(code = 201, message = "Request has succeeded"),
+			@ApiResponse(code = 400, message = "Invalid request"),
+			@ApiResponse(code = 403, message = "Access denied"),
+			@ApiResponse(code = 500, message = "Error processing request")
+	})
+	@ApiImplicitParam(name = "Auth-Token", value = "Auth-Token", required = true, dataType = "string", paramType = "header")
 	@PutMapping(value = "/{id}")
-	@Transactional
+	@Transactional (rollbackFor = Exception.class)
 	public ResponseEntity<Passports> updatePassport (@PathVariable String id, @RequestBody @Valid PassportUpdateRequest passportUpdateRequest) {
 		passportUpdateRequest.setId (id);
 		return new ResponseEntity<> (passportsRepository.saveAndFlush (Objects.requireNonNull (

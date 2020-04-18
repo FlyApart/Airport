@@ -22,7 +22,10 @@ logging:
 
 ---
 jwt-token:
-  secret: secret
-  expire: 200000000
+  secret: SecretKey
+  expire: 2000000000
+  prefix: "Bearer "
+  header: Authorization
+
 ---
 character_of_place: ABCDEFGHIJKL
