@@ -1,8 +1,7 @@
-/*
 package com.airport.aspect;
 
 
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -11,22 +10,21 @@ import org.springframework.util.StopWatch;
 
 @Aspect
 @Component
+@Slf4j
 public class LoggingAspect {
-	private static final Logger LOGGER = Logger.getLogger (LoggingAspect.class);
 
-	@Around("execution(* com.airport.controller.*.*(..))")
+	@Around("execution(* com.airport.*.*.*(..))")
 	public Object controllers (ProceedingJoinPoint pjp) throws Throwable {
 		StopWatch sw = new StopWatch ();
 		sw.start ();
-		LOGGER.info ("Method " + pjp.getSignature ()
+		log.info ("Method " + pjp.getSignature ()
 		                            .getName () + " start");
 		Object output = pjp.proceed ();
-		LOGGER.info ("Method execution completed.");
+		log.info ("Method execution completed.");
 		sw.stop ();
-		LOGGER.info ("Method " + pjp.getSignature ()
+		log.info ("Method " + pjp.getSignature ()
 		                            .getName () + " finished");
-		LOGGER.info ("Method execution time: " + sw.getTotalTimeMillis () + " milliseconds.");
+		log.info ("Method execution time: " + sw.getTotalTimeMillis () + " milliseconds.");
 		return output;
 	}
 }
-*/

@@ -168,22 +168,22 @@ public class FlightsController {
 	}
 
 	@ApiImplicitParams({
+			@ApiImplicitParam(name = "page", dataType = "integer", paramType = "query", value = "Results page you want to retrieve (0..N)"),
+			@ApiImplicitParam(name = "size", dataType = "integer", paramType = "query", value = "Number of records per page."),
+			@ApiImplicitParam(name = "sort", allowMultiple = true, dataType = "string", paramType = "query",
+					value = "Sorting criteria in the format: property(, " + "\"asc or desc\")."),
 			@ApiImplicitParam(name = "Auth-Token", value = "Auth-Token", required = true, dataType = "string", paramType = "header"),
-
-
 			@ApiImplicitParam(name = "departureCity", dataType = "string", paramType = "query", value = "Name of departure city.", required = true),
 			@ApiImplicitParam(name = "arriveCity", dataType = "string", paramType = "query", value = "Name of arrive city, or \"Any Cities\"", required = true),
 			@ApiImplicitParam(name = "departureDate",dataType = "string", paramType = "query", value = "Departure date. \"yyyy-MM-dd\"", required = true),
 			@ApiImplicitParam(name = "arriveDate",dataType = "string", paramType = "query", value = "Arrive date, with format \"yyyy-MM-dd\"")
 	})
 	@GetMapping ("/search")
-	public ResponseEntity<List<Flights>> searchByCriteriaFlight (@ApiIgnore FlightsQueryParams flightsQueryParams) {
-		List<Flights> flights = flightService.findByParam(conversionService.convert (flightsQueryParams,Flights.class));
+	public ResponseEntity<List<Flights>> searchByCriteriaFlight (@ApiIgnore Pageable pageable, @ApiIgnore FlightsQueryParams flightsQueryParams) {
+		List<Flights> flights = flightService.findByParam(conversionService.convert (flightsQueryParams,Flights.class), pageable);
 		return new ResponseEntity<> (flights, HttpStatus.OK);
 	}
 
-
-//TODO add pageable
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "Auth-Token", value = "Auth-Token", required = true, dataType = "string", paramType = "header"),
 			@ApiImplicitParam(name = "isEmpty",dataType = "boolean", paramType = "query", value = "Empty or occupied places")

@@ -21,6 +21,7 @@ public class DefaultExceptionHandler  extends DefaultResponseEntityExceptionHand
 	@ExceptionHandler(EntityNotFoundException.class)
 	public ResponseEntity<ErrorMessage> handleEntityNotFoundException (EntityNotFoundException e) {
 		log.error (e.getMessage (), e);
+
 		return new ResponseEntity<> (new ErrorMessage (e.getMessage ()), HttpStatus.NOT_FOUND);
 	}
 

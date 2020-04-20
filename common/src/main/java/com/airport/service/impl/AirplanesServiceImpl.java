@@ -29,6 +29,7 @@ public class AirplanesServiceImpl implements AirplanesService {
 		try {
 			builtDate = format.parse (date);
 		}catch (ParseException e){
+
 			throw new ArgumentOfMethodNotValidException (e.getMessage ());
 		}
 

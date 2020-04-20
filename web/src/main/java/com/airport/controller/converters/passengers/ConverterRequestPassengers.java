@@ -29,7 +29,6 @@ public abstract class ConverterRequestPassengers<S, T> extends EntityConverter<S
 	private final CitiesRepository citiesRepository;
 	private final PassengersRepository passengersRepository;
 
-
 	protected Passenger doConvert (Passenger passenger, PassengerSaveRequest entity) {
 		passenger.setName (entity.getName ());
 		passenger.setSecondName (entity.getSecondName ());

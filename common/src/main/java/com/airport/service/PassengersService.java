@@ -7,5 +7,6 @@ public interface PassengersService {
 	Passenger saveAndUpdate (Passenger passenger);
 
 	String activate (String code);
+
 }
 

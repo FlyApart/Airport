@@ -17,13 +17,14 @@ import java.util.Properties;
 @ConfigurationProperties("spring.jpa.hibernate")
 public class AdditionalPropertiesConfig {
 
-	@Value ("${spring.jpa.show-sql}")
+	@Value("${spring.jpa.show-sql}")
 	private String show_sql;
 
 	private String ddl_auto;
 	private String use_second_level_cache;
 	private String region_factory_class;
 	private String provider;
+	private String format_sql;
 
 
 	@Bean(value = "jpaProperties")
@@ -32,6 +33,7 @@ public class AdditionalPropertiesConfig {
 	public Properties getAdditionalProperties () {
 		Properties properties = new Properties ();
 		properties.put ("hibernate.show_sql", show_sql);
+		properties.put ("hibernate.format_sql", format_sql);
 		properties.put ("hibernate.hbm2ddl.auto", ddl_auto);
 		properties.put ("hibernate.cache.use_second_level_cache", use_second_level_cache);
 		properties.put ("hibernate.cache.region.factory_class", region_factory_class);

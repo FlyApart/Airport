@@ -170,3 +170,13 @@ Dcommon/src/main/java/com/airport/service/impl/FlightServiceImpl.java,2\2\22510
 Rcommon/src/main/java/com/airport/exceptions/ArgumentOfMethodNotValidException.java,d\f\df3d3b27071290591531adad72170226f4a20dd4
 
 Oweb/src/main/java/com/airport/controller/request/select/FlightsQueryParams.java,c\e\ce6d1a26a9dd85a007cbe2e518c9f4cad295ee30
+t
+Dcommon/src/main/java/com/airport/service/impl/MailSenderService.java,7\6\7612bc88932f1d16f69961a5f662f6b08bd98a9e
+o
+?common/src/main/java/com/airport/service/PassengersService.java,2\4\24940e764bad85dbd8c8bfb04f1e523b61b67409
+|
+Lcommon/src/main/java/com/airport/config/core/AdditionalPropertiesConfig.java,6\5\65fad1c535d47bdb79c5814243fbe775af993672
+w
+Gcommon/src/main/java/com/airport/service/impl/AirplanesServiceImpl.java,3\0\30ec4621cc5f4008ecad50f666e3c02a0939d812
+n
+>common/src/main/java/com/airport/service/AirplanesService.java,f\e\fe3f70ee891922871ca54400f97099d596347e3e

@@ -8,6 +8,7 @@ import com.airport.repository.springdata.FlightsRepository;
 import com.airport.service.FlightService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ private final FlightsRepository flightsRepository;
 	}
 
 	@Override
-	public List<Flights> findByParam (Flights request) {
+	public List<Flights> findByParam (Flights request, Pageable pageable) {
 
 		String arriveCity = request.getArriveAirport ().getCities ().getName ();
 
@@ -52,7 +53,8 @@ private final FlightsRepository flightsRepository;
 					arriveCity,
 					departureCity,
 					request.getArriveDate (),
-					request.getDepartureDate ());
+					request.getDepartureDate (),
+					 pageable);
 		}
 
 		else if (!arriveCity.equals ("Any Cities")){
@@ -60,7 +62,8 @@ private final FlightsRepository flightsRepository;
 			flightsList = flightsRepository.findWithNullArriveDateParam (
 					arriveCity,
 					departureCity,
-					request.getDepartureDate ());
+					request.getDepartureDate (),
+					pageable);
 		}
 
 		else if (request.getArriveDate ()!=null){
@@ -68,13 +71,15 @@ private final FlightsRepository flightsRepository;
 			flightsList = flightsRepository.findWithAnyArriveCitiesParam (
 					departureCity,
 					request.getArriveDate (),
-					request.getDepartureDate ());
+					request.getDepartureDate (),
+					pageable);
 		}
 
 		else {
 			flightsList = flightsRepository.findWithAnyArriveCitiesAndNullArriveDateParam (
 					departureCity,
-					request.getDepartureDate ());
+					request.getDepartureDate (),
+					pageable);
 		}
 
 		return flightsList.orElseGet (ArrayList::new);
@@ -132,11 +137,3 @@ private final FlightsRepository flightsRepository;
 		return new ArrayList<> ();
 	}
 }
-	/*ExampleMatcher matcher = ExampleMatcher.matchingAll()
-	                                       .withIgnoreCase ()
-	                                       .withIgnoreNullValues ();
-
-	Example<Flights> exampleQuery = Example.of(request, matcher);
-
-	List<Flights> results = flightsRepository.findAll(exampleQuery);*/
-

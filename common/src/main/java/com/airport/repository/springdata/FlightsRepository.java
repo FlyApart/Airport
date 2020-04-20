@@ -2,6 +2,7 @@ package com.airport.repository.springdata;
 
 
 import com.airport.entity.Flights;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -18,7 +19,7 @@ public interface FlightsRepository extends CrudRepository<Flights, Long>, JpaRep
 
 	Optional<Flights> findByFightsNumber (String fightsNumber);
 
-	@Query("select f from Flights f  " +
+	@Query("select f.fightsNumber, depCity.cities.name, arrCity.cities.name, f.departureDate, f.arriveDate, f.price from Flights f  " +
 			       "join f.arriveAirport as arrCity " +
 			       "join f.departureAirport as depCity " +
 			       "where upper(arrCity.cities.name) like upper(:arriveCity)  " +
@@ -29,9 +30,10 @@ public interface FlightsRepository extends CrudRepository<Flights, Long>, JpaRep
 			String arriveCity,
 			String departureCity,
 			LocalDate arriveDate,
-			LocalDate departureDate);
+			LocalDate departureDate,
+			Pageable pageable);
 
-	@Query("select f from Flights f  " +
+	@Query("select f.fightsNumber, depCity.cities.name, arrCity.cities.name, f.departureDate, f.arriveDate, f.price from Flights f  " +
 			       "join f.arriveAirport as arrCity " +
 			       "join f.departureAirport as depCity " +
 			       "where upper(arrCity.cities.name) like upper(:arriveCity)  " +
@@ -40,9 +42,10 @@ public interface FlightsRepository extends CrudRepository<Flights, Long>, JpaRep
 	Optional<List<Flights>> findWithNullArriveDateParam (
 			String arriveCity,
 			String departureCity,
-			LocalDate departureDate);
+			LocalDate departureDate,
+			Pageable pageable);
 
-	@Query("select f from Flights f  " +
+	@Query("select f.fightsNumber, f.arriveAirport.cities.name, f.departureDate, f.arriveDate, f.price from Flights f  " +
 			       "join f.departureAirport as depCity " +
 			       "where upper(depCity.cities.name) like upper(:departureCity)  "+
 			       "and f.arriveDate = :arriveDate " +
@@ -50,15 +53,17 @@ public interface FlightsRepository extends CrudRepository<Flights, Long>, JpaRep
 	Optional<List<Flights>> findWithAnyArriveCitiesParam (
 			String departureCity,
 			LocalDate arriveDate,
-			LocalDate departureDate);
+			LocalDate departureDate,
+			Pageable pageable);
 
-	@Query("select f from Flights f  " +
+	@Query("select f.fightsNumber, f.arriveAirport.cities.name, f.departureDate, f.arriveDate, f.price from Flights f " +
 			       "join f.departureAirport as depCity " +
 			       "where upper(depCity.cities.name) like upper(:departureCity)  "+
 			       "and f.departureDate = :departureDate")
 	Optional<List<Flights>> findWithAnyArriveCitiesAndNullArriveDateParam (
 			String departureCity,
-			LocalDate departureDate);
+			LocalDate departureDate,
+			Pageable pageable);
 
 	@Query("select tic.place from Flights f join f.ticket tic where f.id = :id order by tic.place")
 	Optional<List<String>> findAllOccupiedSeats (Long id);
@@ -93,4 +98,6 @@ public interface FlightsRepository extends CrudRepository<Flights, Long>, JpaRep
 			" having count(distinct tu.userId) > 0" +
 			" order by role.roleName desc, sum(tu.weight) desc")
 			.getResultList();*/
+
+	// TODO delete examples
 }
