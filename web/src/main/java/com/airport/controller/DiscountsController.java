@@ -31,6 +31,9 @@ import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin
 @RestController
@@ -144,5 +147,24 @@ public class DiscountsController {
 		return new ResponseEntity<> (discountsRepository.saveAndFlush (discounts), HttpStatus.CREATED);
 	}
 
+	@ApiOperation(value = "Find discount by status and cost")
+	@ApiResponses({
+			@ApiResponse(code = 201, message = "Request has succeeded"),
+			@ApiResponse(code = 400, message = "Invalid request"),
+			@ApiResponse(code = 403, message = "Access denied"),
+			@ApiResponse(code = 404, message = "Not found a current representation for the target"),
+			@ApiResponse(code = 500, message = "Error processing request")
+	})
+	@ApiImplicitParams ({
+			@ApiImplicitParam(name = "Auth-Token", value = "Auth-Token", required = true, dataType = "string", paramType = "header"),
+			@ApiImplicitParam(name = "status", dataTypeClass = Status.class, paramType = "query", value = "Status of airplane", required = true),
+			@ApiImplicitParam(name = "cost", dataType = "string", paramType = "query", value = "Cost of discounts",  required = true),
+	})
+	@GetMapping(value = "/search")
+	public ResponseEntity<List<Discounts>> findCostAndStatus (@ApiIgnore String cost, Status status) {
+		Optional<List<Discounts>> listDiscount = discountsRepository.findByStatusAndCostGreaterThan (status, Double.valueOf (cost));
+		return listDiscount.map (discounts -> new ResponseEntity<> (discounts, HttpStatus.OK))
+		                    .orElseGet (() -> new ResponseEntity<> (new ArrayList<> (), HttpStatus.OK));
+	}
 
 }

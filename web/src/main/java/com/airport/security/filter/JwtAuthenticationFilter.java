@@ -44,7 +44,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 							passenger.getPassword())
 			);
 		} catch (IOException e) {
-			throw new JwtAuthenticationException (e.getMessage (), new EntityNotFoundException ());// TODO add good handler
+			throw new JwtAuthenticationException (e.getMessage (), new EntityNotFoundException ());
 		}
 	}
 

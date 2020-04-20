@@ -181,8 +181,9 @@ public class FlightsController {
 		List<Flights> flights = flightService.findByParam(conversionService.convert (flightsQueryParams,Flights.class));
 		return new ResponseEntity<> (flights, HttpStatus.OK);
 	}
-//todo add pageable
 
+
+//TODO add pageable
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "Auth-Token", value = "Auth-Token", required = true, dataType = "string", paramType = "header"),
 			@ApiImplicitParam(name = "isEmpty",dataType = "boolean", paramType = "query", value = "Empty or occupied places")

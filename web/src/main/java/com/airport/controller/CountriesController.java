@@ -31,6 +31,9 @@ import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin
 @RestController
@@ -144,5 +147,22 @@ public class CountriesController {
 		return new ResponseEntity<> (countriesRepository.saveAndFlush (countries), HttpStatus.CREATED);
 	}
 
-
+	@ApiOperation(value = "Find country where population greater then..")
+	@ApiResponses({
+			@ApiResponse(code = 201, message = "Request has succeeded"),
+			@ApiResponse(code = 400, message = "Invalid request"),
+			@ApiResponse(code = 403, message = "Access denied"),
+			@ApiResponse(code = 404, message = "Not found a current representation for the target"),
+			@ApiResponse(code = 500, message = "Error processing request")
+	})
+	@ApiImplicitParams ({
+			@ApiImplicitParam(name = "Auth-Token", value = "Auth-Token", required = true, dataType = "string", paramType = "header"),
+			@ApiImplicitParam(name = "population", dataType = "String", paramType = "query", value = "Total population in country",  required = true),
+	})
+	@GetMapping(value = "/population")
+	public ResponseEntity<List<Countries>> findByPopulation (@ApiIgnore String population) {
+		Optional<List<Countries>> countriesList = countriesRepository.findByPopulationGreaterThan (Long.valueOf (population));
+		return countriesList.map (countries -> new ResponseEntity<> (countries, HttpStatus.OK))
+		                    .orElseGet (() -> new ResponseEntity<> (new ArrayList<> (), HttpStatus.OK));
+	}
 }

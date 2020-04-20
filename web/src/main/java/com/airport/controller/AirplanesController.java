@@ -7,6 +7,7 @@ import com.airport.entity.Airplanes;
 import com.airport.entity.Status;
 import com.airport.exceptions.EntityNotFoundException;
 import com.airport.repository.springdata.AirplanesRepository;
+import com.airport.service.AirplanesService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -31,6 +32,9 @@ import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin
 @RestController
@@ -39,6 +43,9 @@ import javax.validation.Valid;
 public class AirplanesController {
 
 	private final AirplanesRepository airplanesRepository;
+
+	private final AirplanesService airplanesService;
+
 	private final ConversionService conversionService;
 
 	@ApiOperation(value = "Update airplane by id")
@@ -59,7 +66,6 @@ public class AirplanesController {
 	@GetMapping
 	public ResponseEntity<Page<Airplanes>> findAllAirplane (@ApiIgnore Pageable pageable) {
 		return new ResponseEntity<> (airplanesRepository.findAll (pageable), HttpStatus.OK);
-
 	}
 
 	@ApiOperation(value = "Find airplane by id")
@@ -146,5 +152,38 @@ public class AirplanesController {
 		return new ResponseEntity<> (airplanesRepository.saveAndFlush (airplanes), HttpStatus.CREATED);
 	}
 
+	@ApiOperation(value = "Find all seats by ids of airplane")
+	@ApiResponses({
+			@ApiResponse(code = 201, message = "Request has succeeded"),
+			@ApiResponse(code = 400, message = "Invalid request"),
+			@ApiResponse(code = 403, message = "Access denied"),
+			@ApiResponse(code = 500, message = "Error processing request")
+	})
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "ids", dataType = "long", paramType = "query", value = "Id of airplanes", allowMultiple = true, required = true),
+			@ApiImplicitParam(name = "Auth-Token", value = "Auth-Token", required = true, dataType = "string", paramType = "header")})
 
+	@GetMapping(value = "/seats")
+	public ResponseEntity<List<Airplanes>> findSummarySeatById (@ApiIgnore Long[] ids) {
+		Optional<List<Airplanes>> seat = airplanesRepository.findSummarySeatById (ids);
+		return seat.map (airplanes -> new ResponseEntity<> (airplanes, HttpStatus.OK))
+		           .orElseGet (() -> new ResponseEntity<> (new ArrayList<> (), HttpStatus.OK));
+	}
+	@ApiOperation(value = "Find airplane by criteria")
+	@ApiResponses({
+			@ApiResponse(code = 201, message = "Request has succeeded"),
+			@ApiResponse(code = 400, message = "Invalid request"),
+			@ApiResponse(code = 403, message = "Access denied"),
+			@ApiResponse(code = 500, message = "Error processing request")
+	})
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "date", dataType = "string", paramType = "query", value = "Date after which were built airplane, with format: \"yyyy-MM-dd\"", required = true),
+			@ApiImplicitParam(name = "country", dataType = "String", paramType = "query", value = "Country of airplane",  required = true),
+			@ApiImplicitParam(name = "status", dataTypeClass = Status.class, paramType = "query", value = "Status of airplane", required = true),
+			@ApiImplicitParam(name = "Auth-Token", value = "Auth-Token", required = true, dataType = "string", paramType = "header")
+	})
+	@GetMapping(value = "/search")
+	public ResponseEntity<List<Airplanes>> findByBuiltAfterAndCountriesNameAndStatus (@ApiIgnore String date, String country, Status status) {
+		return  new ResponseEntity<> (airplanesService.searchByParam (date, country, status), HttpStatus.OK);
+	}
 }

@@ -24,8 +24,6 @@ public interface TicketsRepository extends CrudRepository<Tickets, Long>, JpaRep
 
 	long countByFlightsEquals (Flights flights);
 
-	//todo add count places
-
 	/*
 	SORTING
 
