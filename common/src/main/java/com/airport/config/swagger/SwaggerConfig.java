@@ -12,6 +12,9 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+import java.sql.Time;
+import java.time.LocalTime;
+
 @Configuration
 @EnableSwagger2
 @Import(springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration.class)
@@ -21,9 +24,11 @@ public class SwaggerConfig {
 	public Docket api () {
 
 		return new Docket (DocumentationType.SWAGGER_2)
+				       .directModelSubstitute(LocalTime.class, Time.class)
 				       .select ()
 				       .apis (RequestHandlerSelectors.any ())
 				       .paths (PathSelectors.any ())
+
 				       .build ()
 				       .apiInfo (apiInfo ());
 	}

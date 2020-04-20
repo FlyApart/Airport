@@ -59,7 +59,7 @@ public class Tickets {
 	Flights flights;
 
 	@JsonBackReference
-	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Passenger.class,cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+	@ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.REFRESH})
 	@JoinColumn(name = "passenger_id", nullable = false)
 	Passenger passengerId;
 

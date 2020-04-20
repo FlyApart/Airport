@@ -31,13 +31,13 @@ public abstract class ConverterRequestAirports<S, T> extends EntityConverter<S, 
 	}
 
 	Cities findCity (Class<?> sClass, String city) {
-		return citiesRepository.findByName (city)
+		return citiesRepository.findByNameIgnoreCase (city)
 		                       .orElseThrow (() -> new ConversionException (sClass, Airports.class, city, new EntityNotFoundException (" name = " + city, Cities.class)));
 	}
 
 
 	void isUniqueAirports (Class<?> sClass, String title) {
-		boolean unique = airportsRepository.findByTitle (title)
+		boolean unique = airportsRepository.findByTitleIgnoreCase (title)
 		                                   .isPresent ();
 		if (unique){
 			throw new ConversionException (sClass, Airports.class, title, new EntityAlreadyExistException (Airports.class, "title = " + title));

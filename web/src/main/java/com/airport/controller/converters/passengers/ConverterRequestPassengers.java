@@ -31,7 +31,6 @@ public abstract class ConverterRequestPassengers<S, T> extends EntityConverter<S
 
 
 	protected Passenger doConvert (Passenger passenger, PassengerSaveRequest entity) {
-
 		passenger.setName (entity.getName ());
 		passenger.setSecondName (entity.getSecondName ());
 		passenger.setPassword (passwordEncoder.encode (entity.getPassword ()));
@@ -68,7 +67,7 @@ public abstract class ConverterRequestPassengers<S, T> extends EntityConverter<S
 	}
 
 	protected Cities findCity (Class<?> sClass, String name) {
-		return citiesRepository.findByName (name)
+		return citiesRepository.findByNameIgnoreCase (name)
 		                       .orElseThrow (()-> new ConversionException (sClass, Passenger.class, name, new EntityNotFoundException ("City with name = " + name, Cities.class)));
 	}
 

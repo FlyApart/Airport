@@ -59,9 +59,12 @@ values (1234, 1234, 'CITIZEN', 1),
        (33335, 3333, 'DIPLOMATIC', 3);
 
 insert into flights
-(arrive_date, changed, departure_date, flights_number, price, airline_id, airplane_id, arrive_airport_id, departure_airport_id)
-values ('2020-11-11 15:10:00', null, '2020-11-11 12:20:00', 'AOPRR133', 24000, 1, 2, 1, 3),
-       ('2020-12-06 05:10:00', null, '2020-12-05 23:20:00', 'DHUE908', 20000, 2, 1, 3, 2);
+(arrive_date,arrive_time  , changed, departure_date, departure_time , flights_number, price, airline_id, airplane_id, arrive_airport_id, departure_airport_id)
+values ('2020-11-11', '15:10:00', null, '2020-11-11', '12:20:00', 'AOPRR133', 24000, 1, 2, 1, 3),
+       ('2020-12-06', '05:10:00', null, '2020-12-05', '23:20:00', 'DHUE908', 20000, 2, 1, 3, 2),
+       ('2020-12-06', '05:10:00', null, '2020-12-05', '23:20:00', 'SREWW', 20000, 2, 1, 3, 2),
+       ('2020-12-07', '05:10:00', null, '2020-12-06', '23:20:00', 'VSDWD', 20000, 2, 1, 3, 2),
+       ('2020-12-06', '05:10:00', null, '2020-12-05', '23:20:00', 'FREFDS', 20000, 2, 1, 3, 2);
 
 insert into tickets
 (place, reservation, total_price, flights_id, passenger_id,class)

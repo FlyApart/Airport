@@ -1,4 +1,4 @@
-package com.airport.controller.request;
+package com.airport.controller.request.select;
 
 import com.airport.entity.RoleName;
 import com.fasterxml.jackson.annotation.JsonIgnore;

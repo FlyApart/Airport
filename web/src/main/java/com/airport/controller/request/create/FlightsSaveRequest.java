@@ -12,7 +12,7 @@ import lombok.experimental.FieldDefaults;
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Set;
 
 
@@ -30,11 +30,19 @@ public class FlightsSaveRequest {
 
 	@FutureOrPresent
 	@NotNull
-	Date departureDate;
+	LocalDate departureDate;
+
+	@NotNull
+	@Pattern(regexp = "^([01]?[0-9]|2[0-3]):[0-5][0-9]", message = "example : 10:15")
+	String departureTime;
 
 	@FutureOrPresent
 	@NotNull
-	Date arriveDate;
+	LocalDate arriveDate;
+
+	@NotNull
+	@Pattern(regexp = "^([01]?[0-9]|2[0-3]):[0-5][0-9]", message = "example : 10:15")
+	String arriveTime;
 
 	@FieldValid(min = 3, max = 10)
 	@Pattern(regexp = "^[\\d]{1,7}\\.[\\d]{1,2}", message = "example : 123.45")

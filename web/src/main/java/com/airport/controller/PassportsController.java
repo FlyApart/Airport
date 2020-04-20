@@ -93,7 +93,7 @@ public class PassportsController {
 	@ApiImplicitParam(name = "Auth-Token", value = "Auth-Token", required = true, dataType = "string", paramType = "header")
 	@GetMapping(value = "/passenger/{id}")
 	public ResponseEntity<List<Passports>> findPassportsByPassengersId (@ApiParam(value = "Id of passenger") @PathVariable("id") String passengerId) {
-		List<Passports> passports =passportsRepository.selectPassportsByPassportsId (Long.valueOf (passengerId))
+		List<Passports> passports =passportsRepository.findByPassengerId_Id (Long.valueOf (passengerId))
 		                                      .orElseThrow (() -> new EntityNotFoundException (Passports.class, passengerId));
 		return new ResponseEntity<> (passports, HttpStatus.OK);
 	}
@@ -144,9 +144,8 @@ public class PassportsController {
 	@ApiImplicitParam(name = "Auth-Token", value = "Auth-Token", required = true, dataType = "string", paramType = "header")
 	@Transactional (rollbackFor = Exception.class)
 	@DeleteMapping(value = "/passenger/{id}")
-	public String deletePassportByPassengersId (@PathVariable("id") String passengerId) {
-		passportsRepository.deletePassportsByPassportsId (Long.valueOf (passengerId));
-		return passengerId;
+	public ResponseEntity<Long> deletePassportByPassengersId (@PathVariable("id") String passengerId) {
+		return ResponseEntity.ok (passportsRepository.deleteByPassengerId_Id (Long.valueOf (passengerId)));
 	}
 
 	@ApiOperation(value = "Save new passport")

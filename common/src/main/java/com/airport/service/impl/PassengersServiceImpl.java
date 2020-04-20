@@ -36,7 +36,6 @@ public class PassengersServiceImpl implements PassengersService {
 
 		Passenger thisPassenger = passengersRepository.save (passenger);
 
-
 		thisPassenger.setPassports (passportsSet.stream ()
 		                                        .peek (s -> {
 			                                        s.setPassengerId (thisPassenger);

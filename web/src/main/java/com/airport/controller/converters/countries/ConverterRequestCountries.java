@@ -38,7 +38,7 @@ public abstract class ConverterRequestCountries<S, T> extends EntityConverter<S,
 
 	void isUniqueCountries (Class<?> sClass, String name) {
 
-		boolean unique = countriesRepository.findByName (name)
+		boolean unique = countriesRepository.findByNameIgnoreCase (name)
 		                                   .isPresent ();
 		if (unique){
 			throw new ConversionException (sClass, Countries.class, name,
@@ -52,7 +52,7 @@ public abstract class ConverterRequestCountries<S, T> extends EntityConverter<S,
 	}
 
 	Countries findCountriesByName (Class<?> sClass,String name) {
-		return countriesRepository.findByName (name)
+		return countriesRepository.findByNameIgnoreCase (name)
 		                          .orElseThrow (() -> new ConversionException (sClass, Countries.class, name, new EntityNotFoundException (" name = " + name, Countries.class)));
 
 	}

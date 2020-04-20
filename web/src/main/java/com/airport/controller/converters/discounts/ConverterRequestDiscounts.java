@@ -43,7 +43,7 @@ public abstract class ConverterRequestDiscounts<S, T> extends EntityConverter<S,
 	}
 
 	Set<Flights> findFlights (Class<?> sClass, Set<Long> flightsId) {
-		List<Flights> flightsList = flightsRepository.findByIds(new ArrayList<> (flightsId))
+		List<Flights> flightsList = flightsRepository.findByIdIn(new ArrayList<> (flightsId))
 		                                             .orElseThrow (()->new ConversionException (sClass, Discounts.class, flightsId, new EntityNotFoundException (Flights.class, flightsId)));
 		if (flightsId.size ()!=flightsList.size ()){
 			for (Flights flights : flightsList) {

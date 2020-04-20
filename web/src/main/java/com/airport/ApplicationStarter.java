@@ -13,7 +13,6 @@ import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfigurat
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Import;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -27,7 +26,6 @@ import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
 @EnableSwagger2
-@EnableAspectJAutoProxy
 @EnableTransactionManagement(proxyTargetClass = true)
 @SpringBootApplication(scanBasePackages = {"com.airport"}, exclude = {JacksonAutoConfiguration.class, HibernateJpaAutoConfiguration.class})
 @EnableCaching

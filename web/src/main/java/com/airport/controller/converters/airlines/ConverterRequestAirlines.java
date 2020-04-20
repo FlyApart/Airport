@@ -47,7 +47,7 @@ public abstract class ConverterRequestAirlines<S, T> extends EntityConverter<S, 
 	}
 
 	Countries findCountries (Class<?> sClass, String country) {
-		return countriesRepository.findByName (country)
+		return countriesRepository.findByNameIgnoreCase (country)
 		                          .orElseThrow (() -> new ConversionException (sClass, Airline.class, country, new EntityNotFoundException  (" name = " + country, Countries.class)));
 	}
 

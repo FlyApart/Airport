@@ -49,7 +49,7 @@ public class Passports {
 	PassportsTypes types = PassportsTypes.NOT_SELECTED;
 
 	@JsonBackReference
-	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Passenger.class, cascade =CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.REFRESH})
 	@JoinColumn(nullable = false, name = "passenger_id")
 	Passenger passengerId;
 

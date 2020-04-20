@@ -57,4 +57,5 @@ public class RoleController {
 		                          .orElseThrow (() -> new EntityNotFoundException (Role.class, id));
 		return new ResponseEntity<> (role, HttpStatus.OK);
 	}
+
 }

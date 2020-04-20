@@ -2,6 +2,7 @@ package com.airport.controller;
 
 import com.airport.controller.request.change.FlightsUpdateRequest;
 import com.airport.controller.request.create.FlightsSaveRequest;
+import com.airport.controller.request.select.FlightsQueryParams;
 import com.airport.entity.Flights;
 import com.airport.entity.Status;
 import com.airport.exceptions.EntityNotFoundException;
@@ -126,11 +127,10 @@ public class FlightsController {
 			@ApiResponse(code = 500, message = "Error processing request")
 	})
 	@ApiImplicitParam(name = "Auth-Token", value = "Auth-Token", required = true, dataType = "string", paramType = "header")
-	@DeleteMapping(value = "/{id}/discounts/{ids}")
+	@DeleteMapping(value = "/{id}/discounts/")
 	@Transactional (rollbackFor = Exception.class)
 	public ResponseEntity<Flights> deleteDiscountsInFlight (@ApiParam(required = true, value = "Id of flight") @PathVariable String id,
-	                                                        @ApiParam(value = "Ids of discounts for delete",required = true,type = "long")
-	                                                        @PathVariable List<Long> ids) {
+	                                                        @RequestBody List<Long> ids) {
 
 		return new ResponseEntity<> (flightService.deleteFlightDiscounts (id, new ArrayList<> (ids)), HttpStatus.OK);
 	}
@@ -166,5 +166,35 @@ public class FlightsController {
 		Flights flights = Objects.requireNonNull (conversionService.convert (flightsUpdateRequest, Flights.class));
 		return new ResponseEntity<> (flightsRepository.saveAndFlush (flights), HttpStatus.OK);
 	}
+
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "Auth-Token", value = "Auth-Token", required = true, dataType = "string", paramType = "header"),
+
+
+			@ApiImplicitParam(name = "departureCity", dataType = "string", paramType = "query", value = "Name of departure city.", required = true),
+			@ApiImplicitParam(name = "arriveCity", dataType = "string", paramType = "query", value = "Name of arrive city, or \"Any Cities\"", required = true),
+			@ApiImplicitParam(name = "departureDate",dataType = "string", paramType = "query", value = "Departure date. \"yyyy-MM-dd\"", required = true),
+			@ApiImplicitParam(name = "arriveDate",dataType = "string", paramType = "query", value = "Arrive date, with format \"yyyy-MM-dd\"")
+	})
+	@GetMapping ("/search")
+	public ResponseEntity<List<Flights>> searchByCriteriaFlight (@ApiIgnore FlightsQueryParams flightsQueryParams) {
+		List<Flights> flights = flightService.findByParam(conversionService.convert (flightsQueryParams,Flights.class));
+		return new ResponseEntity<> (flights, HttpStatus.OK);
+	}
+//todo add pageable
+
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "Auth-Token", value = "Auth-Token", required = true, dataType = "string", paramType = "header"),
+			@ApiImplicitParam(name = "isEmpty",dataType = "boolean", paramType = "query", value = "Empty or occupied places")
+	})
+	@GetMapping ("/{id}/tickets/place")
+	public ResponseEntity<List<String>> findSeatsInFlight (@PathVariable String id,
+	                                                        @ApiIgnore Boolean isEmpty) {
+		List<String> flights = flightService.findAllOccupiedSeats(Long.valueOf (id), isEmpty);
+
+		return new ResponseEntity<> (flights, HttpStatus.OK);
+	}
+
+
 }
 

@@ -2,8 +2,6 @@ package com.airport.repository.springdata;
 
 import com.airport.entity.Discounts;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
@@ -13,10 +11,6 @@ public interface DiscountsRepository extends CrudRepository<Discounts, Long>, Jp
 
 	Optional <Discounts> findByTitle (String title);
 
-	@Modifying
-	@Query("delete  from Discounts d where d = :discounts")
-	void deleteDiscounts (Discounts discounts);
+	Optional<List<Discounts>> findByIdIn (List<Long> ids);
 
-	@Query("select d from Discounts d where d.id in :ids")
-	Optional<List<Discounts>> findByIds (List<Long> ids);
 }

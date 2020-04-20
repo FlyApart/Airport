@@ -161,8 +161,8 @@ public class TicketsServiceImpl implements TicketsService {
 			if (numberSeat >= minSeatsNum && numberSeat <= maxSeatsNum && PLACE.substring (0, row - 1)
 			                                                                            .contains (charSeat)) {
 
-				if (ticketsRepository.findTicketsByFlightsIdAndPlace (ticket.getFlights ()
-				                                                            .getId (), place)
+				if (ticketsRepository.findByPlaceAndFlights_Id (place, ticket.getFlights ()
+				                                                            .getId ())
 				                     .isPresent ()) {
 
 					throw new EntityAlreadyExistException (Tickets.class, "place = " + place + ", Flights id = " + ticket.getFlights ()

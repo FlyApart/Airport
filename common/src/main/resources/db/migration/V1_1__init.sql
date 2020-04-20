@@ -101,9 +101,11 @@ create unique index discounts_title_uindex
 create table flights
 (
     id                   bigserial   NOT NULL,
-    arrive_date          timestamp   NOT NULL,
+    arrive_date          date        NOT NULL,
+    arrive_time          time        NOT NULL,
     changed              timestamp,
-    departure_date       timestamp   NOT NULL,
+    departure_date       date         NOT NULL,
+    departure_time       time        NOT NULL,
     flights_number       varchar(50) NOT NULL,
     price                float8      NOT NULL,
     airline_id           int8        NOT NULL,
@@ -178,13 +180,13 @@ create unique index passports_unique_types_uindex
 
 create table tickets
 (
-    id           bigserial   NOT NULL,
-    place        varchar(10) NOT NULL,
-    reservation  boolean,
-    total_price  float8      NOT NULL,
-    flights_id   int8        not null,
-    passenger_id int8        NOT NULL,
-    class        varchar(50) NOT NULL,
+    id              bigserial   NOT NULL,
+    place           varchar(10) NOT NULL,
+    reservation     boolean,
+    total_price     float8      NOT NULL,
+    flights_id      int8        not null,
+    passenger_id    int8        NOT NULL,
+    class           varchar(50) NOT NULL,
     code_activation varchar(50),
     primary key (id)
 );

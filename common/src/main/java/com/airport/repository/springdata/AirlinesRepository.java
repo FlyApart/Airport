@@ -16,7 +16,7 @@ public interface AirlinesRepository extends CrudRepository<Airline, Long>, JpaRe
 
 	Optional<Airline> findByNameAndWebsite (String name, String website);
 
-	Optional<Airline> findByName (String name);
+	Optional<Airline> findByNameIgnoreCase (String name);
 
 	@Query(value = "select a from Airline a where a.status = :status")
 	Optional<Page<Airline>>findByStatus(Status status, Pageable pageable );

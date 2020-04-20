@@ -10,20 +10,9 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.FieldDefaults;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Set;
@@ -46,10 +35,16 @@ public class Flights {
 	String fightsNumber;
 
 	@Column(name = "departure_date", nullable = false)
-	Date departureDate;
+	LocalDate departureDate;
+
+	@Column(name = "departure_time", nullable = false)
+	LocalTime departureTime;
 
 	@Column(name = "arrive_date", nullable = false)
-	Date arriveDate;
+	LocalDate arriveDate;
+
+	@Column(name = "arrive_time", nullable = false)
+	LocalTime arriveTime;
 
 	@Column(nullable = false)
 	Double price;
@@ -74,7 +69,7 @@ public class Flights {
 	Airline airline;
 
 	@Enumerated(EnumType.STRING)
-	@Column(name = "status", nullable = false, length = 50)
+	@Column(name = "status", nullable = false)
 	Status status = Status.ACTIVE;
 
 	@JsonManagedReference
@@ -83,4 +78,8 @@ public class Flights {
 			joinColumns = @JoinColumn(name = "flights_id"),
 			inverseJoinColumns = @JoinColumn(name = "discounts_id"))
 	Set<Discounts> discount = Collections.emptySet ();
+
+	@JsonManagedReference
+	@OneToMany(fetch = FetchType.EAGER, targetEntity = Tickets.class, mappedBy = "flights", cascade = CascadeType.ALL)
+	Set<Tickets> ticket = Collections.emptySet ();
 }

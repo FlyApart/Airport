@@ -2,6 +2,7 @@ package com.airport.controller;
 
 import com.airport.controller.request.change.PassengerUpdateRequest;
 import com.airport.entity.Passenger;
+import com.airport.entity.RoleName;
 import com.airport.entity.Status;
 import com.airport.exceptions.EntityNotFoundException;
 import com.airport.repository.springdata.PassengersRepository;
@@ -10,6 +11,7 @@ import com.airport.service.PassengersService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +34,7 @@ import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.Optional;
 
 @CrossOrigin
 @RestController
@@ -125,6 +128,24 @@ public class PassengersController {
 	public ResponseEntity<Passenger> updatePassenger (@PathVariable String id, @RequestBody @Valid PassengerUpdateRequest passengerInfo) {
 		passengerInfo.setId (id);
 		return ResponseEntity.ok (passengersService.saveAndUpdate (conversionService.convert (passengerInfo, Passenger.class)));
+	}
 
+	@ApiOperation(value = "Find role by id")
+	@ApiResponses({
+			@ApiResponse(code = 201, message = "Request has succeeded"),
+			@ApiResponse(code = 400, message = "Invalid request"),
+			@ApiResponse(code = 403, message = "Access denied"),
+			@ApiResponse(code = 404, message = "Not found a current representation for the target"),
+			@ApiResponse(code = 500, message = "Error processing request")
+	})
+	@ApiImplicitParams ({
+			@ApiImplicitParam(name = "Auth-Token", value = "Auth-Token", required = true, dataType = "string", paramType = "header"),
+			@ApiImplicitParam(name = "role",dataTypeClass = RoleName.class, paramType = "query", value = "Name of role")
+	})
+	@GetMapping(value = "/role")
+	public ResponseEntity<Integer> findCountOfRole (@ApiParam RoleName role) {
+		Optional<Integer> countRole = passengersRepository.countByRole (role);
+		return countRole.map (integer -> new ResponseEntity<> (integer, HttpStatus.OK))
+		                .orElseGet (() -> new ResponseEntity<> (HttpStatus.OK));
 	}
 }

@@ -44,12 +44,12 @@ public abstract class ConverterRequestCities<S, T> extends EntityConverter<S, T>
 	}
 
 	Countries findCountries (Class<?> sClass, String name) {
-		return countriesRepository.findByName (name)
+		return countriesRepository.findByNameIgnoreCase (name)
 		                          .orElseThrow (() -> new ConversionException (sClass, Cities.class, name, new EntityNotFoundException (" name = " + name, Countries.class)));
 	}
 
 	void uniqueCitiesName (Class<?> sClass, String name) {
-		boolean unique = citiesRepository.findByName (name)
+		boolean unique = citiesRepository.findByNameIgnoreCase (name)
 		                                   .isPresent ();
 		if (unique){
 			throw new ConversionException (sClass, Cities.class, name, new EntityAlreadyExistException (Cities.class," name = " + name));

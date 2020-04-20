@@ -74,14 +74,14 @@ public abstract class ConverterRequestAirplanes<S, T> extends EntityConverter<S,
 	}
 
 	Countries findCountries (Class<?> sClass, String country) {
-		return countriesRepository.findByName (country)
+		return countriesRepository.findByNameIgnoreCase (country)
 		                          .orElseThrow (() -> new ConversionException (sClass, Airplanes.class, country, new EntityNotFoundException (" name = " + country, Countries.class)));
 
 	}
 
 	void isUniqueModelAirplanes (Class<?> sClass, String model) {
 
-		boolean unique = airplanesRepository.findByModel (model)
+		boolean unique = airplanesRepository.findByModelIgnoreCase (model)
 		                                    .isPresent ();
 		if (unique) {
 			throw new ConversionException (sClass, Airplanes.class, model, new EntityAlreadyExistException (Airplanes.class, "model = " + model));

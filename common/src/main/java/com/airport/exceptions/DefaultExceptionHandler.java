@@ -43,8 +43,15 @@ public class DefaultExceptionHandler  extends DefaultResponseEntityExceptionHand
 		return new ResponseEntity<> (new ErrorMessage (e.getMessage ()), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
-	@ExceptionHandler({ArgumentOfMethodNotValidException.class, NumberFormatException.class, ConversionException.class})
-	public ResponseEntity<ErrorMessage> handleArgumentOfMethodNotValidException (RuntimeException e) {
+	@ExceptionHandler({NumberFormatException.class, ConversionException.class})
+	public ResponseEntity<ErrorMessage> handleNumberFormatException (RuntimeException e) {
+		log.error (e.getMessage (), e);
+		return new ResponseEntity<> (new ErrorMessage (e.getMessage ()), HttpStatus.BAD_REQUEST);
+	}
+
+
+	@ExceptionHandler(ArgumentOfMethodNotValidException.class)
+	public ResponseEntity<ErrorMessage> handleArgumentOfMethodNotValidException (ArgumentOfMethodNotValidException e) {
 		log.error (e.getMessage (), e);
 		return new ResponseEntity<> (new ErrorMessage (e.getMessage ()), HttpStatus.BAD_REQUEST);
 	}

@@ -27,8 +27,9 @@ public class ConverterSaveRequestFlights extends ConverterRequestFlights<Flights
 		flights.setAirplane (findAirplanes (request.getClass (), Long.valueOf (request.getAirplaneID ())));
 		flights.setArriveAirport (findAirport (request.getClass (), request.getArriveAirportTitle ()));
 		flights.setDepartureAirport (findAirport (request.getClass (), request.getDepartureAirportTitle ()));
-		flights.setDiscount (findDiscounts(request.getClass (),request.getDiscountId ()));
-
+		if (!flights.getDiscount ().isEmpty ()) {
+			flights.setDiscount (findDiscounts (request.getClass (), request.getDiscountId ()));
+		}
 		uniqueFlightNumber (request.getClass (), request.getFightsNumber ());
 
 		return doConvert (flights, request);
