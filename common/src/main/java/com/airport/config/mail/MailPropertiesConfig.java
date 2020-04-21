@@ -17,5 +17,7 @@ public class MailPropertiesConfig {
 	private Integer port;
 	private String protocol;
 	private String debug;
+	private String activate_link;
+	private String reservation_link;
 
 }

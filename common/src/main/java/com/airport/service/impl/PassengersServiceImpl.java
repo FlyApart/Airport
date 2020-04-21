@@ -1,5 +1,6 @@
 package com.airport.service.impl;
 
+import com.airport.config.mail.MailPropertiesConfig;
 import com.airport.entity.Passenger;
 import com.airport.entity.Passports;
 import com.airport.entity.Status;
@@ -22,12 +23,17 @@ import java.util.stream.Collectors;
 public class PassengersServiceImpl implements PassengersService {
 
 	final RoleRepository roleRepository;
+
 	private final PassengersRepository passengersRepository;
+
 	private final PassportsRepository passportsRepository;
+
 	private final MailSenderService mailSenderService;
 
+	private final MailPropertiesConfig mailPropertiesConfig;
+
 	@Override
-	@Transactional
+	@Transactional (rollbackFor = Exception.class)
 	public Passenger saveAndUpdate (Passenger passenger) {
 
 		Set<Passports> passportsSet = passenger.getPassports ();
@@ -47,9 +53,11 @@ public class PassengersServiceImpl implements PassengersService {
 			thisPassenger.setActivationCode (UUID.randomUUID ()
 			                                     .toString ());
 
-			String message = String.format ("Hello, %S! \n" + "Visit next link http://localhost:8080/registration/activate/%s",
+			String message = String.format ("Hello, %S! Visit next link %s%s",
 					passenger.getName (),
-					passenger.getActivationCode ());
+					mailPropertiesConfig.getActivate_link (),
+					passenger.getActivationCode ()
+			);
 
 			mailSenderService.sendEmail (passenger.getLogin (), "Activation", message);
 		}

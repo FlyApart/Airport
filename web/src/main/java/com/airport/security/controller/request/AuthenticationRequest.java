@@ -1,7 +1,6 @@
 package com.airport.security.controller.request;
 
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,17 +18,14 @@ import javax.validation.constraints.NotEmpty;
 @EqualsAndHashCode
 @ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
-
 @ApiModel(description = "Values for authentication")
 public class AuthenticationRequest {
 
 	@NotEmpty
 	@Email
-	@ApiModelProperty(required = true, dataType = "String", notes = "login")
 	String login;
 
 	@NotEmpty
-	@ApiModelProperty(required = true, dataType = "String", notes = "password")
 	String password;
 
 }

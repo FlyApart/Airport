@@ -68,36 +68,4 @@ public interface FlightsRepository extends CrudRepository<Flights, Long>, JpaRep
 	@Query("select tic.place from Flights f join f.ticket tic where f.id = :id order by tic.place")
 	Optional<List<String>> findAllOccupiedSeats (Long id);
 
-
-	/*@Query("SELECT d.id as departement_id, COUNT(m.id) as nbMateriel FROM Departement d " +
-			       "LEFT JOIN d.sites s " +
-			       "LEFT JOIN s.materiels m " +
-			       "WHERE "
-			       + "(s.metier.id IN (:metier_id) OR :metier_id IS NULL) AND " +
-			       "(s.entite.id IN (:entite_id) OR :entite_id IS NULL) "
-			       + "AND (m.materielType.id IN (:materielType_id) OR :materielType_id IS NULL) AND "
-			       + "(d.id= :departement_id OR :departement_id IS NULL) "
-			       + "AND m.dateLivraison is not null  and (EXTRACT(YEAR FROM m.dateLivraison) < :date_id OR :date_id IS NULL) "
-			       + "AND ( m.estHISM =:estHISM OR :estHISM IS NULL OR m.estHISM IS NULL) "
-			       + "GROUP BY d.id")
-	List<Map<Long, Long>> countByDepartementWithFilter(@Param("metier_id") List<Long> metier_id, @Param("entite_id") List<Long> entite_id, @Param("materielType_id") List<Long> materielType_id,
-	                                                   @Param("departement_id") Long departement_id, @Param("date_id") Integer date_id,
-	                                                   @Param("estHISM") Boolean estHISM);
-*/
-	/*return entityManager.createQuery(
-			"select role.roleName, upper(role.roleName), " +
-			"lower(role.roleName), " +
-			"count(distinct tu.userId), sum(tu.weight), avg(tu.weight) , max(tu.weight), min(tu.weight) " +
-			"from TestUser as tu " +
-			"left join tu.role as role " +
-			" where " +
-			//" role.roleName like '%E%' and " +
-			" tu.weight >= (select avg(tu.weight) from TestUser tu) and " +
-			" tu.userId between -10 and 16" +
-			" group by role.roleName " +
-			" having count(distinct tu.userId) > 0" +
-			" order by role.roleName desc, sum(tu.weight) desc")
-			.getResultList();*/
-
-	// TODO delete examples
 }

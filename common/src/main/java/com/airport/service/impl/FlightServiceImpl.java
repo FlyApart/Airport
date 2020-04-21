@@ -21,7 +21,7 @@ public class FlightServiceImpl implements FlightService {
 
 private final FlightsRepository flightsRepository;
 
-	@Value(value = "${character_of_place}")
+	@Value(value = "${others.character_of_place}")
 	private String PLACE;
 
 	@Override

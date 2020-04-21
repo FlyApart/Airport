@@ -110,7 +110,6 @@ public class TicketsController {
 	})
 	@ApiImplicitParam(name = "Auth-Token", value = "Auth-Token", required = true, dataType = "string", paramType = "header")
 	@DeleteMapping(value = "/{id}")
-	//@Transactional
 	public String deleteTickets (@PathVariable("id") String id) {
 		Tickets tickets = ticketsRepository.findById (Long.valueOf (id))
 		                                   .orElseThrow (() -> new EntityNotFoundException (Tickets.class, id));

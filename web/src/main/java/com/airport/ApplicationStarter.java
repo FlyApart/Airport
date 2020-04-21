@@ -50,8 +50,8 @@ public class ApplicationStarter extends SpringBootServletInitializer {
 	@Autowired
 	@Bean(name = "entityManagerFactory")
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory (DataSource dataSource, AdditionalPropertiesConfig jpaProperties) {
-		LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean ();
 
+		LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean ();
 		em.setDataSource (dataSource);
 		em.setPackagesToScan ("com.airport");
 		em.setJpaProperties (jpaProperties.getAdditionalProperties ());
@@ -64,25 +64,6 @@ public class ApplicationStarter extends SpringBootServletInitializer {
 	public EntityManager getEntityManager (EntityManagerFactory entityManagerFactory) {
 		return entityManagerFactory.createEntityManager ();
 	}
-
-	/*@Bean
-	public CacheManager cacheManager () {
-		CaffeineCacheManager caffeineCacheManager = new CaffeineCacheManager ("passengerInfo");
-		caffeineCacheManager.setCaffeine (cacheRoles ());
-		return caffeineCacheManager;
-	}
-
-	public Caffeine<Object, Object> cacheRoles () {
-		return Caffeine.newBuilder ()
-		               .expireAfterAccess (10, TimeUnit.MINUTES)
-		               .weakKeys ()
-		               .initialCapacity (100)
-		               .maximumSize (500)
-		               .recordStats ();
-	}*/
-
-	//TODO
-	// how to working btree
 
 
 }

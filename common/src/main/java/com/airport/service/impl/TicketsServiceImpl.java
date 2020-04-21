@@ -1,5 +1,6 @@
 package com.airport.service.impl;
 
+import com.airport.config.mail.MailPropertiesConfig;
 import com.airport.entity.Airplanes;
 import com.airport.entity.Discounts;
 import com.airport.entity.Flights;
@@ -28,11 +29,17 @@ import java.util.UUID;
 public class TicketsServiceImpl implements TicketsService {
 
 	private final FlightsRepository flightsRepository;
+
 	private final PassengersRepository passengersRepository;
+
 	private final TicketsRepository ticketsRepository;
+
 	private final MailSenderService mailSenderService;
 
-	@Value(value = "${character_of_place}")
+	private final MailPropertiesConfig mailPropertiesConfig;
+
+
+	@Value(value = "${others.character_of_place}")
 	private String PLACE;
 
 	public Flights findFlight (Long flightId) {
@@ -222,8 +229,9 @@ public class TicketsServiceImpl implements TicketsService {
 		tickets.setActivationCode (UUID.randomUUID ().toString ());
 
 		String message = String.format ("Hello, %S! \n" +
-				                                "Visit next link http://localhost:8080//rest/tickets/reservation/%s",
+				                                "Visit next link %s%s",
 				tickets.getPassengerId ().getName (),
+				mailPropertiesConfig.getReservation_link (),
 				tickets.getActivationCode ()
 		);
 

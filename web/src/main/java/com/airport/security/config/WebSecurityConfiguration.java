@@ -36,7 +36,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	protected void configure (HttpSecurity httpSecurity) throws Exception {
 
 		httpSecurity
-					//.httpBasic ().disable ()
+					.httpBasic ().disable ()
 					.csrf ().disable ()
 		            .exceptionHandling ()
 

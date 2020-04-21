@@ -10,14 +10,11 @@ import java.util.Optional;
 
 public interface PassengersRepository extends CrudRepository<Passenger, Long>, JpaRepository<Passenger, Long> {
 
-
 	Optional<Passenger> findByLogin (String login);
 
 	Optional<Passenger> findByActivationCode (String code);
 
 	@Query("select count(role) from Passenger p join p.role role where role.roleName = :roleName group by role")
 	Optional<Integer> countByRole (RoleName roleName);
-
-	//Optional<List<Passenger>>
 
 }
